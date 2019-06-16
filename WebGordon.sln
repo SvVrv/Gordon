@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.645
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebGordon", "WebGordon\WebGordon.csproj", "{E919300C-9049-4C8E-912A-F77291E4390A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E919300C-9049-4C8E-912A-F77291E4390A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E919300C-9049-4C8E-912A-F77291E4390A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E919300C-9049-4C8E-912A-F77291E4390A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E919300C-9049-4C8E-912A-F77291E4390A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0BC45B4F-0575-43DD-A6B4-33C01D917A4F}
+	EndGlobalSection
+EndGlobal
