@@ -4,9 +4,11 @@ class RegisterPage extends Component {
     state = {  }
     render() { 
         return ( 
-        <h1>
-            Реєстрація
-        </h1> 
+            <Row>
+                <Col md={4} mdOffset={4}>
+                    <RegistrationForm />
+                </Col>
+            </Row> 
         );
     }
 }
