@@ -8,9 +8,20 @@ import configureStore from './store/configureStore';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
+import setAuthorizationToken from './utils/setAuthorizationToken';
+import { setCurrentUser } from './actions/AuthActions';
+import jwt from 'jsonwebtoken';
+
 // Create browser history to use in the Redux store
 const baseUrl = document.getElementsByTagName('base')[0].getAttribute('href');
 const history = createBrowserHistory({ basename: baseUrl });
+
+if (localStorage.jwtToken) {
+    let token = localStorage.jwtToken;
+    let user = jwt.decode(token);
+    setAuthorizationToken(token);
+    store.dispatch(setCurrentUser(user));
+}
 
 // Get the application-wide store instance, prepopulating with state from the server where available.
 const initialState = window.initialReduxState;
