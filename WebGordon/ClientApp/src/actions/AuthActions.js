@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 
-const SET_CURRENT_USER = 'SET_CURRENT_USER';
+export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export function setCurrentUser(user) {
     return {
         type: SET_CURRENT_USER,
@@ -19,7 +19,7 @@ export function login(data) {
                 var token = res.data;
                 //console.log("data login", token);
                 var user = jwt.decode(token);
-                //console.log('-----user login------', user);
+                console.log('-----user login------', user);
                 localStorage.setItem('jwtToken', token);
                 setAuthorizationToken(token);
                 dispatch(setCurrentUser(user));
