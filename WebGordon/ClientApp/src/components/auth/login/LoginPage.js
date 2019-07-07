@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 
+import LoginForm from './LoginForm';
+
 class LoginPage extends Component {
-    state = {  }
-    render() { 
-        return ( 
-            <h1>Вхід на сайт</h1>
-         );
+    render() {
+        return (
+            
+                    <LoginForm />
+                
+            
+        );
     }
 }
- 
 export default LoginPage;
