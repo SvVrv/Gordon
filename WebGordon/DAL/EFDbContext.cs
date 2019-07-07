@@ -18,6 +18,9 @@ namespace WebGordon.DAL
 
         }
 
+        public DbSet<User> SiteUsers { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             //builder.Query<BrokerProfileModel>().ToView("vBrokersProfile");

@@ -1,4 +1,6 @@
-﻿import { SET_CURRENT_USER } from '../actions/AuthActions';
+
+import { SET_CURRENT_USER } from '../actions/authActions';
+
 import isEmpty from 'lodash/isEmpty';
 
 const initialState = {
@@ -15,4 +17,6 @@ export default (state = initialState, action = {}) => {
             };
         default: return state;
     }
+
 }    
+
