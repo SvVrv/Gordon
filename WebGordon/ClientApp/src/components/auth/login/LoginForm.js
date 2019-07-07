@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import PropTypes from 'prop-types';
 import { connect } from "react-redux";
 import { Redirect } from "react-router";
-import { login } from "../../../actions/AuthActions";
+import { login } from "../../../actions/authActions";
 
 
 

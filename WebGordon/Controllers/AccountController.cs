@@ -67,6 +67,18 @@ namespace WebGordon.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(CreateToken(user));
         }
+        [HttpPost("login")]
+        public async Task<IActionResult> Login([FromBody]Credentials credentials)
+        {
+            var result = await _signInManager
+                .PasswordSignInAsync(credentials.Email, credentials.Password,
+                false, false);
+            if (!result.Succeeded)
+                return BadRequest(new { invalid = "Не коректно вкзано дані" });
+            var user = await _userManager.FindByEmailAsync(credentials.Email);
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return Ok(CreateToken(user));
+        }
 
         string CreateToken(DbUser user)
         {

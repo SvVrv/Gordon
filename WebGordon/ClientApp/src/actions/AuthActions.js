@@ -1,10 +1,11 @@
-﻿import axios from 'axios';
 
+import axios from 'axios';
 import jwt from 'jsonwebtoken';
 import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
+
 export function setCurrentUser(user) {
     return {
         type: SET_CURRENT_USER,
@@ -25,4 +26,9 @@ export function login(data) {
                 dispatch(setCurrentUser(user));
             });
     }
+}
+
+export function register(data) {
+    console.log("REGISTER asdfasfd - ", data);
+    return axios.post('api/Account/register', data);
 }
