@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import classnames from 'classnames';
 import { Redirect } from 'react-router';
-import {register} from '../../actions/authActions'
+import { register } from '../../../actions/authActions'
 
 
 class RegistrationForm extends Component {

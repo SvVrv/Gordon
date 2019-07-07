@@ -9,5 +9,7 @@ namespace WebGordon.DAL
     public class DbUser : IdentityUser<long>
     {
         public ICollection<DbUserRole> UserRoles { get; set; }
+
+        public virtual User User { get; set; }
     }
 }
