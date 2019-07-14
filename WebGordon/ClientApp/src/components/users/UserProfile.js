@@ -12,7 +12,7 @@ class UserProfile extends Component {
     componentDidMount = () => {
         axios.get('api/user/profile').then(res => {
             const profile = res.data;
-            console.log(profile);
+            console.log("-------------profile did mount---", profile);
             this.setState({ profile });
         });
     }
@@ -22,6 +22,7 @@ class UserProfile extends Component {
     }
 
     render() {
+        console.log("-------------profile did mount---", this.state.profile);
         const { isAuthenticated } = this.props.auth;
         const clientProfile = (
             <React.Fragment>

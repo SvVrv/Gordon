@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebGordon.DAL;
+using Microsoft.EntityFrameworkCore;
+
 using Microsoft.AspNetCore.Identity;
 using WebGordon.ViewModels;
 
@@ -27,7 +29,7 @@ namespace WebGordon.Controllers
         public IActionResult Profile()
         {
             var userId = long.Parse( User.FindFirstValue("id"));
-            var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+            var user = _context.Users.Include(u=>u.UserRoles).FirstOrDefault(u => u.Id == userId);
             UserViewModel model = new UserViewModel();
 
             //if(user.UserRoles.SingleOrDefault(r=>r.Role.Name=="Admin")!=null)
@@ -87,7 +89,9 @@ namespace WebGordon.Controllers
                 //}
             }
 
-            if (user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
+
+            var useradmin = user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin");
+            // (user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
             {
                 
             }
