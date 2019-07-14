@@ -30,7 +30,7 @@ namespace WebGordon.Controllers
             var user = _context.Users.FirstOrDefault(u => u.Id == userId);
             UserViewModel model = new UserViewModel();
 
-            //if(user.User.DbUser.UserRoles.Contains("Admin")
+            //if(user.UserRoles.SingleOrDefault(r=>r.Role.Name=="Admin")!=null)
             //    {
             //      сектор для функціоналу адміна
             //    }
@@ -87,6 +87,10 @@ namespace WebGordon.Controllers
                 //}
             }
 
+            if (user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
+            {
+                
+            }
             model.Id = user.Id.ToString();
             model.Email = user.Email;
             model.Name = user.User.Nick;

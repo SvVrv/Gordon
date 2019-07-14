@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { store } from '../index'
 
 
 
 const Home = props => (
   <div>
 
-    <h1>Hello, world!</h1>
+        <h1>Hello, {!store.getState().auth.isAuthenticated ? 'world!' : store.getState().auth.user.name} </h1>
     <p>Welcome to your new single-page application, built with:</p>
     <ul>
       <li><a href='https://get.asp.net/'>ASP.NET Core</a> and <a href='https://msdn.microsoft.com/en-us/library/67ef8sbd.aspx'>C#</a> for cross-platform server-side code</li>
