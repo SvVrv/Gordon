@@ -4,6 +4,8 @@ import { Image, Col, Clearfix } from 'react-bootstrap';
 //import semen from '../../images/naturo-monkey-selfie.jpg';
 import './UserProfile.scss';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import { Button } from 'reactstrap'
 
 class UserProfile extends Component {
     state = {
@@ -21,15 +23,17 @@ class UserProfile extends Component {
         return (<p><b>{key}:</b> {value}</p>)
     }
 
+
     render() {
         console.log("-------------profile did mount---", this.state.profile);
+        const style1 = {            width: '100% '      };
         const { isAuthenticated } = this.props.auth;
         const clientProfile = (
             <React.Fragment>
-                {this.printField("Name", this.state.profile.name)}
+                {this.printField("Name", this.state.profile.name)} 
                 {this.printField("Email", this.state.profile.email)}
                 {this.printField("Phone", this.state.profile.phone)}
-                {this.printField("Description", this.state.profile.clientDescription)}
+                {this.printField("Description", this.state.profile.description)}
             </React.Fragment>
         );
         const client2Profile = (
@@ -49,7 +53,7 @@ class UserProfile extends Component {
                     </div>
                     <div className="user-profile clearfix">
                         <Col sm={2} md={2}>
-                            <Image className="userImage" src="https://cdn.auth0.com/blog/react-js/react.png" circle />
+                            <Image className="userImage" src="https://cdn.auth0.com/blog/react-js/react.png" style={style1}  circle />
                         </Col>
                         <Col sm={10} md={10} >
                             {"userProfile"}
@@ -62,7 +66,12 @@ class UserProfile extends Component {
         }
         else {
             return (
-                <h1>Ви не авторизовані!</h1>
+                <div className="container" style={{ textAlign: "center" }} >
+                    <h1 style={{ textAlign: "center" }}>Ви не авторизовані!</h1>
+                    <Button color="primary">
+                        <Link className="text-white nav-link" to="/login">Авторизуватися зараз</Link>
+                    </Button>
+                </div>
             );
         }
     }

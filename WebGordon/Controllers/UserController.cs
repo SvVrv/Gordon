@@ -29,7 +29,7 @@ namespace WebGordon.Controllers
         public IActionResult Profile()
         {
             var userId = long.Parse( User.FindFirstValue("id"));
-            var user = _context.Users.Include(u=>u.UserRoles).FirstOrDefault(u => u.Id == userId);
+            var user = _context.SiteUsers.Include(u=>u.DbUser.UserRoles).FirstOrDefault(u => u.Id == userId);
             UserViewModel model = new UserViewModel();
 
             //if(user.UserRoles.SingleOrDefault(r=>r.Role.Name=="Admin")!=null)
@@ -90,17 +90,17 @@ namespace WebGordon.Controllers
             }
 
 
-            var useradmin = user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin");
+            //var useradmin = user.DbUser.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin");
             // (user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
             {
                 
             }
             model.Id = user.Id.ToString();
-            model.Email = user.Email;
-            model.Name = user.User.Nick;
-            model.Description = user.User.Description;
-            model.Image = user.User.Image;
-            model.Phone = user.PhoneNumber;
+            model.Email = user.DbUser.Email;
+            model.Name = user.Nick;
+            model.Description = user.Description;
+            model.Image = user.Image;
+            model.Phone = user.DbUser.PhoneNumber;
 
             return Ok(model);
         }
