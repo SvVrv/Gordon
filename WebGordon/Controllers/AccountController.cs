@@ -43,7 +43,7 @@ namespace WebGordon.Controllers
             };
             var user = new DbUser
             {
-                UserName = model.Name,
+                UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.Telnumber,
                 User = client,

@@ -3,6 +3,9 @@ import classnames from 'classnames';
 import { Redirect } from 'react-router';
 import { register } from '../../../actions/authActions'
 
+import { connect } from "react-redux";
+import PropTypes from 'prop-types';
+
 
 class RegistrationForm extends Component {
     state = { 
@@ -49,7 +52,7 @@ class RegistrationForm extends Component {
             const {name, email, telnumber, password} = this.state;
             this.setState({isLoading: true});
             console.log('---SEND DATA state----', { Name: name, Telnumber: telnumber, Password: password });
-            register({Name: name, Telnumber: telnumber, Email: email, Password: password })
+            this.props.register({Name: name, Telnumber: telnumber, Email: email, Password: password })
             .then(
                 ()=> this.setState({done: true}),
                 (err) => this.setState({errors: err.response.data, isLoading: false})
@@ -140,4 +143,11 @@ class RegistrationForm extends Component {
     }
 }
 
-export default RegistrationForm;
+RegistrationForm.propTypes =
+    {
+        register: PropTypes.func.isRequired
+    }
+
+
+//export default RegistrationForm;
+export default connect(null, { register })(RegistrationForm);
