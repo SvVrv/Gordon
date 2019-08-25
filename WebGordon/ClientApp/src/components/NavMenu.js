@@ -2,8 +2,9 @@ import React from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import './NavMenu.css';
+import { connect } from 'react-redux';
 
-export default class NavMenu extends React.Component {
+ class NavMenu extends React.Component {
   constructor (props) {
     super(props);
 
@@ -16,8 +17,30 @@ export default class NavMenu extends React.Component {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
-  render () {
+     }
+     isauth (){
+         const isAuth = this.props.isAuthenticated;
+         if (isAuth) 
+             {
+                 return[ (<li class="nav-item">
+                         <Link class="text-dark nav-link" to="/logout">Logout</Link>
+                     </li>),
+                     (<li class="nav-item">
+                         <Link class="text-dark nav-link" to="/profile">Profile</Link>
+                     </li>)]
+             }
+         else {
+                 return [(<li class="nav-item">
+                     <Link class="text-dark nav-link" to="/login">Login</Link>
+                 </li>),
+                 (<li class="nav-item">
+                     <Link class="text-dark nav-link" to="/register">Register</Link>
+                 </li>)]
+             }
+         
+     }
+     render() {
+       
     return (
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3" light >
@@ -34,13 +57,9 @@ export default class NavMenu extends React.Component {
                 </NavItem>
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-                </NavItem>
-                <li class="nav-item">
-                  <Link class="text-dark nav-link" to="/login">Login</Link>
-                </li>
-                <li class="nav-item">
-                  <Link class="text-dark nav-link" to="/register">Register</Link>
-                </li>
+                            </NavItem>
+                            {this.isauth()} 
+                
               </ul>
             </Collapse>
           </Container>
@@ -49,3 +68,10 @@ export default class NavMenu extends React.Component {
     );
   }
 }
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.auth.isAuthenticated
+    }
+}
+
+export default connect(mapStateToProps)(NavMenu);
