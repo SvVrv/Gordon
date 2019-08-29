@@ -20,6 +20,14 @@ namespace WebGordon.DAL
 
         public DbSet<User> SiteUsers { get; set; }
 
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductPhoto> Photos { get; set; }
+
+        public DbSet<Torg> Torgs { get; set; }
+        public DbSet<TorgBet> TorgBets { get; set; }
+        //public DbSet<UserTorg> UserTorgs { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

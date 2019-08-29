@@ -36,7 +36,7 @@ namespace WebGordon.Controllers
             //    {
             //      сектор для функціоналу адміна
             //    }
-
+           
 
             {
                 //if (user.User != null)

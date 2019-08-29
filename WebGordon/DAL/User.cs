@@ -21,5 +21,8 @@ namespace WebGordon.DAL
         
         public virtual DbUser DbUser { get; set; }
 
+        //public virtual ICollection<UserTorg> UserTorgs { get; set; }
+        //public virtual ICollection<TorgBet> TorgBets { get; set; }
+        //public virtual ICollection<Torg> Torgs { get; set; }
     }
 }
