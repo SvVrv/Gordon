@@ -36,7 +36,7 @@ class LogOut extends React.Component {
         
             const modal=(
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalHeader toggle={this.toggle}></ModalHeader>
                     <ModalBody>
                       Are you sure?
           </ModalBody>
