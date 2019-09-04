@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebGordon.DAL;
 
 namespace WebGordon.Migrations
 {
     [DbContext(typeof(EFDbContext))]
-    partial class EFDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190829205714_create product + categories")]
+    partial class createproductcategories
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -244,52 +246,6 @@ namespace WebGordon.Migrations
                     b.ToTable("tblPhotos");
                 });
 
-            modelBuilder.Entity("WebGordon.DAL.Torg", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<long>("ProductId");
-
-                    b.Property<long>("SellerId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<int>("TorgTime");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("SellerId");
-
-                    b.ToTable("tblTorgs");
-                });
-
-            modelBuilder.Entity("WebGordon.DAL.TorgBet", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Bet");
-
-                    b.Property<long>("ClientId");
-
-                    b.Property<DateTime>("StartDate");
-
-                    b.Property<long?>("TorgId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId");
-
-                    b.HasIndex("TorgId");
-
-                    b.ToTable("tblTorgBets");
-                });
-
             modelBuilder.Entity("WebGordon.DAL.User", b =>
                 {
                     b.Property<long>("Id");
@@ -374,31 +330,6 @@ namespace WebGordon.Migrations
                         .WithMany("Photos")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WebGordon.DAL.Torg", b =>
-                {
-                    b.HasOne("WebGordon.DAL.Product", "ProductOf")
-                        .WithMany("Torgs")
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebGordon.DAL.DbUser", "Seller")
-                        .WithMany("Torgs")
-                        .HasForeignKey("SellerId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("WebGordon.DAL.TorgBet", b =>
-                {
-                    b.HasOne("WebGordon.DAL.DbUser", "ClientOf")
-                        .WithMany("TorgBets")
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("WebGordon.DAL.Torg")
-                        .WithMany("TorgBets")
-                        .HasForeignKey("TorgId");
                 });
 
             modelBuilder.Entity("WebGordon.DAL.User", b =>
