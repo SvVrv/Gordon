@@ -5,11 +5,18 @@ import setAuthorizationToken from '../utils/setAuthorizationToken';
 
 
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-
+export const DISPOSE_CURRENT_USER = 'DISPOSE_CURRENT_USER';
 export function setCurrentUser(user) {
     return {
         type: SET_CURRENT_USER,
         user
+    };
+}
+export const disposeCurrentUser = () => {
+    localStorage.clear();
+    return {
+        type: DISPOSE_CURRENT_USER,
+        
     };
 }
 

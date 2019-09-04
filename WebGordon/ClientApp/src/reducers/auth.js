@@ -1,5 +1,5 @@
 
-import { SET_CURRENT_USER } from '../actions/authActions';
+import { SET_CURRENT_USER, DISPOSE_CURRENT_USER } from '../actions/authActions';
 
 import isEmpty from 'lodash/isEmpty';
 
@@ -14,6 +14,11 @@ export default (state = initialState, action = {}) => {
             return {
                 isAuthenticated: !isEmpty(action.user),
                 user: action.user
+            };
+        case DISPOSE_CURRENT_USER:
+            return {
+                isAuthenticated: false,
+                user: {}
             };
         default: return state;
     }
