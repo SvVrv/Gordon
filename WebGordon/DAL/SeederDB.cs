@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -22,6 +23,11 @@ namespace WebGordon.DAL
                 {
                     Name = roleName
                 }).Result;
+                var roleName2 = "Client";
+                result = roleManager.CreateAsync(new DbRole
+                {
+                    Name = roleName2
+                }).Result;
             }
             if (userManager.FindByEmailAsync("admin@gmail.com").Result == null)
             {
@@ -35,6 +41,19 @@ namespace WebGordon.DAL
                 };
                 var result = userManager.CreateAsync(user, "Qwerty1-").Result;
                 result = userManager.AddToRoleAsync(user, roleName).Result;
+             }
+            if (userManager.FindByEmailAsync("client@gmail.com").Result == null)
+            {
+                string email = "client@gmail.com";
+                string roleName2 = "Client";
+                var user = new DbUser
+                {
+                    Email = email,
+                    UserName = email,
+                    PhoneNumber = "+38(999)999-66-66"
+                 };
+                var result = userManager.CreateAsync(user, "Qwerty1-").Result;
+                result = userManager.AddToRoleAsync(user, roleName2).Result;
             }
         }
 

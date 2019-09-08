@@ -36,10 +36,13 @@ class UserProfile extends Component {
                 {this.printField("Description", this.state.profile.description)}
             </React.Fragment>
         );
-        const client2Profile = (
+        const adminProfile = (
             <React.Fragment>
-                {this.printField("Nick", this.state.profile.clientNick)}
-                {this.printField("Discount", this.state.profile.clientDiscount)}
+                {this.printField("Name", this.state.profile.name)}
+                {this.printField("Email", this.state.profile.email)}
+                {this.printField("Phone", this.state.profile.phone)}
+                {this.printField("Description", this.state.profile.description)}
+                {this.printField("Administrative acses: ", this.state.profile.type)}
             </React.Fragment>
         );
       
@@ -53,12 +56,12 @@ class UserProfile extends Component {
                     </div>
                     <div className="user-profile clearfix">
                         <Col sm={2} md={2}>
-                            <Image className="userImage" src="https://cdn.auth0.com/blog/react-js/react.png" style={style1}  circle />
+                            <Image className="userImage" src={this.state.profile.image } style={style1}  circle />
                         </Col>
                         <Col sm={10} md={10} >
                             {"userProfile"}
                             {this.state.profile.type === "client" && clientProfile}
-
+                            {this.state.profile.type === "Admin" && adminProfile}
                         </Col>
                     </div>
                 </React.Fragment>
