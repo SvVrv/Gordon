@@ -41,22 +41,16 @@ namespace WebGordon.Controllers
             //    model.Type = "Admin";
             //}
             //else model.Type = "client";
-            //    {
-            //      сектор для функціоналу адміна
-            //    }
-           
-
-         
             //var useradmin = user.DbUser.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin");
-            // (user.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
             model.Id = user.Id.ToString();
             model.Email = user.DbUser.Email;
             model.Name = user.Nick;
             model.Description = user.Description;
-            model.Image = new FileService(_env).GetUserImage(user.Image);
+            if (user.Image != null)
+                model.Image = new FileService(_env).GetUserImage(user.Image);
+            else model.Image = null;
             model.Phone = user.DbUser.PhoneNumber;
-            model.Type = "Admin";
-
+                model.Type = "Admin";
             return Ok(model);
         }
 

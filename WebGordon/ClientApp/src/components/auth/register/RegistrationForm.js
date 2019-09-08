@@ -167,7 +167,7 @@ class RegistrationForm extends Component {
                 {
                     image !== '' &&
                     <div className="card" style={{ width: 18 + 'rem' }, {textAlign: "center" }}>
-                        <img className="card-img-top" src={image} alt="Card image cap"/>
+                        <img className="card-img-top" src={image} alt="Card cap"/>
                     </div>
                 }
 

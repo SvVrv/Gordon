@@ -48,7 +48,7 @@ namespace WebGordon.Utils
                 {
                     image.Save(m, image.RawFormat);
                     byte[] imageBytes = m.ToArray();
-                    string base64String = "data:image / jpg; base64, "+Convert.ToBase64String(imageBytes);
+                    string base64String = "data:image/jpg;base64,"+Convert.ToBase64String(imageBytes);
                     return base64String;
                 }
             }
