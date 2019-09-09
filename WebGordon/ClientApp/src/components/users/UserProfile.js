@@ -4,7 +4,8 @@ import { Image, Col, Clearfix } from 'react-bootstrap';
 import './UserProfile.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import { Button } from 'reactstrap'
+import { Button } from 'reactstrap';
+import LotShort from '../../components/lot-short/Lot-short';
 
 class UserProfile extends Component {
     state = {
@@ -75,8 +76,6 @@ class UserProfile extends Component {
              </div>
         );
 
-
-
         if (isAuthenticated) {
             return (
                 <React.Fragment>
@@ -99,6 +98,7 @@ class UserProfile extends Component {
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
+                        <LotShort/>
                     </div>
                 </React.Fragment>
             );

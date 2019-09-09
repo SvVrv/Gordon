@@ -36,7 +36,7 @@ namespace WebGordon
                 .AddEntityFrameworkStores<EFDbContext>()
                 .AddDefaultTokenProviders();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options =>
                 {
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();

@@ -40,11 +40,12 @@ namespace WebGordon.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
+            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
             var client = new User
             {
                 Nick = model.Name,
                 Description = model.Description,
-                Image = new FileService(_env).UploadImage(model.Image)
+                Image = tempImage
             };
             var user = new DbUser
             {
