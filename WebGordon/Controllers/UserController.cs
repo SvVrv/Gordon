@@ -22,26 +22,28 @@ namespace WebGordon.Controllers
     {
         private readonly IHostingEnvironment _env;
         private readonly EFDbContext _context;
-        public UserController(EFDbContext context, IHostingEnvironment env)
+        private readonly UserManager<DbUser> _userManager;
+        public UserController(EFDbContext context, IHostingEnvironment env, UserManager<DbUser> userManager)
         {
             _context = context;
             _env = env;
+            _userManager = userManager;
         }
 
         [Authorize]
         [HttpGet("[action]")]
         public IActionResult Profile()
         {
-            var userId = long.Parse( User.FindFirstValue("id"));
-            var user = _context.SiteUsers.Include(u=>u.DbUser.UserRoles).FirstOrDefault(u => u.Id == userId);
+            var userId = long.Parse(User.FindFirstValue("id"));
+            var user = _context.SiteUsers.Include(u => u.DbUser.UserRoles).FirstOrDefault(u => u.Id == userId);
             UserViewModel model = new UserViewModel();
 
-            //if (user.DbUser.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin") != null)
-            //{
-            //    model.Type = "Admin";
-            //}
-            //else model.Type = "client";
-            //var useradmin = user.DbUser.UserRoles.SingleOrDefault(r => r.Role.Name == "Admin");
+            var dbuser = _userManager.Users.First(u => u.Id == userId);
+            var roles = _userManager.GetRolesAsync(dbuser).Result;
+            model.Type = "Client";
+            foreach (var role in roles)
+                if (role == "Admin")
+                    model.Type = "Admin";
             model.Id = user.Id.ToString();
             model.Email = user.DbUser.Email;
             model.Name = user.Nick;
@@ -50,7 +52,6 @@ namespace WebGordon.Controllers
                 model.Image = new FileService(_env).GetUserImage(user.Image);
             else model.Image = null;
             model.Phone = user.DbUser.PhoneNumber;
-                model.Type = "Admin";
             return Ok(model);
         }
 
