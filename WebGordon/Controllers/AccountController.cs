@@ -5,11 +5,13 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using WebGordon.DAL;
+using WebGordon.Utils;
 using WebGordon.ViewModels;
 
 namespace WebGordon.Controllers
@@ -24,22 +26,26 @@ namespace WebGordon.Controllers
     [Route("api/Account")]
     public class AccountController : ControllerBase
     {
+        private readonly IHostingEnvironment _env;
         readonly UserManager<DbUser> _userManager;
         readonly SignInManager<DbUser> _signInManager;
         public AccountController(UserManager<DbUser> userManager,
-            SignInManager<DbUser> signInManager)
+            SignInManager<DbUser> signInManager,
+            IHostingEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _env = env;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
+            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
             var client = new User
             {
                 Nick = model.Name,
-                //Description = model.Description,
-                //Image = model.Image,
+                Description = model.Description,
+                Image = tempImage
             };
             var user = new DbUser
             {
@@ -47,23 +53,15 @@ namespace WebGordon.Controllers
                 Email = model.Email,
                 PhoneNumber = model.Telnumber,
                 User = client,
-                
-                //Name = model.Name,
-                //Surname = model.Surname,
-                //BirthDate = model.Birthdate,
-                //Gender = model.Gender,
-                //Email = model.Email,
             };
-            var result = await _userManager
+             var result = await _userManager
                 .CreateAsync(user, model.Password);
             if (!result.Succeeded)
-                return BadRequest(result.Errors);
-
+                //return BadRequest(result.Errors);
+                return BadRequest(new { invalid = "Не коректно вкзано дані", result.Errors });
 
             var roleName = "Admin";
             result = _userManager.AddToRoleAsync(user, roleName).Result;
-
-
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(CreateToken(user));
         }

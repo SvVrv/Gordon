@@ -35,14 +35,14 @@ class LogOut extends React.Component {
     render() {
         
             const modal=(
-                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                    <ModalHeader toggle={this.toggle}></ModalHeader>
+                <Modal isOpen={this.state.modal} toggle={this.logout} className={this.props.className}>
+                    <ModalHeader toggle={this.logout}></ModalHeader>
                     <ModalBody>
                       Are you sure?
           </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={(event) => { this.props.disposeCurrentUser(); this.logout() }}>Logout</Button>{' '}
-                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                        <Button color="secondary" onClick={this.logout}>Cancel</Button>
                     </ModalFooter>
                 </Modal>)
 
