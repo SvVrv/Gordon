@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import LotShort from '../../components/lot-short/Lot-short';
+import ModalDialog from '../modal-dialog/Modal-dialog'
 
 class UserProfile extends Component {
     state = {
@@ -98,6 +99,11 @@ class UserProfile extends Component {
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
+
+
+                        <ModalDialog />
+
+
                         <LotShort/>
                     </div>
                 </React.Fragment>
