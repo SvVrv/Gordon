@@ -1,6 +1,8 @@
 ﻿import React from 'react';
+import axios from 'axios';
 
-class CategoryItem extends React.Component (name,image) {
+
+class CategoryItem extends React.Component {
 
     constructor(props) {
         super(props);
@@ -9,7 +11,9 @@ class CategoryItem extends React.Component (name,image) {
             image: this.props.image
         };
     }
-    render() {
+    
+    
+render() {
         return (
             <div>
                 <img src={this.state.image} />
