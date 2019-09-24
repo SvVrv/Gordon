@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 namespace WebGordon.DAL
 {
     public class EFDbContext : IdentityDbContext<DbUser, DbRole, long, IdentityUserClaim<long>,
@@ -49,7 +48,11 @@ namespace WebGordon.DAL
                     .HasForeignKey(ur => ur.UserId)
                     .IsRequired();
             });
+            
+             
+            
         }
+
 
     }
 }

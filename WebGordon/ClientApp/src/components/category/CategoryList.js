@@ -22,15 +22,15 @@ class CategoryList extends React.Component {
 
 
     render() {
+        const urlimg = "https://localhost:44365/images/"
         const list = this.state.categorys.map((item) => {
-            return (<CategoryItem name={item.name} image="https://cdn.auth0.com/blog/react-js/react.png" />
+            return (<CategoryItem name={item.name} image={urlimg + item.image} />
            ) });
         
-            return (
-                <div>
-                    {list}
-
-                </div>
+        return (
+            <div>
+                {list}
+            </div>
             )
 
         }

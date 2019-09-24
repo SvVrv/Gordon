@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace WebGordon.DAL
 {
-    public class SeederDB
+    public  class SeederDB
     {
         public static void SeedUsers(UserManager<DbUser> userManager,
             RoleManager<DbRole> roleManager)
@@ -56,7 +56,83 @@ namespace WebGordon.DAL
                 result = userManager.AddToRoleAsync(user, roleName2).Result;
             }
         }
+         
+        public static void SeedCategorys(EFDbContext context)
+        {
+            var list = new List<Category> {
+                new Category
+                {
+                 
+                    Name = "Drova",
+                    Image = "drova.jpg"
+                },
+                new Category
+                {
+                 
+                    Name = "Pelety",
+                    Image = "pelet.jpg"
+                },
+                new Category
+                {
+                  
+                    Name = "Shchepa",
+                    Image = "shchepa.jpg"
+                },
+                new Category
+                {
+                   
+                    Name = "Vugilla",
+                    Image = "vugilla.jpg"
+                },
+                new Category
+                {
+                  
+                    Name = "Torf",
+                    Image = "torf.jpg"
+                },
+                new Category
+                {
+                   
+                    Name = "Slanci",
+                    Image = "slanci.jpg"
+                },
+                new Category
+                {
+                   
+                    Name = "Tyrsa",
+                    Image = "tyrsa.jpg"
+                },
+                new Category
+                {
+                    
+                    Name = "Brykety",
+                    Image = "bryket.jpg"
+                },
+                new Category
+                {
+                    
+                    Name = "Soloma",
+                    Image = "soloma.jpg"
+                }
+                };
+            using (context)
+            {
+                foreach (var item in list)
+                {
 
+                    if (context.Categories.SingleOrDefault(c=>c.Name==item.Name)==null)
+                    {
+
+                        context.Categories.Add(item);
+                        context.SaveChanges();
+                    }
+
+                }
+
+                
+
+            }
+        }
         public static void SeedData(IServiceProvider services, IHostingEnvironment env, IConfiguration config)
         {
             using (var scope = services.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -65,6 +141,8 @@ namespace WebGordon.DAL
                 var managerRole = scope.ServiceProvider.GetRequiredService<RoleManager<DbRole>>();
                 var context = scope.ServiceProvider.GetRequiredService<EFDbContext>();
                 SeederDB.SeedUsers(manager, managerRole);
+                SeederDB.SeedCategorys(context);
+               
             }
         }
 

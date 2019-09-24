@@ -27,8 +27,6 @@ namespace WebGordon.Controllers
             return _context.Categories;
         }
 
-       
         
-       
     }
 }
