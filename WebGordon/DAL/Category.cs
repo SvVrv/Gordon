@@ -13,13 +13,17 @@ namespace WebGordon.DAL
 
 
 
-        [Key, Column(Order = 0),]
+
+        [Key, Column(Order = 0)]
+
         public long Id { get; set; }
         [ForeignKey("Parent"), Column(Order = 1)]
         public long? ParentId { get; set; }
         [Required, StringLength(maximumLength: 255)]
         public string Name { get; set; }
+
         public string Image { get; set; }
+
         public Category Parent { get; set; }
         public virtual ICollection<Product> Products { get; set; }
 

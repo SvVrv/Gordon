@@ -101,6 +101,7 @@ namespace WebGordon.Migrations
 
                     b.Property<string>("Image");
 
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(255);
