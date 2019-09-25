@@ -7,7 +7,6 @@ import CategoryList from './category/CategoryList'
 
 const Home = props => (
     <div>
-
         <CategoryList />
     </div>
 

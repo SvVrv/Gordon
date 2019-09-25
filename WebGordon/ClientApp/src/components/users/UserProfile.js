@@ -6,6 +6,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import LotShort from '../../components/lot-short/Lot-short';
+import ModalDialog from '../modal-dialog/Modal-dialog'
 
 class UserProfile extends Component {
     state = {
@@ -14,7 +15,7 @@ class UserProfile extends Component {
     componentDidMount = () => {
         axios.get('api/user/profile').then(res => {
             const profile = res.data;
-            console.log("-------------profile did mount---", profile);
+            console.log("-------------component did mount---", profile);
             this.setState({ profile });
         });
     }
@@ -25,6 +26,8 @@ class UserProfile extends Component {
 
 
     render() {
+        const children1 = { name: 'NAMmmmME', value: 'VALUE', descr: 'sdfsafasfsadfsdf' };
+
         console.log("-------------profile did mount---", this.state.profile);
         const style1 = { width: '100% ' };
         const { isAuthenticated } = this.props.auth;
@@ -40,17 +43,11 @@ class UserProfile extends Component {
             <div class="list-group">
                 <li class="list-group-item">
                     <span className="label">{this.printField("Name", this.state.profile.name)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children1={ children1 } />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children1={children1} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
@@ -98,6 +95,11 @@ class UserProfile extends Component {
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
+
+
+                        
+
+
                         <LotShort/>
                     </div>
                 </React.Fragment>
@@ -123,3 +125,8 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(UserProfile);;
+
+//<button type="button"
+//    className="btn btn-outline-success btn-sm float-right">
+//    <i class="fa fa-address-card"></i>
+//</button>
