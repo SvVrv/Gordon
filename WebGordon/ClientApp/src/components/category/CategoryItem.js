@@ -1,6 +1,6 @@
 ﻿import React from 'react';
 import axios from 'axios';
-
+import { Card, Col } from 'react-bootstrap';
 
 class CategoryItem extends React.Component {
 
@@ -11,14 +11,19 @@ class CategoryItem extends React.Component {
             image: this.props.image
         };
     }
-    
+
+    handleClick = () => {
+        console.log('klick', this.state.name);
+    }
     
 render() {
-        return (
-            <div>
-                <img src={this.state.image} />
-                <h1>{this.state.name}</h1>
-            </div>
+            return (
+                <a style={{ cursor: 'pointer' }} onClick={this.handleClick}>
+            <Card style={{ width: '18rem', height: '320px' }} >
+                <Card.Header as="h1">{this.state.name}</Card.Header>
+                <Card.Img src={this.state.image} />
+            </Card>
+            </a>
         )
 
 }
