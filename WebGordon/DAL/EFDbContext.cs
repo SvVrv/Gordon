@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using WebGordon.ViewModels;
 namespace WebGordon.DAL
 {
     public class EFDbContext : IdentityDbContext<DbUser, DbRole, long, IdentityUserClaim<long>,
@@ -52,6 +53,14 @@ namespace WebGordon.DAL
              
             
         }
+        //public DbSet<UserTorg> UserTorgs { get; set; }
+
+
+        public DbSet<WebGordon.ViewModels.TorgViewModel> TorgViewModel { get; set; }
+        //public DbSet<UserTorg> UserTorgs { get; set; }
+
+
+        public DbSet<WebGordon.ViewModels.UserViewModel> UserViewModel { get; set; }
 
 
     }
