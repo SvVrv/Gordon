@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import axios from 'axios';
 import { Card, Col } from 'react-bootstrap';
-
+import { Link } from 'react-router-dom'
 class CategoryItem extends React.Component {
 
     constructor(props) {
@@ -12,18 +12,16 @@ class CategoryItem extends React.Component {
         };
     }
 
-    handleClick = () => {
-        console.log('klick', this.state.name);
-    }
     
-render() {
-            return (
-                <a style={{ cursor: 'pointer' }} onClick={this.handleClick}>
+    render() {
+        const path = "/" +  this.state.name ;
+    return (
+        <Link to={path} style={{ cursor: 'pointer' }} >
             <Card style={{ width: '18rem', height: '320px' }} >
                 <Card.Header as="h1">{this.state.name}</Card.Header>
                 <Card.Img src={this.state.image} />
             </Card>
-            </a>
+        </Link>
         )
 
 }
