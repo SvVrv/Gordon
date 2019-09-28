@@ -1,4 +1,6 @@
 ﻿import React from 'react';
+import LotShortList from '../lot-short/Lot-short-list'
+
 
 class CategoryPage extends React.Component {
 
@@ -6,11 +8,15 @@ class CategoryPage extends React.Component {
         super(props);
         this.state = {
             name: this.props.name
+           
         }
     };
+
+ 
+
     render() {
         return (
-            <h1>{this.state.name} </h1>
+            <LotShortList category={this.state.name} />
             )
 
         

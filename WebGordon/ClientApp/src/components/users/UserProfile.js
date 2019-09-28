@@ -100,7 +100,15 @@ class UserProfile extends Component {
                         
 
 
-                        <LotShort/>
+                        <LotShort
+                            productQuantity="1112222"
+                            lastBet="2500"
+                            finishDate="31.02.2020"
+                            torgStatus="активні торги"
+                            productName="Дрова дубові"
+                            productDescription="Продам дрова свіжовивезені, сирі, не рубані, прямо з лісу, самовинос, дорого"
+                            productImage=""
+                        />
                     </div>
                 </React.Fragment>
             );

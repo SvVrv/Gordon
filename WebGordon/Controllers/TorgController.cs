@@ -29,15 +29,33 @@ namespace WebGordon.Controllers
         }
 
         // GET: api/Torg/5
-        [HttpGet("{cat}{id}")]
-        public IActionResult GetTorgViewModel([FromRoute] string cat,long id)
+        [HttpGet("{cat}/{name}")]
+        public IActionResult GetTorgViewModel([FromRoute] string cat, [FromRoute] string name)
         {
-            TorgViewModel model = new TorgViewModel();
-            List<TorgViewModel> modellist=null;
+
+            List<TorgViewModel> modellist=new List<TorgViewModel>();
             if (cat == "category")
             {
-                List<Torg> torgs = _context.Torgs.Where(t => t.ProductOf.CategoryId == id).ToList();
+             
+                List<Torg> torgs = _context.Torgs.Include(t=>t.ProductOf).Include(t=>t.ProductOf.Category).Where(t => t.ProductOf.Category.Name == name).ToList();
+                foreach(var t in torgs)
+                {
+                    TorgViewModel model = new TorgViewModel();
+                    
+                        model.Id = t.Id;
+                    model.ProductName = t.ProductOf.Name;
+                    model.ProductQuantity = t.ProductOf.Quantity;
+                    model.ProductImage = t.ProductOf.Category.Image;
+                    model.TorgStatus = "active";
+                    model.ProductDescription = "";
+                    model.LastBet =0;
+                    model.FinishDate = t.StartDate;
+
+                    modellist.Add(model);
+
                 
+
+                }
             }
 
             return Ok(modellist);
