@@ -65,6 +65,36 @@ namespace WebGordon.Controllers
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(CreateToken(user));
         }
+
+        [HttpPost("changeregister")]
+        public async Task<IActionResult> ChangeRegister([FromBody]RegisterViewModel model)
+        {
+            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
+            var client = new User
+            {
+                Nick = model.Name,
+                Description = model.Description,
+                Image = tempImage
+            };
+            var user = new DbUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                PhoneNumber = model.Telnumber,
+                User = client,
+            };
+            var result = await _userManager
+               .CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+                //return BadRequest(result.Errors);
+                return BadRequest(new { invalid = "Не коректно вкзано дані", result.Errors });
+
+            var roleName = "Admin";
+            result = _userManager.AddToRoleAsync(user, roleName).Result;
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return Ok(CreateToken(user));
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]Credentials credentials)
         {

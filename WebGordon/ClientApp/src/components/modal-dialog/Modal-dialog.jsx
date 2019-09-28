@@ -9,7 +9,10 @@ class ModalDialog extends React.Component {
     }
     state = {
         show: false,
-        children1: this.props.children1,
+        type: this.props.children.type,
+        name: this.props.children.name,
+        value: this.props.children.value,
+        descr: this.props.children.descr,
         errors: {},
     }
 
@@ -38,12 +41,22 @@ class ModalDialog extends React.Component {
             show: false
         }))
     }
+
+    handleSave = () => {
+        this.setState(prevState => ({
+            show: false,
+            
+        }))
+        //console.log('---save---')
+        this.props.getOut(this.state.name, this.state.value)
+    }
+
     handleShow = () => {
         this.setState({ show: true })
     };
 
     render() {
-        const { type, name, value, descr } = this.state.children1;
+        const { type, name, value, descr } = this.state;
         console.log('-------------------state---------------', this.state);
         const { errors } = this.state;
         
@@ -77,10 +90,10 @@ class ModalDialog extends React.Component {
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleClose}>
-                            Close
+                            Закрити
                         </Button>
-                        <Button onClick={this.handleClose}>
-                            Save Changes
+                        <Button onClick={this.handleSave}>
+                            Зберегти зміни
                         </Button>
                     </Modal.Footer>
                 </Modal>

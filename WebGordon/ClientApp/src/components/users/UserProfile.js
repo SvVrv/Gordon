@@ -25,9 +25,15 @@ class UserProfile extends Component {
     }
 
 
+    getfromModal = (name, value) => {
+        console.log('--from modal--', name, value)
+
+    }
+
+
     render() {
 
-        const children1 = {
+        const childName = {
             type: "text",
             name: 'Name',
             value:  this.state.profile.name ,
@@ -49,11 +55,11 @@ class UserProfile extends Component {
             <div class="list-group">
                 <li class="list-group-item">
                     <span className="label">{this.printField("Name", this.state.profile.name)}</span>
-                    <ModalDialog children1={ childName } />
+                    <ModalDialog children={childName} getOut={this.getfromModal} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <ModalDialog children1={children1} />
+                    <ModalDialog children={childName} getOut={this.getfromModal} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
