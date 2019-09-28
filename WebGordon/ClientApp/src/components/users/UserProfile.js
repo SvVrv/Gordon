@@ -15,7 +15,7 @@ class UserProfile extends Component {
     componentDidMount = () => {
         axios.get('api/user/profile').then(res => {
             const profile = res.data;
-            console.log("-------------profile did mount---", profile);
+            console.log("-------------component did mount---", profile);
             this.setState({ profile });
         });
     }
@@ -26,6 +26,8 @@ class UserProfile extends Component {
 
 
     render() {
+        const children1 = { name: 'NAMmmmME', value: 'VALUE', descr: 'sdfsafasfsadfsdf' };
+
         console.log("-------------profile did mount---", this.state.profile);
         const style1 = { width: '100% ' };
         const { isAuthenticated } = this.props.auth;
@@ -41,17 +43,11 @@ class UserProfile extends Component {
             <div class="list-group">
                 <li class="list-group-item">
                     <span className="label">{this.printField("Name", this.state.profile.name)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children1={ children1 } />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children1={children1} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
@@ -101,7 +97,7 @@ class UserProfile extends Component {
                         <h4 >Ваші торги</h4>
 
 
-                        <ModalDialog />
+                        
 
 
                         <LotShort/>
@@ -129,3 +125,8 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(UserProfile);;
+
+//<button type="button"
+//    className="btn btn-outline-success btn-sm float-right">
+//    <i class="fa fa-address-card"></i>
+//</button>

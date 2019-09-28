@@ -17,7 +17,7 @@ const LotShort = () => {
                         Ціна: 100 грн
                     </div>
                     <div className="lot-footer bg-light">
-                        Ставок остання ставка дата закінчення
+                        Ставок: 5 остання ставка дата закінчення
                     </div>
                 </div>
             </div>
