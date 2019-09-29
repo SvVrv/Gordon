@@ -9,11 +9,10 @@ class ModalDialog extends React.Component {
     }
     state = {
         show: false,
-        name: this.props.name,
-        value: this.props.value,
-        //name: this.props.children1.name,
-        //value: this.props.children1.value,
-        children1: this.props.children1,
+        type: this.props.children.type,
+        name: this.props.children.name,
+        value: this.props.children.value,
+        descr: this.props.children.descr,
         errors: {},
     }
 
@@ -42,18 +41,23 @@ class ModalDialog extends React.Component {
             show: false
         }))
     }
+
+    handleSave = () => {
+        this.setState(prevState => ({
+            show: false,
+            
+        }))
+        //console.log('---save---')
+        this.props.getOut(this.state.name, this.state.value)
+    }
+
     handleShow = () => {
         this.setState({ show: true })
     };
 
     render() {
-        //const  children = { name: this.state.children.name, value:this.state.children.value  }
-        const { name, value } = this.state.children1;
-        //const name = this.state.children1.name;
-        //const value = this.state.children1.value;
-        console.log('----------------------------------', this.state);
-
-        //const { name, value } = this.state;
+        const { type, name, value, descr } = this.state;
+        console.log('-------------------state---------------', this.state);
         const { errors } = this.state;
         
         return (
@@ -72,24 +76,24 @@ class ModalDialog extends React.Component {
                     <Modal.Body>
                         <div className={classnames('form-group', { 'has-error': !!errors.password })}>
                             <label htmlFor={name}>{name}</label>
-                            <input type="text"
+                            <input type={type}
                                 className="form-control"
                                 id={name}
                                 name={name}
                                 value={value}
                                 onChange={this.handleChange}
                                 aria-describedby="passwordHelpBlock" />
-                            <small id="passwordHelpBlock" class="form-text text-muted">Ваш пароль повинен містити 8-20 символів, великі та малі букви та цифри</small>
+                            <small id="passwordHelpBlock" class="form-text text-muted">{descr}</small>
                             {!!errors.password ? <span className="text-muted help-block">{errors.password}</span> : ''}
                         </div>
 
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.handleClose}>
-                            Close
+                            Закрити
                         </Button>
-                        <Button onClick={this.handleClose}>
-                            Save Changes
+                        <Button onClick={this.handleSave}>
+                            Зберегти зміни
                         </Button>
                     </Modal.Footer>
                 </Modal>

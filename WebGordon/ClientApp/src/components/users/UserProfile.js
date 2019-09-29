@@ -25,8 +25,20 @@ class UserProfile extends Component {
     }
 
 
+    getfromModal = (name, value) => {
+        console.log('--from modal--', name, value)
+
+    }
+
+
     render() {
-        const children1 = { name: 'NAMmmmME', value: 'VALUE', descr: 'sdfsafasfsadfsdf' };
+
+        const childName = {
+            type: "text",
+            name: 'Name',
+            value:  this.state.profile.name ,
+            descr: 'Ваше імя користувача'
+        };
 
         console.log("-------------profile did mount---", this.state.profile);
         const style1 = { width: '100% ' };
@@ -43,11 +55,11 @@ class UserProfile extends Component {
             <div class="list-group">
                 <li class="list-group-item">
                     <span className="label">{this.printField("Name", this.state.profile.name)}</span>
-                    <ModalDialog children1={ children1 } />
+                    <ModalDialog children={childName} getOut={this.getfromModal} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <ModalDialog children1={children1} />
+                    <ModalDialog children={childName} getOut={this.getfromModal} />
                 </li>
                 <li class="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
@@ -100,7 +112,15 @@ class UserProfile extends Component {
                         
 
 
-                        <LotShort/>
+                        <LotShort
+                            productQuantity="1112222"
+                            lastBet="2500"
+                            finishDate="31.02.2020"
+                            torgStatus="активні торги"
+                            productName="Дрова дубові"
+                            productDescription="Продам дрова свіжовивезені, сирі, не рубані, прямо з лісу, самовинос, дорого"
+                            productImage=""
+                        />
                     </div>
                 </React.Fragment>
             );
