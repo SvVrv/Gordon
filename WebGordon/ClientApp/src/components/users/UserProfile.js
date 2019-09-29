@@ -1,22 +1,25 @@
 ﻿import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image, Col, Clearfix } from 'react-bootstrap';
+import { Col } from 'react-bootstrap';
 import './UserProfile.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import LotShort from '../../components/lot-short/Lot-short';
 import ModalDialog from '../modal-dialog/Modal-dialog'
+import { changeregister } from '../../actions/authActions'
+import PropTypes from 'prop-types';
 
 class UserProfile extends Component {
     state = {
         profile: []
     }
     componentDidMount = () => {
-        axios.get('api/user/profile').then(res => {
+        axios.get('api/user/profile')
+            .then(res => {
             const profile = res.data;
-            console.log("-------------component did mount---", profile);
             this.setState({ profile });
+            console.log("-----component did mount---", this.state);
         });
     }
 
@@ -28,6 +31,52 @@ class UserProfile extends Component {
     getfromModal = (name, value) => {
         console.log('--from modal--', name, value)
 
+        let errors = {};
+        if (name === 'Name' && value === '') errors.name = "Поле є обов'язковим!"
+        if (name === 'Email' && value === '') errors.email = "Поле є обов'язковим!"
+        if (name === 'Phone' && value === '') errors.phone = "Поле є обов'язковим!"
+
+        const isValid = Object.keys(errors).length === 0
+        if (isValid) {
+            let newProfile = null;
+            if (name === 'Name')
+                newProfile = { ...this.state.profile, name: value, changed: "Name" };
+            if (name === 'Email')
+                newProfile = { ...this.state.profile, email: value, changed: "Email" };
+            if (name === 'Phone')
+                newProfile = { ...this.state.profile, phone: value, changed: "Phone" };
+            if (name === 'Description')
+                newProfile = { ...this.state.profile, description: value, changed: "Description" };
+
+
+            this.setState({ isLoading: true });
+            console.log('---SEND DATA changed profile----', { newProfile });
+            this.props.changeregister({
+                Id: newProfile.id,
+                Name: newProfile.name,
+                Telnumber: newProfile.phone,
+                Email: newProfile.email,
+                Description: newProfile.description,
+                Changed: newProfile.changed
+            })
+                .then(
+                    () => { }, //this.setState({ done: true }),
+                    (err) => this.setState({ errors: err.response.data, isLoading: false })
+            )
+                .then(() => {
+                    axios.get('api/user/profile')
+                    .then(res => {
+                        const profile = res.data;
+                        this.setState({ profile });
+                        console.log("-----axios profile updated---", this.state);
+                    })
+                }
+            )
+        }
+        else {
+            this.setState({ errors });
+            alert("Введено невірні дані");
+        }
     }
 
 
@@ -39,9 +88,14 @@ class UserProfile extends Component {
             value:  this.state.profile.name ,
             descr: 'Ваше імя користувача'
         };
+        const childEmail = {
+            type: "text",
+            name: 'Email',
+            value: this.state.profile.email,
+            descr: 'Ваш E-mail'
+        };
 
-        console.log("-------------profile did mount---", this.state.profile);
-        const style1 = { width: '100% ' };
+        console.log("-------------render begin---", this.state);
         const { isAuthenticated } = this.props.auth;
         const clientProfile = (
             <div class="list-group">
@@ -52,34 +106,34 @@ class UserProfile extends Component {
             </div>
         );
         const adminProfile = (
-            <div class="list-group">
-                <li class="list-group-item">
+            <div className="list-group">
+                <li className="list-group-item">
                     <span className="label">{this.printField("Name", this.state.profile.name)}</span>
                     <ModalDialog children={childName} getOut={this.getfromModal} />
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <ModalDialog children={childName} getOut={this.getfromModal} />
+                    <ModalDialog children={childEmail} getOut={this.getfromModal}/>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
                     <button type="button"
                         className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
+                        <i className="fa fa-address-card"></i>
                     </button>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                     <span className="label">{this.printField("Description", this.state.profile.description)}</span>
                     <button type="button"
                         className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
+                        <i className="fa fa-address-card"></i>
                     </button>
                 </li>
-                <li class="list-group-item">
+                <li className="list-group-item">
                     <span className="label">{this.printField("Administrative acses: ", this.state.profile.type)}</span>
                     <button type="button"
                         className="btn btn-outline-success btn-sm float-right">
-                        <i class="fa fa-address-card"></i>
+                        <i className="fa fa-address-card"></i>
                     </button>
                 </li>
              </div>
@@ -93,10 +147,13 @@ class UserProfile extends Component {
                     </div>
                     <div className="row">
                         <Col sm={3} md={3}>
-                            <div class="card" >
-                                <img class="card-img-top" src={this.state.profile.image ? this.state.profile.image : "https://cdn.auth0.com/blog/react-js/react.png"} />
-                                <div class="card-body">
-                                    <a href="#" class="btn btn-light btn-block" role="button">Змінити</a>
+                            <div className="card" >
+                                <img className="card-img-top" src={this.state.profile.image ? this.state.profile.image : "https://cdn.auth0.com/blog/react-js/react.png"} alt="Userimage" />
+                                <div className="card-body">
+                                    <label for="uploadFile" className="card-body btn btn-light btn-block" style={{ padding: "5px" }}>
+                                        <span >Змінити</span>
+                                    </label>
+                                    <input type="file" id="uploadFile" style={{ display: "none" }} />
                                 </div>
                             </div>
                         </Col>
@@ -144,7 +201,12 @@ const mapStateToProps = (state) => {
     };
 }
 
-export default connect(mapStateToProps)(UserProfile);;
+UserProfile.propTypes =
+    {
+        register: PropTypes.func
+    }
+
+export default connect(mapStateToProps, { changeregister })(UserProfile);;
 
 //<button type="button"
 //    className="btn btn-outline-success btn-sm float-right">

@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using WebGordon.DAL;
 using WebGordon.Utils;
@@ -52,7 +53,7 @@ namespace WebGordon.Controllers
                 UserName = model.Email,
                 Email = model.Email,
                 PhoneNumber = model.Telnumber,
-                User = client,
+                SiteUser = client,
             };
              var result = await _userManager
                 .CreateAsync(user, model.Password);
@@ -66,31 +67,43 @@ namespace WebGordon.Controllers
             return Ok(CreateToken(user));
         }
 
-        [HttpPost("changeregister")]
-        public async Task<IActionResult> ChangeRegister([FromBody]RegisterViewModel model)
+        [HttpPost("changeaccount")]
+        public async Task<IActionResult> ChangeAccount([FromBody]ChangeAccountViewModel model)
         {
-            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
-            var client = new User
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            if (model.Changed== "Email")
             {
-                Nick = model.Name,
-                Description = model.Description,
-                Image = tempImage
-            };
-            var user = new DbUser
-            {
-                UserName = model.Email,
-                Email = model.Email,
-                PhoneNumber = model.Telnumber,
-                User = client,
-            };
-            var result = await _userManager
-               .CreateAsync(user, model.Password);
-            if (!result.Succeeded)
-                //return BadRequest(result.Errors);
-                return BadRequest(new { invalid = "Не коректно вкзано дані", result.Errors });
+                user.UserName = model.Email;
+                user.Email = model.Email;
+                var res = _userManager.UpdateAsync(user).Result;
+            if (!res.Succeeded)
+                return BadRequest(new { invalid = "Помилка редагування Email", res.Errors });
+            }
 
-            var roleName = "Admin";
-            result = _userManager.AddToRoleAsync(user, roleName).Result;
+            if (model.Changed == "Name")
+            {
+                user.SiteUser.Nick = model.Name;
+                var res = _userManager.UpdateAsync(user).Result;
+                if (!res.Succeeded)
+                    return BadRequest(new { invalid = "Помилка редагування імені", res.Errors });
+            }
+
+            if (model.Changed == "Description")
+            {
+                user.SiteUser.Description = model.Description;
+                var res = _userManager.UpdateAsync(user).Result;
+                if (!res.Succeeded)
+                    return BadRequest(new { invalid = "Помилка редагування опису", res.Errors });
+            }
+
+            if (model.Changed == "Phone")
+            {
+                user.PhoneNumber = model.Telnumber;
+                var res = _userManager.UpdateAsync(user).Result;
+                if (!res.Succeeded)
+                    return BadRequest(new { invalid = "Помилка редагування телефону", res.Errors });
+            }
+
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(CreateToken(user));
         }
@@ -120,6 +133,24 @@ namespace WebGordon.Controllers
             var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("this is the secret phrase"));
             var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
 
+            var jwt = new JwtSecurityToken(signingCredentials: signingCredentials, claims: claims);
+            return new JwtSecurityTokenHandler().WriteToken(jwt);
+        }
+
+        public string CreateToken2(DbUser user)
+        {
+            var roles = _userManager.GetRolesAsync(user).Result;
+            var claims = new List<Claim>()
+            {
+                new Claim("id", user.Id.ToString()),
+                new Claim("name", user.UserName)
+            };
+            foreach (var role in roles)
+            {
+                claims.Add(new Claim("roles", role));
+            }
+            var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("SecretPhrase"));
+            var signingCredentials = new SigningCredentials(signingKey, SecurityAlgorithms.HmacSha256);
             var jwt = new JwtSecurityToken(signingCredentials: signingCredentials, claims: claims);
             return new JwtSecurityTokenHandler().WriteToken(jwt);
         }

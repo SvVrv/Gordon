@@ -4,9 +4,6 @@ import classnames from 'classnames';
 
 class ModalDialog extends React.Component {
 
-    constructor(props) {
-        super(props)
-    }
     state = {
         show: false,
         type: this.props.children.type,
@@ -57,7 +54,7 @@ class ModalDialog extends React.Component {
 
     render() {
         const { type, name, value, descr } = this.state;
-        console.log('-------------------state---------------', this.state);
+        //console.log('----------------modal state---------------', this.state);
         const { errors } = this.state;
         
         return (
