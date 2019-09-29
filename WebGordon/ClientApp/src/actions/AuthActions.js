@@ -50,6 +50,23 @@ export function register(data) {
                 dispatch(setCurrentUser(user));
             });
     }
+}
+
+export function changeregister(data) {
+    console.log("changeREGISTER  - ", data);
+
+    return dispatch => {
+        return axios.post('api/Account/register', data)
+            .then(res => {
+                var token = res.data;
+                //console.log("data login", token);
+                var user = jwt.decode(token);
+                console.log('-----user login------', user);
+                localStorage.setItem('jwtToken', token);
+                setAuthorizationToken(token);
+                dispatch(setCurrentUser(user));
+            });
+    }
 
 
 }
