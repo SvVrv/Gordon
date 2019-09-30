@@ -37,19 +37,21 @@ namespace WebGordon.Controllers
             if (cat == "category")
             {
              
-                List<Torg> torgs = _context.Torgs.Include(t=>t.ProductOf).Include(t=>t.ProductOf.Category).Where(t => t.ProductOf.Category.Name == name).ToList();
+                List<Torg> torgs = _context.Torgs.Include(t=>t.ProductOf).Include(t=>t.ProductOf.Category).Include(t=>t.TorgBets).Where(t => t.ProductOf.Category.Name == name)
+                    .Where(t=>t.StartDate<DateTime.Now&&t.FinishDate>DateTime.Now).ToList();
                 foreach(var t in torgs)
                 {
                     TorgViewModel model = new TorgViewModel();
-                    
-                        model.Id = t.Id;
+
+                    var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
+                    model.Id = t.Id;
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
                     model.ProductImage = t.ProductOf.Category.Image;
                     model.TorgStatus = "active";
-                    model.ProductDescription = "";
-                    model.LastBet =0;
-                    model.FinishDate = t.StartDate;
+                    model.ProductDescription = t.ProductOf.Description;
+                    model.LastBet =bet!=null?bet.Bet:t.ProductOf.StartPrice;
+                    model.FinishDate = t.FinishDate;
 
                     modellist.Add(model);
 
