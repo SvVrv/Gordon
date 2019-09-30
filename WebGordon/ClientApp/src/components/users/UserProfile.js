@@ -27,6 +27,20 @@ class UserProfile extends Component {
         return (<span><b>{key}:</b> {value}</span>)
     }
 
+    handleImageChange = (evt) => {
+        const { name, files } = evt.target;
+        if (files && files[0]) {
+            if (files[0].type.match(/^image\//)) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.setStateByErrors(name, e.target.result);
+                }
+                reader.readAsDataURL(files[0]);
+            }
+            else alert('Обраний файл не є зображенням. Спробуйте ще раз')
+        }
+    }
+
 
     getfromModal = (name, value) => {
         console.log('--from modal--', name, value)
@@ -94,15 +108,39 @@ class UserProfile extends Component {
             value: this.state.profile.email,
             descr: 'Ваш E-mail'
         };
+        const childPhone = {
+            type: "text",
+            name: 'Phone',
+            value: this.state.profile.phone,
+            descr: 'Ваш телефон'
+        };
+        const childDescription = {
+            type: "textarea",
+            name: 'Description',
+            value: this.state.profile.description,
+            descr: 'Додаткові відомості про Вас'
+        };
 
         console.log("-------------render begin---", this.state);
         const { isAuthenticated } = this.props.auth;
         const clientProfile = (
-            <div class="list-group">
-                <li class="list-group-item">{this.printField("Name", this.state.profile.name)}</li>
-                <li class="list-group-item">{this.printField("Email", this.state.profile.email)}</li>
-                <li class="list-group-item">{this.printField("Phone", this.state.profile.phone)}</li>
-                <li class="list-group-item">{this.printField("Description", this.state.profile.description)}</li>
+            <div className="list-group">
+                <li className="list-group-item">
+                    <span className="label">{this.printField("Name", this.state.profile.name)}</span>
+                    <ModalDialog children={childName} getOut={this.getfromModal} />
+                </li>
+                <li className="list-group-item">
+                    <span className="label">{this.printField("Email", this.state.profile.email)}</span>
+                    <ModalDialog children={childEmail} getOut={this.getfromModal} />
+                </li>
+                <li className="list-group-item">
+                    <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
+                    <ModalDialog children={childPhone} getOut={this.getfromModal} />
+                </li>
+                <li className="list-group-item">
+                    <span className="label">{this.printField("Description", this.state.profile.description)}</span>
+                    <ModalDialog children={childDescription} getOut={this.getfromModal} />
+                </li>
             </div>
         );
         const adminProfile = (
@@ -117,24 +155,14 @@ class UserProfile extends Component {
                 </li>
                 <li className="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i className="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children={childPhone} getOut={this.getfromModal} />
                 </li>
                 <li className="list-group-item">
                     <span className="label">{this.printField("Description", this.state.profile.description)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i className="fa fa-address-card"></i>
-                    </button>
+                    <ModalDialog children={childDescription} getOut={this.getfromModal} />
                 </li>
                 <li className="list-group-item">
                     <span className="label">{this.printField("Administrative acses: ", this.state.profile.type)}</span>
-                    <button type="button"
-                        className="btn btn-outline-success btn-sm float-right">
-                        <i className="fa fa-address-card"></i>
-                    </button>
                 </li>
              </div>
         );
@@ -153,7 +181,7 @@ class UserProfile extends Component {
                                     <label for="uploadFile" className="card-body btn btn-light btn-block" style={{ padding: "5px" }}>
                                         <span >Змінити</span>
                                     </label>
-                                    <input type="file" id="uploadFile" style={{ display: "none" }} />
+                                    <input type="file" name="image" id="uploadFile" style={{ display: "none" }} onChange={this.handleImageChange} />
                                 </div>
                             </div>
                         </Col>

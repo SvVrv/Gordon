@@ -6,8 +6,8 @@ const LotShort = (props) => {
 
     return (
         <div className="lot-short container-fluid">
-            <div className="row border rounded">
-                <div className=" img-thumb col-2">
+            <div className="align-items-center row border rounded d-flex">
+                <div className="img-thumb col-2 ">
                     <img className="img-thumbnail" src={productImage ? productImage : "https://cdn.auth0.com/blog/react-js/react.png"} alt="lot" />
                 </div>
                 <div className="col-10 lot-text">

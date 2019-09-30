@@ -30,13 +30,16 @@ namespace WebGordon.Controllers
         private readonly IHostingEnvironment _env;
         readonly UserManager<DbUser> _userManager;
         readonly SignInManager<DbUser> _signInManager;
+        readonly EFDbContext _context;
         public AccountController(UserManager<DbUser> userManager,
+            EFDbContext context,
             SignInManager<DbUser> signInManager,
             IHostingEnvironment env)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _env = env;
+            _context = context;
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
@@ -82,18 +85,20 @@ namespace WebGordon.Controllers
 
             if (model.Changed == "Name")
             {
-                user.SiteUser.Nick = model.Name;
-                var res = _userManager.UpdateAsync(user).Result;
-                if (!res.Succeeded)
-                    return BadRequest(new { invalid = "Помилка редагування імені", res.Errors });
+                var userC=_context.SiteUsers.SingleOrDefault(u => u.Id == user.Id);
+                if(userC==null)
+                    return BadRequest(new { invalid = "Помилка редагування імені" });
+                userC.Nick = model.Name;
+                _context.SaveChanges();
             }
 
             if (model.Changed == "Description")
             {
-                user.SiteUser.Description = model.Description;
-                var res = _userManager.UpdateAsync(user).Result;
-                if (!res.Succeeded)
-                    return BadRequest(new { invalid = "Помилка редагування опису", res.Errors });
+                var userC = _context.SiteUsers.SingleOrDefault(u => u.Id == user.Id);
+                if (userC == null)
+                    return BadRequest(new { invalid = "Помилка редагування опису" });
+                userC.Description = model.Description;
+                _context.SaveChanges();
             }
 
             if (model.Changed == "Phone")

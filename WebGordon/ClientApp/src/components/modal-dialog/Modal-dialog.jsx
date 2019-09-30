@@ -42,7 +42,6 @@ class ModalDialog extends React.Component {
     handleSave = () => {
         this.setState(prevState => ({
             show: false,
-            
         }))
         //console.log('---save---')
         this.props.getOut(this.state.name, this.state.value)
@@ -56,6 +55,9 @@ class ModalDialog extends React.Component {
         const { type, name, value, descr } = this.state;
         //console.log('----------------modal state---------------', this.state);
         const { errors } = this.state;
+        let typedescr = false;
+        if (type === "textarea")
+            typedescr = true;
         
         return (
             <span>
@@ -73,13 +75,23 @@ class ModalDialog extends React.Component {
                     <Modal.Body>
                         <div className={classnames('form-group', { 'has-error': !!errors.password })}>
                             <label htmlFor={name}>{name}</label>
-                            <input type={type}
+
+                            {typedescr && <textarea type={type}
                                 className="form-control"
                                 id={name}
                                 name={name}
                                 value={value}
                                 onChange={this.handleChange}
-                                aria-describedby="passwordHelpBlock" />
+                                aria-describedby="passwordHelpBlock" />}
+
+                            {!typedescr && <input type={type}
+                                className="form-control"
+                                id={name}
+                                name={name}
+                                value={value}
+                                onChange={this.handleChange}
+                                aria-describedby="passwordHelpBlock" />}
+
                             <small id="passwordHelpBlock" class="form-text text-muted">{descr}</small>
                             {!!errors.password ? <span className="text-muted help-block">{errors.password}</span> : ''}
                         </div>
