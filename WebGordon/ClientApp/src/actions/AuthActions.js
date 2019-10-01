@@ -36,8 +36,6 @@ export function login(data) {
 }
 
 export function register(data) {
-    console.log("REGISTER asdfasfd - ", data);
-
     return dispatch => {
         return axios.post('api/Account/register', data)
             .then(res => {
@@ -54,7 +52,6 @@ export function register(data) {
 
 export function changeregister(data) {
     console.log("changeREGISTER  - ", data);
-
     return dispatch => {
         return axios.post('api/Account/changeaccount', data)
             .then(res => {
@@ -65,6 +62,18 @@ export function changeregister(data) {
                 dispatch(setCurrentUser(user));
             });
     }
+}
 
-
+export function changeuserimage(data) {
+    console.log("changeUserImage  - ", data);
+    return dispatch => {
+        return axios.post('api/Account/changeUserImage', data)
+            .then(res => {
+                var token = res.data;
+                var user = jwt.decode(token);
+                localStorage.setItem('jwtToken', token);
+                setAuthorizationToken(token);
+                dispatch(setCurrentUser(user));
+            });
+    }
 }

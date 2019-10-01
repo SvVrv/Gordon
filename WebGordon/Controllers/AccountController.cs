@@ -113,6 +113,31 @@ namespace WebGordon.Controllers
             return Ok(CreateToken(user));
         }
 
+        [HttpPost("changeUserImage")]
+        public async Task<IActionResult> ChangeUserImage([FromBody]ChangeUserImageViewModel model)
+        {
+            DbUser user = new DbUser();
+            if (model != null)
+            {
+                user = await _userManager.FindByIdAsync(model.Id.ToString());
+                string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
+                var userC = _context.SiteUsers.SingleOrDefault(u => u.Id == model.Id);
+                if (userC == null)
+                    return BadRequest(new { invalid = "Помилка зміни зображення" });
+                userC.Image = tempImage;
+                try
+                {
+                    _context.SaveChanges();
+                }
+                catch
+                {
+                    return BadRequest(new { invalid = "Помилка запису в базу даних" });
+                }
+            }
+            await _signInManager.SignInAsync(user, isPersistent: false);
+            return Ok(CreateToken(user));
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody]Credentials credentials)
         {

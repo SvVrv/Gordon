@@ -7,12 +7,14 @@ import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
 import LotShort from '../../components/lot-short/Lot-short';
 import ModalDialog from '../modal-dialog/Modal-dialog'
-import { changeregister } from '../../actions/authActions'
+import { changeregister, changeuserimage } from '../../actions/authActions'
 import PropTypes from 'prop-types';
 
 class UserProfile extends Component {
     state = {
-        profile: []
+        profile: [],
+        image: null,
+        errors: {}
     }
     componentDidMount = () => {
         axios.get('api/user/profile')
@@ -33,12 +35,25 @@ class UserProfile extends Component {
             if (files[0].type.match(/^image\//)) {
                 let reader = new FileReader();
                 reader.onload = (e) => {
-                    this.setStateByErrors(name, e.target.result);
+                    this.setState({ [name]: e.target.result });
                 }
                 reader.readAsDataURL(files[0]);
             }
             else alert('Обраний файл не є зображенням. Спробуйте ще раз')
         }
+        let errors = {};
+        const isValid = Object.keys(files).length === 0;
+        if (isValid) {
+            this.props.changeuserimage({ Id: this.state.id, Image: this.state.image })
+                .then(
+                    () => this.setState({ done: true }),
+                    (err) => this.setState({ errors: err.response.data })
+                );
+        }
+        else {
+            this.setState({ errors });
+        }
+
     }
 
 
@@ -61,7 +76,6 @@ class UserProfile extends Component {
                 newProfile = { ...this.state.profile, phone: value, changed: "Phone" };
             if (name === 'Description')
                 newProfile = { ...this.state.profile, description: value, changed: "Description" };
-
 
             this.setState({ isLoading: true });
             console.log('---SEND DATA changed profile----', { newProfile });
@@ -95,6 +109,15 @@ class UserProfile extends Component {
 
 
     render() {
+        const warning = (
+            <React.Fragment>
+                {
+                    !!this.state.errors.invalid ?
+                        <div className="alert alert-danger">
+                            <strong>Помилка!</strong> {this.state.errors.invalid}.
+                    </div> : ''
+                }</React.Fragment>
+        );
 
         const childName = {
             type: "text",
@@ -169,7 +192,9 @@ class UserProfile extends Component {
 
         if (isAuthenticated) {
             return (
+                
                 <React.Fragment>
+                    {warning}
                     <div>
                         <h1 style={{ textAlign: "center" }}>Профіль користувача</h1>
                     </div>
@@ -234,7 +259,12 @@ UserProfile.propTypes =
         register: PropTypes.func
     }
 
-export default connect(mapStateToProps, { changeregister })(UserProfile);;
+const mapDispatchToProps = {
+    changeuserimage: changeuserimage,
+    changeregister: changeregister
+}
+
+export default connect(mapStateToProps,  mapDispatchToProps  )(UserProfile);;
 
 //<button type="button"
 //    className="btn btn-outline-success btn-sm float-right">
