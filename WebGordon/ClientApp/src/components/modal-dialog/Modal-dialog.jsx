@@ -65,7 +65,7 @@ class ModalDialog extends React.Component {
                     onClick={this.handleShow}
                     type="button"
                     variant="outline-success">
-                    <i class="fa fa-address-card" />
+                    <i className="fa fa-address-card" />
                 </Button>
 
                 <Modal show={this.state.show} onHide={this.handleClose}>

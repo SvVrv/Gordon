@@ -17,11 +17,11 @@ const LotShort = (props) => {
                         <p>{productDescription}</p>
 
                     <div className="lot-footer bg-white">
-                        <ul class="list-group list-group-horizontal-sm text-dark">
-                                <li class="list-group-item bg-light text-dark">Кількість: {productQuantity}</li>
-                                <li class="list-group-item bg-light text-dark">Остання ставка: {lastBet} грн</li>
-                                <li class="list-group-item bg-light text-dark">Статус: {torgStatus}</li>
-                            <li class="list-group-item bg-light text-dark">Дата і час закінчення: {finishDate}</li>
+                        <ul className="list-group list-group-horizontal-sm text-dark">
+                            <li className="list-group-item bg-light text-dark">Кількість: {productQuantity}</li>
+                            <li className="list-group-item bg-light text-dark">Остання ставка: {lastBet} грн</li>
+                            <li className="list-group-item bg-light text-dark">Статус: {torgStatus}</li>
+                            <li className="list-group-item bg-light text-dark">Дата і час закінчення: {finishDate}</li>
                         </ul>
                         
                     </div>

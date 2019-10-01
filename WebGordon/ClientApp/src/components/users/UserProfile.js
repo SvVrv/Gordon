@@ -19,10 +19,10 @@ class UserProfile extends Component {
     componentDidMount = () => {
         axios.get('api/user/profile')
             .then(res => {
-            const profile = res.data;
-            this.setState({ profile });
-            console.log("-----component did mount---", this.state);
-        });
+                const profile = res.data;
+                this.setState({ profile });
+                console.log("-----component did mount---", this.state);
+            });
     }
 
     printField = (key, value) => {
@@ -36,24 +36,26 @@ class UserProfile extends Component {
                 let reader = new FileReader();
                 reader.onload = (e) => {
                     this.setState({ [name]: e.target.result });
+
+                    this.props.changeuserimage({ Id: this.state.profile.id, Image: this.state.image })
+                        .then(
+                            () => this.setState({ done: true }),
+                            (err) => this.setState({ errors: err.response.data })
+                        )
+                        .then(() => {
+            axios.get('api/user/profile')
+                .then(res => {
+                    const profile = res.data;
+                    this.setState({ profile });
+                    console.log("-----axios profile updated---", this.state);
+                })
+        }
+        )
                 }
                 reader.readAsDataURL(files[0]);
             }
             else alert('Обраний файл не є зображенням. Спробуйте ще раз')
         }
-        let errors = {};
-        const isValid = Object.keys(files).length === 0;
-        if (isValid) {
-            this.props.changeuserimage({ Id: this.state.id, Image: this.state.image })
-                .then(
-                    () => this.setState({ done: true }),
-                    (err) => this.setState({ errors: err.response.data })
-                );
-        }
-        else {
-            this.setState({ errors });
-        }
-
     }
 
 
@@ -90,16 +92,16 @@ class UserProfile extends Component {
                 .then(
                     () => { }, //this.setState({ done: true }),
                     (err) => this.setState({ errors: err.response.data, isLoading: false })
-            )
+                )
                 .then(() => {
                     axios.get('api/user/profile')
-                    .then(res => {
-                        const profile = res.data;
-                        this.setState({ profile });
-                        console.log("-----axios profile updated---", this.state);
-                    })
+                        .then(res => {
+                            const profile = res.data;
+                            this.setState({ profile });
+                            console.log("-----axios profile updated---", this.state);
+                        })
                 }
-            )
+                )
         }
         else {
             this.setState({ errors });
@@ -122,7 +124,7 @@ class UserProfile extends Component {
         const childName = {
             type: "text",
             name: 'Name',
-            value:  this.state.profile.name ,
+            value: this.state.profile.name,
             descr: 'Ваше імя користувача'
         };
         const childEmail = {
@@ -174,7 +176,7 @@ class UserProfile extends Component {
                 </li>
                 <li className="list-group-item">
                     <span className="label">{this.printField("Email", this.state.profile.email)}</span>
-                    <ModalDialog children={childEmail} getOut={this.getfromModal}/>
+                    <ModalDialog children={childEmail} getOut={this.getfromModal} />
                 </li>
                 <li className="list-group-item">
                     <span className="label">{this.printField("Phone", this.state.profile.phone)}</span>
@@ -187,12 +189,12 @@ class UserProfile extends Component {
                 <li className="list-group-item">
                     <span className="label">{this.printField("Administrative acses: ", this.state.profile.type)}</span>
                 </li>
-             </div>
+            </div>
         );
 
         if (isAuthenticated) {
             return (
-                
+
                 <React.Fragment>
                     {warning}
                     <div>
@@ -203,7 +205,7 @@ class UserProfile extends Component {
                             <div className="card" >
                                 <img className="card-img-top" src={this.state.profile.image ? this.state.profile.image : "https://cdn.auth0.com/blog/react-js/react.png"} alt="Userimage" />
                                 <div className="card-body">
-                                    <label for="uploadFile" className="card-body btn btn-light btn-block" style={{ padding: "5px" }}>
+                                    <label htmlFor="uploadFile" className="card-body btn btn-light btn-block" style={{ padding: "5px" }}>
                                         <span >Змінити</span>
                                     </label>
                                     <input type="file" name="image" id="uploadFile" style={{ display: "none" }} onChange={this.handleImageChange} />
@@ -219,7 +221,7 @@ class UserProfile extends Component {
                         <h4 >Ваші торги</h4>
 
 
-                        
+
 
 
                         <LotShort
@@ -256,15 +258,17 @@ const mapStateToProps = (state) => {
 
 UserProfile.propTypes =
     {
-        register: PropTypes.func
+        changeuserimage: PropTypes.func.isRequired,
+        changeregister: PropTypes.func.isRequired
+
     }
 
 const mapDispatchToProps = {
-    changeuserimage: changeuserimage,
-    changeregister: changeregister
+    changeuserimage,
+    changeregister
 }
 
-export default connect(mapStateToProps,  mapDispatchToProps  )(UserProfile);;
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);;
 
 //<button type="button"
 //    className="btn btn-outline-success btn-sm float-right">
