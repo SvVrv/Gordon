@@ -14,6 +14,7 @@ namespace WebGordon.ViewModels
         public string TorgStatus { get; set; }
         public string ProductImage { get; set; }
         public decimal LastBet { get; set; }
+        public bool Seller { get; set; }
         public DateTime FinishDate { get; set; }
     }
 }

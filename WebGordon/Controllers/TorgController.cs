@@ -34,30 +34,100 @@ namespace WebGordon.Controllers
         {
 
             List<TorgViewModel> modellist=new List<TorgViewModel>();
-            if (cat == "category")
-            {
+            
              
-                List<Torg> torgs = _context.Torgs.Include(t=>t.ProductOf).Include(t=>t.ProductOf.Category).Include(t=>t.TorgBets).Where(t => t.ProductOf.Category.Name == name)
+                List<Torg> torgs = _context.Torgs.Include(t=>t.ProductOf).Include(t=>t.ProductOf.Category).Include(t=>t.TorgBets).Include(t=>t.ProductOf.Photos).Where(t => t.ProductOf.Category.Name == name)
                     .Where(t=>t.StartDate<DateTime.Now&&t.FinishDate>DateTime.Now).ToList();
                 foreach(var t in torgs)
                 {
                     TorgViewModel model = new TorgViewModel();
 
                     var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
+                    var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
+                    var mainfoto=fotos.FirstOrDefault(f => f.Main == true).Path;
                     model.Id = t.Id;
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
-                    model.ProductImage = t.ProductOf.Category.Image;
+                    model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
                     model.TorgStatus = "active";
                     model.ProductDescription = t.ProductOf.Description;
-                    model.LastBet =bet!=null?bet.Bet:t.ProductOf.StartPrice;
+                    model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
                     model.FinishDate = t.FinishDate;
+                    model.Seller = false;
+                
 
                     modellist.Add(model);
 
                 
 
+              
                 }
+
+            return Ok(modellist);
+        }
+        [HttpGet("{id}")]
+        public IActionResult GetTorgViewModeluser([FromRoute] long id)
+        {
+
+            List<TorgViewModel> modellist = new List<TorgViewModel>();
+
+
+            List<Torg> torgs = _context.Torgs.Include(t => t.ProductOf).Include(t => t.ProductOf.Category).Include(t => t.TorgBets).Include(t => t.ProductOf.Photos)
+                .Where(t => t.SellerId==id).ToList();
+            foreach (var t in torgs)
+            {
+                TorgViewModel model = new TorgViewModel();
+                var status = "notactive";
+                if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
+                    status = "active";
+                if (t.FinishDate < DateTime.Now)
+                    status = "finished";
+                var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
+                var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
+                var mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                model.Id = t.Id;
+                model.ProductName = t.ProductOf.Name;
+                model.ProductQuantity = t.ProductOf.Quantity;
+                model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
+                model.TorgStatus = status;
+                model.ProductDescription = t.ProductOf.Description;
+                model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
+                model.FinishDate = t.FinishDate;
+                model.Seller = true;
+
+
+                modellist.Add(model);
+            }
+            List<TorgBet> torg1 = _context.TorgBets.Where(t => t.ClientId == id).ToList();
+            List<long> torglist = new List<long>();
+             foreach(var item in torg1)
+            {
+                if(!torglist.Contains(item.TorgId))
+                torglist.Add(item.TorgId);
+            }
+            foreach (var t in torgs)
+            {
+                TorgViewModel model = new TorgViewModel();
+                var status = "notactive";
+                if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
+                    status = "active";
+                if (t.FinishDate < DateTime.Now)
+                    status = "finished";
+                var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
+                var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
+                var mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                model.Id = t.Id;
+                model.ProductName = t.ProductOf.Name;
+                model.ProductQuantity = t.ProductOf.Quantity;
+                model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
+                model.TorgStatus = status;
+                model.ProductDescription = t.ProductOf.Description;
+                model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
+                model.FinishDate = t.FinishDate;
+                model.Seller = true;
+
+
+                modellist.Add(model);
             }
 
             return Ok(modellist);
