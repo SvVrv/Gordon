@@ -68,3 +68,19 @@ export function changeregister(data) {
 
 
 }
+
+export function changeuserimage(data) {
+    console.log("changeuserImage  - ", data);
+    return dispatch => {
+        return axios.post('api/Account/changeUserImage', data)
+            .then(res => {
+                var token = res.data;
+                var user = jwt.decode(token);
+                localStorage.setItem('jwtToken', token);
+                setAuthorizationToken(token);
+                dispatch(setCurrentUser(user));
+            });
+    }
+
+
+}
