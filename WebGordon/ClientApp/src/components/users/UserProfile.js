@@ -5,18 +5,24 @@ import './UserProfile.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import LotShort from '../../components/lot-short/Lot-short';
+import LotShortList from '../../components/lot-short/Lot-short-list';
 import ModalDialog from '../modal-dialog/Modal-dialog'
 
 class UserProfile extends Component {
     state = {
         profile: []
+       
     }
     componentDidMount = () => {
+        
         axios.get('api/user/profile').then(res => {
             const profile = res.data;
-            console.log("-------------component did mount---", profile);
-            this.setState({ profile });
+            //console.log("-------------component did mount---", profile);
+            this.setState( { profile } );
+           
+          
+
+
         });
     }
 
@@ -96,19 +102,7 @@ class UserProfile extends Component {
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
 
-
-                        
-
-
-                        <LotShort
-                            productQuantity="1112222"
-                            lastBet="2500"
-                            finishDate="31.02.2020"
-                            torgStatus="активні торги"
-                            productName="Дрова дубові"
-                            productDescription="Продам дрова свіжовивезені, сирі, не рубані, прямо з лісу, самовинос, дорого"
-                            productImage=""
-                        />
+                        <LotShortList userid={3} category={null} />
                     </div>
                 </React.Fragment>
             );

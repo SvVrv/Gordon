@@ -16,7 +16,7 @@ class CategoryPage extends React.Component {
 
     render() {
         return (
-            <LotShortList category={this.state.name} />
+            <LotShortList category={this.state.name} userid={null}/>
             )
 
         

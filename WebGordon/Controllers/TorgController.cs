@@ -44,7 +44,9 @@ namespace WebGordon.Controllers
 
                     var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                     var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
-                    var mainfoto=fotos.FirstOrDefault(f => f.Main == true).Path;
+                string mainfoto=null;
+                if (fotos.Count() > 0)
+                    mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
                     model.Id = t.Id;
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
@@ -84,7 +86,9 @@ namespace WebGordon.Controllers
                     status = "finished";
                 var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                 var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
-                var mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                string mainfoto = null;
+                if (fotos.Count() > 0)
+                     mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
                 model.Id = t.Id;
                 model.ProductName = t.ProductOf.Name;
                 model.ProductQuantity = t.ProductOf.Quantity;
@@ -98,33 +102,33 @@ namespace WebGordon.Controllers
 
                 modellist.Add(model);
             }
-            List<TorgBet> torg1 = _context.TorgBets.Where(t => t.ClientId == id).ToList();
-            List<long> torglist = new List<long>();
-             foreach(var item in torg1)
-            {
-                if(!torglist.Contains(item.TorgId))
-                torglist.Add(item.TorgId);
-            }
-            foreach (var t in torgs)
+            List<TorgBet> torg1 = _context.TorgBets.Include(t=>t.TorgOf).Include(t=>t.TorgOf.ProductOf).Include(t=>t.TorgOf.ProductOf.Photos).Where(t => t.ClientId == id).GroupBy(t => t.TorgId)
+             .Select(t => t.OrderByDescending(b => b.Bet).FirstOrDefault()).ToList();
+
+
+
+            foreach (var t in torg1)
             {
                 TorgViewModel model = new TorgViewModel();
                 var status = "notactive";
-                if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
+                if (t.TorgOf.StartDate <= DateTime.Now && t.TorgOf.FinishDate >= DateTime.Now)
                     status = "active";
-                if (t.FinishDate < DateTime.Now)
+                if (t.TorgOf.FinishDate < DateTime.Now)
                     status = "finished";
-                var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
-                var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
-                var mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
-                model.Id = t.Id;
-                model.ProductName = t.ProductOf.Name;
-                model.ProductQuantity = t.ProductOf.Quantity;
-                model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
+                
+                var fotos = t.TorgOf.ProductOf.Photos.Where(f => f.ProductId == t.TorgOf.ProductId);
+                string mainfoto = null;
+                if (fotos.Count() > 0)
+                     mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                model.Id = t.TorgOf.Id;
+                model.ProductName = t.TorgOf.ProductOf.Name;
+                model.ProductQuantity = t.TorgOf.ProductOf.Quantity;
+                model.ProductImage = mainfoto ?? t.TorgOf.ProductOf.Category.Image;
                 model.TorgStatus = status;
-                model.ProductDescription = t.ProductOf.Description;
-                model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
-                model.FinishDate = t.FinishDate;
-                model.Seller = true;
+                model.ProductDescription = t.TorgOf.ProductOf.Description;
+                model.LastBet =t.Bet;
+                model.FinishDate = t.TorgOf.FinishDate;
+                model.Seller = false;
 
 
                 modellist.Add(model);
