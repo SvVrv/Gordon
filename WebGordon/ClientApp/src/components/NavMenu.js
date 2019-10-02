@@ -22,19 +22,19 @@ import { connect } from 'react-redux';
          const isAuth = this.props.isAuthenticated;
          if (isAuth) 
              {
-                 return[ (<li class="nav-item">
-                         <Link class="text-dark nav-link" to="/logout">Logout</Link>
+                 return[ (<li className="nav-item">
+                     <Link className="text-dark nav-link" to="/logout">Logout</Link>
                      </li>),
-                     (<li class="nav-item">
-                         <Link class="text-dark nav-link" to="/profile">Profile</Link>
+                     (<li className="nav-item">
+                         <Link className="text-dark nav-link" to="/profile">Profile</Link>
                      </li>)]
              }
          else {
-                 return [(<li class="nav-item">
-                     <Link class="text-dark nav-link" to="/login">Login</Link>
+             return [(<li className="nav-item">
+                 <Link className="text-dark nav-link" to="/login">Login</Link>
                  </li>),
-                 (<li class="nav-item">
-                     <Link class="text-dark nav-link" to="/register">Register</Link>
+                 (<li className="nav-item">
+                     <Link className="text-dark nav-link" to="/register">Register</Link>
                  </li>)]
              }
          
