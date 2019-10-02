@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import { Redirect } from 'react-router';
 import { register } from '../../../actions/authActions'
-
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
-
-import semen from './1.jpg';
 
 class RegistrationForm extends Component {
     state = {
@@ -166,7 +163,7 @@ class RegistrationForm extends Component {
 
                 {
                     image !== '' &&
-                    <div className="card" style={{ width: 18 + 'rem' }, {textAlign: "center" }}>
+                    <div className="card" style={{ width: 18 + 'rem',  textAlign: "center" }}>
                         <img className="card-img-top" src={image} alt="Card cap"/>
                     </div>
                 }

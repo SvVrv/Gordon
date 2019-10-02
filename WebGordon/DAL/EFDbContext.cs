@@ -26,7 +26,7 @@ namespace WebGordon.DAL
 
         public DbSet<Torg> Torgs { get; set; }
         public DbSet<TorgBet> TorgBets { get; set; }
-        //public DbSet<UserTorg> UserTorgs { get; set; }
+        public DbSet<UserTorg> UserTorgs { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

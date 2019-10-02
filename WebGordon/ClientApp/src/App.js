@@ -7,6 +7,8 @@ import RegisterPage from './components/auth/register/RegisterPage';
 import UserProfile from './components/users/UserProfile';
 import LogOut from './components/auth/login/LogOut';
 import CategoryPage from './components/category/CategoryPage';
+import LotFull from './components/lot-full/Lot-full';
+
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
@@ -14,10 +16,13 @@ export default () => (
         <Route path='/register' component={RegisterPage} />
         <Route path='/profile' component={UserProfile} />
         <Route path='/logout' component={LogOut} />
+
         <Route path='/:name'
             render={({ match }) => {
                 const { name } = match.params;
                 return <CategoryPage name={name} />
             }} />
+        <Route path='/fulllot' component={LotFull} />
+
   </Layout>
 );

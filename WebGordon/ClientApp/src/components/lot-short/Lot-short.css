@@ -1,13 +1,15 @@
 ﻿.lot-short {
-    height: 100px
+    min-height: 100px
 }
 .img-thumb {
-    padding-left: 0px
+    padding: 5px
 }
 
 .lot-header {
     font-size: 1.2rem;
-    
-    
+}
 
+.lot-text {
+    padding-left: 0;
+    padding-right:0
 }
