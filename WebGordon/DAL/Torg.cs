@@ -23,7 +23,7 @@ namespace WebGordon.DAL
         public virtual DbUser Seller { get; set; }
 
         public DateTime StartDate { get; set; }
-        public int TorgTime { get; set; } //в секундах
+        public DateTime FinishDate { get; set; } //в секундах
 
         public virtual ICollection<TorgBet> TorgBets { get; set; }
         //public virtual ICollection<UserTorg> UserTorgs { get; set; }

@@ -5,13 +5,14 @@ import './UserProfile.scss';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Button } from 'reactstrap';
-import LotShort from '../../components/lot-short/Lot-short';
+import LotShortList from '../../components/lot-short/Lot-short-list';
 import ModalDialog from '../modal-dialog/Modal-dialog'
 import { changeregister, changeuserimage } from '../../actions/authActions'
 import PropTypes from 'prop-types';
 
 class UserProfile extends Component {
     state = {
+
         profile: [],
         image: null,
         errors: {}
@@ -23,6 +24,7 @@ class UserProfile extends Component {
                 this.setState({ profile });
                 console.log("-----component did mount---", this.state);
             });
+
     }
 
     printField = (key, value) => {
@@ -221,19 +223,16 @@ class UserProfile extends Component {
                         <h4 >Ваші торги</h4>
 
 
+                        <LotShortList userid={3} category={null} />
 
-
-
-                        <LotShort
-                            productQuantity="1112222"
-                            lastBet="2500"
-                            finishDate="31.02.2020"
-                            torgStatus="активні торги"
-                            productName="Дрова дубові"
-                            productDescription="Продам дрова свіжовивезені, сирі, не рубані, прямо з лісу, самовинос, дорого"
-                            productImage=""
-                        />
                     </div>
+
+
+                    <div >
+                    <Button color="primary">
+                        <Link className="text-white nav-link" to="/fullLot">Зразок повного лота</Link>
+                    </Button>
+                </div >
                 </React.Fragment>
             );
         }

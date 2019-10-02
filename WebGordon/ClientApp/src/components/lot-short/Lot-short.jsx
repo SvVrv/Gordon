@@ -6,14 +6,18 @@ const LotShort = (props) => {
 
     return (
         <div className="lot-short container-fluid">
+
+
             <div className="align-items-center row border rounded d-flex">
                 <div className="img-thumb col-2 ">
+
                     <img className="img-thumbnail" src={productImage ? productImage : "https://cdn.auth0.com/blog/react-js/react.png"} alt="lot" />
                 </div>
                 <div className="col-10 lot-text">
                     <div className="lot-header bg-light">
                         <b>{productName}</b>
                     </div>
+
                         <p>{productDescription}</p>
 
                     <div className="lot-footer bg-white">
@@ -24,11 +28,12 @@ const LotShort = (props) => {
                             <li className="list-group-item bg-light text-dark">Дата і час закінчення: {finishDate}</li>
                         </ul>
                         
+
                     </div>
                 </div>
             </div>
         </div >
-        )
+    )
 }
 
 export default LotShort
