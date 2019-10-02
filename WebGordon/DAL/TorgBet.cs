@@ -13,9 +13,9 @@ namespace WebGordon.DAL
         [Key]
         public long Id { get; set; }
 
-        //[ForeignKey("TorgOf")]
-        //public long TorgId { get; set; }
-        //public virtual Torg TorgOf { get; set; }
+        [ForeignKey("TorgOf")]
+        public long TorgId { get; set; }
+        public virtual Torg TorgOf { get; set; }
 
         [ForeignKey("ClientOf")]
         public long ClientId { get; set; }
