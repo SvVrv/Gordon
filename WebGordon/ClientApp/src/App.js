@@ -6,6 +6,7 @@ import LoginPage from './components/auth/login/LoginPage';
 import RegisterPage from './components/auth/register/RegisterPage';
 import UserProfile from './components/users/UserProfile';
 import LogOut from './components/auth/login/LogOut';
+import LotFull from './components/lot-full/Lot-full';
 
 export default () => (
   <Layout>
@@ -14,5 +15,6 @@ export default () => (
         <Route path='/register' component={RegisterPage} />
         <Route path='/profile' component={UserProfile} />
         <Route path='/logout' component={LogOut} />
+        <Route path='/fulllot' component={LotFull} />
   </Layout>
 );

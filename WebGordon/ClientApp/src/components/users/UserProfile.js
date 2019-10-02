@@ -234,6 +234,13 @@ class UserProfile extends Component {
                             productImage=""
                         />
                     </div>
+
+
+                    <div >
+                    <Button color="primary">
+                        <Link className="text-white nav-link" to="/fullLot">Зразок повного лота</Link>
+                    </Button>
+                </div >
                 </React.Fragment>
             );
         }
