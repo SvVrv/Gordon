@@ -3,6 +3,25 @@ import './Lot-short.css'
 
 const LotShort = (props) => {
     let { productQuantity, lastBet, finishDate, torgStatus, productName, productDescription, productImage } = props;
+    const dat = new Date(finishDate)
+
+    function formatDate(date) {
+        const monthNames = [
+            "January", "February", "March",
+            "April", "May", "June", "July",
+            "August", "September", "October",
+            "November", "December"
+        ];
+
+        const day = date.getDate();
+        const monthIndex = date.getMonth();
+        const year = date.getFullYear();
+        const hour = date.getHours();
+        const min = date.getMinutes();
+        
+        return day + ' ' + monthNames[monthIndex] + ' ' + year + ' o ' + hour + ':' + min;
+    }
+
 
     return (
         <div className="lot-short container-fluid">
@@ -25,7 +44,7 @@ const LotShort = (props) => {
                             <li className="list-group-item bg-light text-dark">Кількість: {productQuantity}</li>
                             <li className="list-group-item bg-light text-dark">Остання ставка: {lastBet} грн</li>
                             <li className="list-group-item bg-light text-dark">Статус: {torgStatus}</li>
-                            <li className="list-group-item bg-light text-dark">Дата і час закінчення: {finishDate}</li>
+                            <li className="list-group-item bg-light text-dark">Дата і час закінчення: {formatDate(dat)}</li>
                         </ul>
                         
 

@@ -4,7 +4,7 @@
 class LotFull extends Component {
 
     render() {
-        const AAA = (
+       
             <div>
                         <div class="fotorama--hidden"></div>
                         <div class="fotorama fotorama1570004246414" data-width="100%" data-ratio="4/3" data-thumbwidth="125" data-thumbheight="93" data-thumbmargin="5" data-fit="contain" data-hash="true" data-keyboard="true" data-nav="thumbs" data-allowfullscreen="true">
@@ -127,7 +127,7 @@ class LotFull extends Component {
                         <input type="hidden" id="csrf" name="csrf" value="10b4cacb602efd40b0543f1d68f68d87" />
 
                     </div>
-                    )
+                    
         return (
 
                 <div class="row content" id="offer_detail_block" itemscope="" itemtype="http://schema.org/Product">

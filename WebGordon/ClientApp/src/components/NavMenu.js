@@ -21,19 +21,19 @@ import { connect } from 'react-redux';
      isauth (){
          const isAuth = this.props.isAuthenticated;
          if (isAuth) 
-             {
-                 return[ (<li className="nav-item">
+         {
+             return [(<li className="nav-item" key="logout">
                      <Link className="text-dark nav-link" to="/logout">Logout</Link>
                      </li>),
-                     (<li className="nav-item">
+                 (<li className="nav-item" key="profile">
                          <Link className="text-dark nav-link" to="/profile">Profile</Link>
                      </li>)]
              }
          else {
-             return [(<li className="nav-item">
+             return [(<li className="nav-item" key="login">
                  <Link className="text-dark nav-link" to="/login">Login</Link>
                  </li>),
-                 (<li className="nav-item">
+                 (<li className="nav-item" key="register">
                      <Link className="text-dark nav-link" to="/register">Register</Link>
                  </li>)]
              }

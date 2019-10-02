@@ -1,6 +1,5 @@
 ﻿import React from 'react';
-import axios from 'axios';
-import { Card, Col } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 import { Link } from 'react-router-dom'
 class CategoryItem extends React.Component {
 
@@ -14,7 +13,7 @@ class CategoryItem extends React.Component {
 
     
     render() {
-        const path = "/" +  this.state.name ;
+        const path = "/category/" +  this.state.name ;
     return (
         <Link to={path} style={{ cursor: 'pointer' }} >
             <Card style={{ width: '18rem', height: '320px' }} >

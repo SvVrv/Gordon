@@ -65,10 +65,12 @@ export function changeregister(data) {
                 dispatch(setCurrentUser(user));
             });
     }
-}
 
+
+}
 export function changeuserimage(data) {
-    console.log("changeuserimage  - ", data);
+    console.log("changeuserimage", data);
+
     return dispatch => {
         return axios.post('api/Account/changeUserImage', data)
             .then(res => {
@@ -79,4 +81,6 @@ export function changeuserimage(data) {
                 dispatch(setCurrentUser(user));
             });
     }
+
+
 }

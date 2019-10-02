@@ -12,12 +12,12 @@ import LotFull from './components/lot-full/Lot-full';
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
-    <Route path='/login' component={LoginPage} />
-        <Route path='/register' component={RegisterPage} />
-        <Route path='/profile' component={UserProfile} />
-        <Route path='/logout' component={LogOut} />
+        <Route exact path='/login' component={LoginPage} />
+        <Route exact path='/register' component={RegisterPage} />
+        <Route exact path='/profile' component={UserProfile} />
+        <Route exact path='/logout' component={LogOut} />
 
-        <Route path='/:name'
+        <Route exact path='/category/:name'
             render={({ match }) => {
                 const { name } = match.params;
                 return <CategoryPage name={name} />
