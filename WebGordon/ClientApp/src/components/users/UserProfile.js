@@ -18,11 +18,12 @@ class UserProfile extends Component {
         errors: {}
     }
     componentDidMount = () => {
+        console.log("-----component did mount---", this.state);
         axios.get('api/user/profile')
             .then(res => {
                 const profile = res.data;
                 this.setState({ profile });
-                console.log("-----component did mount---", this.state);
+               
             });
 
     }
@@ -222,8 +223,8 @@ class UserProfile extends Component {
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
 
-
-                        <LotShortList userid={3} category={null} />
+                        {this.state.profile.id &&
+                            <LotShortList userid={this.state.profile.id} category={null} /> }
 
                     </div>
 
