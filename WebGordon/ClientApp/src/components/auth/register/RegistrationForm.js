@@ -35,6 +35,7 @@ class RegistrationForm extends Component {
     }
 
     handleChange = (e) => {
+
         this.setStateByErrors(e.target.name, e.target.value);
     }
 
