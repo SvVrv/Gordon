@@ -8,6 +8,7 @@ import '../../../node_modules/react-image-gallery/styles/css/image-gallery.css';
 
 class LotFull extends Component {
 
+
     state = {
         torgId: "2",
         productName: "Продам дрова",
@@ -66,10 +67,16 @@ class LotFull extends Component {
         }
     }
 
+
     render() {
         const errors = {};
         const isLoading = null;
+
         const { productName, quantity, dimensions, currentPrice, betCount, remainingTime, sellerImg, sellerName, torgDescript, torgDelivery, productImages, yourPrice } = this.state;
+
+
+        console.log("llll", this.state)
+
         return (
             <React.Fragment>
                 <div className="row content border rounded-lg" >
