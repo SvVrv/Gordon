@@ -19,8 +19,10 @@ namespace WebGordon.DAL
         public string Name { get; set; }
         public decimal StartPrice { get; set; }
         public int Quantity { get; set; }
+        public string Dimensions { get; set; }
         public DateTime DateCreate { get; set; }
         public string Description { get; set; }
+        public string Delivery { get; set; }
         public virtual Category Category { get; set; }
         public virtual ICollection<ProductPhoto> Photos { get; set; }
         public virtual ICollection<Torg> Torgs { get; set; }

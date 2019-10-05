@@ -9,6 +9,7 @@ import LotShortList from '../../components/lot-short/Lot-short-list';
 import ModalDialog from '../modal-dialog/Modal-dialog'
 import { changeregister, changeuserimage } from '../../actions/authActions'
 import PropTypes from 'prop-types';
+import defUserImage from './no-user-image-square.jpg'
 
 class UserProfile extends Component {
     state = {
@@ -206,7 +207,7 @@ class UserProfile extends Component {
                     <div className="row">
                         <Col sm={3} md={3}>
                             <div className="card" >
-                                <img className="card-img-top" src={this.state.profile.image ? this.state.profile.image : "https://cdn.auth0.com/blog/react-js/react.png"} alt="Userimage" />
+                                <img className="card-img-top" src={this.state.profile.image ? this.state.profile.image : defUserImage} alt="Userimage" />
                                 <div className="card-body">
                                     <label htmlFor="uploadFile" className="card-body btn btn-light btn-block" style={{ padding: "5px" }}>
                                         <span >Змінити</span>
