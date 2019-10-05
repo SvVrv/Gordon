@@ -22,6 +22,11 @@ export default () => (
                 const { name } = match.params;
                 return <CategoryPage name={name} />
             }} />
+        <Route exact path='/lot/:torgId'
+            render={({ match }) => {
+                const { torgId } = match.params;
+                return <LotFull torgId={torgId} />
+            }} />
         <Route path='/fulllot' component={LotFull} />
 
   </Layout>

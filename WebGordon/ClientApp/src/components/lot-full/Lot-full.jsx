@@ -6,11 +6,19 @@ import './Lot-full.css';
 
 class LotFull extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+          lotId:this.props.lotId
+
+        }
+    };
+
     render() {
         const errors = {};
         const isLoading = null;
 
-
+        console.log("llll", this.state)
         return (
             <React.Fragment>
                 <div class="row content border rounded-lg" >

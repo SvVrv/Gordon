@@ -1,8 +1,8 @@
 ﻿import React from 'react'
 import './Lot-short.css'
-
+import { Link } from 'react-router-dom'
 const LotShort = (props) => {
-    let { productQuantity, lastBet, finishDate, torgStatus, productName, productDescription, productImage } = props;
+    let { productQuantity, lastBet, finishDate, torgStatus, productName, productDescription, productImage ,torgId} = props;
     const dat = new Date(finishDate)
 
     function formatDate(date) {
@@ -21,9 +21,11 @@ const LotShort = (props) => {
         
         return day + ' ' + monthNames[monthIndex] + ' ' + year + ' o ' + hour + ':' + min;
     }
-
-
+    const path = "/lot/" +torgId;
+    
     return (
+  
+    <Link to={path} style={{ cursor: 'pointer' }} >
         <div className="lot-short container-fluid">
 
 
@@ -44,7 +46,9 @@ const LotShort = (props) => {
                             <li className="list-group-item bg-light text-dark">Кількість: {productQuantity}</li>
                             <li className="list-group-item bg-light text-dark">Остання ставка: {lastBet} грн</li>
                             <li className="list-group-item bg-light text-dark">Статус: {torgStatus}</li>
-                            <li className="list-group-item bg-light text-dark">Дата і час закінчення: {formatDate(dat)}</li>
+                                <li className="list-group-item bg-light text-dark">Дата і час закінчення: {formatDate(dat)}</li>
+                                <li className="list-group-item bg-light text-dark">Статус: {torgId}</li>
+
                         </ul>
                         
 
@@ -52,6 +56,7 @@ const LotShort = (props) => {
                 </div>
             </div>
         </div >
+    </Link>
     )
 }
 
