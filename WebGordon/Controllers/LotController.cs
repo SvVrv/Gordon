@@ -28,11 +28,10 @@ namespace WebGordon.Controllers
         [HttpGet("{id}")]
         public IActionResult GetLotViewModel([FromRoute] long id)
         {
-            List<LotViewModel> modellist = new List<LotViewModel>();
 
 
             Torg torg= _context.Torgs.Include(t => t.ProductOf).Include(t => t.ProductOf.Category).Include(t => t.TorgBets).Include(t => t.ProductOf.Photos).Include(t=>t.Seller)
-                .Single(t => t.Id == id);
+               .Include(t=>t.Seller.SiteUser).Single(t => t.Id == id);
            
                 LotViewModel model = new LotViewModel();
                 var status = "active";
@@ -47,7 +46,7 @@ namespace WebGordon.Controllers
                 foreach (var f in fotos)
                 {
                     ImageLot img = new ImageLot();
-                    img.Id = f.Id;
+                    img.ImgId = f.Id;
                     img.Name = f.Path;
                     img.Main = f.Main;
                     imgs.Add(img);
@@ -56,7 +55,7 @@ namespace WebGordon.Controllers
             else
             {
                 ImageLot img = new ImageLot();
-                img.Id = 0;
+                img.ImgId = 0;
                 img.Name = torg.ProductOf.Category.Image;
                 img.Main = true;
                 imgs.Add(img);
@@ -72,16 +71,16 @@ namespace WebGordon.Controllers
                 model.FinishDate = torg.FinishDate;
                 model.SellerId =torg.SellerId;
                 model.SellerName = torg.Seller.UserName;
-                model.SellerImage = torg.Seller.SiteUser.Image;
+                model.SellerImage = torg.Seller.SiteUser.Image ?? null;
                 model.BetsNumber = betnum;
                 model.ProductImages = imgs;
               
                
-                modellist.Add(model);
+                
             
 
 
-            return Ok(modellist);
+            return Ok(model);
         }
 
         

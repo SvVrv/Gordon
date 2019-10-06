@@ -7,7 +7,7 @@ namespace WebGordon.ViewModels
 {
     public class ImageLot
     {
-        public long Id { get; set; }
+        public long ImgId { get; set; }
         public string Name { get; set; }
         public bool Main { get; set; }
     }
