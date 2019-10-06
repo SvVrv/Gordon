@@ -23,11 +23,7 @@ namespace WebGordon.Controllers
 
         // GET: api/Lot
         [HttpGet]
-        public IEnumerable<LotViewModel> GetLotViewModel()
-        {
-            return _context.LotViewModel;
-        }
-
+    
         // GET: api/Lot/5
         [HttpGet("{id}")]
         public IActionResult GetLotViewModel([FromRoute] long id)
@@ -88,80 +84,7 @@ namespace WebGordon.Controllers
             return Ok(modellist);
         }
 
-        // PUT: api/Lot/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutLotViewModel([FromRoute] long id, [FromBody] LotViewModel lotViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != lotViewModel.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(lotViewModel).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!LotViewModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Lot
-        [HttpPost]
-        public async Task<IActionResult> PostLotViewModel([FromBody] LotViewModel lotViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.LotViewModel.Add(lotViewModel);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetLotViewModel", new { id = lotViewModel.Id }, lotViewModel);
-        }
-
-        // DELETE: api/Lot/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteLotViewModel([FromRoute] long id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var lotViewModel = await _context.LotViewModel.FindAsync(id);
-            if (lotViewModel == null)
-            {
-                return NotFound();
-            }
-
-            _context.LotViewModel.Remove(lotViewModel);
-            await _context.SaveChangesAsync();
-
-            return Ok(lotViewModel);
-        }
-
-        private bool LotViewModelExists(long id)
-        {
-            return _context.LotViewModel.Any(e => e.Id == id);
-        }
+        
+      
     }
 }

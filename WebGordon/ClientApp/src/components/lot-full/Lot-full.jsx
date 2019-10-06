@@ -5,40 +5,51 @@ import classnames from 'classnames';
 import './Lot-full.css';
 import ImageGallery from 'react-image-gallery';
 import '../../../node_modules/react-image-gallery/styles/css/image-gallery.css';
-
+import axios from 'axios';
 class LotFull extends Component {
 
 
     state = {
         torgId: "2",
-        productName: "Продам дрова",
-        quantity: "10",
-        dimensions: "т",
-        currentPrice: "50",
-        betCount: "12",
-        remainingTime: "2 часа (16:30 22.10.2019)",
-        sellerImg: null,
-        sellerName: "Найкращий продавець",
-        torgDescript: "Просьба покупателям выходить на связь в течение 3-х дней с конкретными предложениями по выкупу лота.Лот должен быть выкуплен в течение пяти дней после договоренности о механизмах передачи лота и денег.Если в течение 5 суток не получу конкретных предложений или вы не ответили на мое письмо, то на шестой день лот перевыставляется и претензии по продаже лота не принимаю, вам ставлю отрицательный отзыв.",
-        torgDelivery: "<h5>Способы оплаты:</h5>< span > По договоренности</span> <br /><span>Банковский перевод</span><h5>Доставка:</h5>< p > Почта России по городу: <span>300 руб.</span> по стране: < span > 300 руб.</span> по миру: <span>300 руб.</span> <br />Комментарий: <i>заказное письмо </i></p >",
-        productImages: [
-        {
-            original: 'https://picsum.photos/id/1018/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1018/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1015/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1015/250/150/',
-        },
-        {
-            original: 'https://picsum.photos/id/1019/1000/600/',
-            thumbnail: 'https://picsum.photos/id/1019/250/150/',
-        },
-        ],
+        lot: {},
+        //productName: "Продам дрова",
+        //quantity: "10",
+        //dimensions: "т",
+        //currentPrice: "50",
+        //betCount: "12",
+        //remainingTime: "2 часа (16:30 22.10.2019)",
+        //sellerImg: null,
+        //sellerName: "Найкращий продавець",
+        //torgDescript: "Просьба покупателям выходить на связь в течение 3-х дней с конкретными предложениями по выкупу лота.Лот должен быть выкуплен в течение пяти дней после договоренности о механизмах передачи лота и денег.Если в течение 5 суток не получу конкретных предложений или вы не ответили на мое письмо, то на шестой день лот перевыставляется и претензии по продаже лота не принимаю, вам ставлю отрицательный отзыв.",
+        //torgDelivery: "<h5>Способы оплаты:</h5>< span > По договоренности</span> <br /><span>Банковский перевод</span><h5>Доставка:</h5>< p > Почта России по городу: <span>300 руб.</span> по стране: < span > 300 руб.</span> по миру: <span>300 руб.</span> <br />Комментарий: <i>заказное письмо </i></p >",
+        //productImages: [
+        //{
+        //    original: 'https://picsum.photos/id/1018/1000/600/',
+        //    thumbnail: 'https://picsum.photos/id/1018/250/150/',
+        //},
+        //{
+        //    original: 'https://picsum.photos/id/1015/1000/600/',
+        //    thumbnail: 'https://picsum.photos/id/1015/250/150/',
+        //},
+        //{
+        //    original: 'https://picsum.photos/id/1019/1000/600/',
+        //    thumbnail: 'https://picsum.photos/id/1019/250/150/',
+        //},
+        //],
         yourPrice:  null,
         errors: {}
     }
+    componentDidMount = () => {
+        const url =  'api/Lot/' + this.state.torgId;
 
+        axios.get(url).then(res => {
+            const lot = res.data;
+            this.setState({
+                lot
+            });
+            console.log("lot", this.state)
+        });
+    }
     handleChange = (e) => {
         //if (isNaN(String.fromCharCode(e.target.keyCode))) return;
         e.target.value = e.target.value.replace(/[^0-9]/g, "");

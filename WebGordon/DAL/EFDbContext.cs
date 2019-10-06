@@ -56,15 +56,15 @@ namespace WebGordon.DAL
         //public DbSet<UserTorg> UserTorgs { get; set; }
 
 
-        public DbSet<WebGordon.ViewModels.TorgViewModel> TorgViewModel { get; set; }
+        //public DbSet<WebGordon.ViewModels.TorgViewModel> TorgViewModel { get; set; }
         //public DbSet<UserTorg> UserTorgs { get; set; }
 
 
-        public DbSet<WebGordon.ViewModels.UserViewModel> UserViewModel { get; set; }
+        //public DbSet<WebGordon.ViewModels.UserViewModel> UserViewModel { get; set; }
         //public DbSet<UserTorg> UserTorgs { get; set; }
 
 
-        public DbSet<WebGordon.ViewModels.LotViewModel> LotViewModel { get; set; }
+        //public DbSet<WebGordon.ViewModels.LotViewModel> LotViewModel { get; set; }
 
 
     }
