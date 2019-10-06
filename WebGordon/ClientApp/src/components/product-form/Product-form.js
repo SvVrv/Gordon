@@ -5,6 +5,8 @@ import { register } from '../../actions/authActions'
 import { connect } from "react-redux";
 import PropTypes from 'prop-types';
 
+import ImgItem from './ImgItem'
+
 class ProductForm extends Component {
     state = {
         productName: '',
@@ -17,7 +19,9 @@ class ProductForm extends Component {
         images: [],
         errors: {},
         isLoading: false,
-        done: false
+        done: false,
+
+        image: ''
     }
 
     handleChange = (e) => {
@@ -36,6 +40,22 @@ class ProductForm extends Component {
                 reader.readAsDataURL(files[0]);
             }
             else alert('Обраний файл не є зображенням. Спробуйте ще раз')
+        }
+    }
+
+    setStateByErrors = (name, value) => {
+        if (!!this.state.errors[name]) {
+            let errors = Object.assign({}, this.state.errors);
+            delete errors[name];
+            this.setState(
+                {
+                    [name]: value,
+                    errors
+                })
+        }
+        else {
+            this.setState(
+                { [name]: value })
         }
     }
 
@@ -66,9 +86,9 @@ class ProductForm extends Component {
 
     render() {
         const errors = {};
-        const image = '';
+        const image = this.state.image;
         const isLoading = false;
-
+        console.log("---render form--", this.state)
 
 
         const form = (
@@ -164,10 +184,10 @@ class ProductForm extends Component {
 
 
 
-
-
-
-
+                <div className="row">
+                <ImgItem id="1" main="false" image={image}/>
+                <ImgItem id="2" main="false" image={image} />
+                </div>
 
 
 
