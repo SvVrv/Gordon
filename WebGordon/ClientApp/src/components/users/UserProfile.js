@@ -233,7 +233,11 @@ class UserProfile extends Component {
                     <div >
                     <Button color="primary">
                         <Link className="text-white nav-link" to="/fullLot">Зразок повного лота</Link>
-                    </Button>
+                        </Button>
+
+                        <Button color="primary">
+                            <Link className="text-white nav-link" to="/addlot">Створити новий лот</Link>
+                        </Button>
                 </div >
                 </React.Fragment>
             );

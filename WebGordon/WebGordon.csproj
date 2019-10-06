@@ -40,6 +40,8 @@
     <Compile Remove="Migrations\20190829211049_create torg+torgBet.Designer.cs" />
     <Compile Remove="Migrations\20190829211440_test.cs" />
     <Compile Remove="Migrations\20190829211440_test.Designer.cs" />
+    <Compile Remove="Migrations\20191006073200_delivery-dimension.cs" />
+    <Compile Remove="Migrations\20191006073200_delivery-dimension.Designer.cs" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

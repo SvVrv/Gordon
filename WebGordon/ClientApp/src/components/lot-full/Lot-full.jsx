@@ -140,10 +140,10 @@ class LotFull extends Component {
                                         </div>
                                     </form>
                                 </div >
-                                <div className="row">
+                                <div >
                                     Закінчення: {remainingTime}
                                 </div >
-                                <div className="row">
+                                <div >
                                     Продавець:
                                 <img className="img-thumbnail" style={{ width: "40px" }} src={sellerImg ? sellerImg : defUserImage} alt="Userimage" />
                                     {sellerName}
