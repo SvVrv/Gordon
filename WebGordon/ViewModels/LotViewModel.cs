@@ -17,8 +17,10 @@ namespace WebGordon.ViewModels
             public long Id { get; set; }
             public string ProductName { get; set; }
             public int ProductQuantity { get; set; }
+            public string Dimensions { get; set; }
             public string ProductDescription { get; set; }
             public string TorgStatus { get; set; }
+            public string Delivery { get; set; }
             public List<ImageLot> ProductImages { get; set; }
             public decimal LastBet { get; set; }
             public long SellerId { get; set; }

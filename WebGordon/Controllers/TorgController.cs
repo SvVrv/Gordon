@@ -50,6 +50,7 @@ namespace WebGordon.Controllers
                     model.Id = t.Id;
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
+                    model.Dimensions = t.ProductOf.Dimensions;
                     model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
                     model.TorgStatus = "active";
                     model.ProductDescription = t.ProductOf.Description;
@@ -92,6 +93,7 @@ namespace WebGordon.Controllers
                 model.Id = t.Id;
                 model.ProductName = t.ProductOf.Name;
                 model.ProductQuantity = t.ProductOf.Quantity;
+                model.Dimensions = t.ProductOf.Dimensions;
                 model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
                 model.TorgStatus = status;
                 model.ProductDescription = t.ProductOf.Description;
@@ -123,6 +125,7 @@ namespace WebGordon.Controllers
                 model.Id = t.TorgOf.Id;
                 model.ProductName = t.TorgOf.ProductOf.Name;
                 model.ProductQuantity = t.TorgOf.ProductOf.Quantity;
+                model.Dimensions = t.TorgOf.ProductOf.Dimensions;
                 model.ProductImage = mainfoto ?? t.TorgOf.ProductOf.Category.Image;
                 model.TorgStatus = status;
                 model.ProductDescription = t.TorgOf.ProductOf.Description;
@@ -138,79 +141,6 @@ namespace WebGordon.Controllers
         }
 
         // PUT: api/Torg/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutTorgViewModel([FromRoute] long id, [FromBody] TorgViewModel torgViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != torgViewModel.Id)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(torgViewModel).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!TorgViewModelExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/Torg
-        [HttpPost]
-        public async Task<IActionResult> PostTorgViewModel([FromBody] TorgViewModel torgViewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            _context.TorgViewModel.Add(torgViewModel);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetTorgViewModel", new { id = torgViewModel.Id }, torgViewModel);
-        }
-
-        // DELETE: api/Torg/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTorgViewModel([FromRoute] long id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var torgViewModel = await _context.TorgViewModel.FindAsync(id);
-            if (torgViewModel == null)
-            {
-                return NotFound();
-            }
-
-            _context.TorgViewModel.Remove(torgViewModel);
-            await _context.SaveChangesAsync();
-
-            return Ok(torgViewModel);
-        }
-
-        private bool TorgViewModelExists(long id)
-        {
-            return _context.TorgViewModel.Any(e => e.Id == id);
-        }
+     
     }
 }
