@@ -64,7 +64,7 @@ namespace WebGordon.Controllers
                 //return BadRequest(result.Errors);
                 return BadRequest(new { invalid = "Не коректно вкзано дані", result.Errors });
 
-            var roleName = "Admin";
+            var roleName = "Client";
             result = _userManager.AddToRoleAsync(user, roleName).Result;
             await _signInManager.SignInAsync(user, isPersistent: false);
             return Ok(CreateToken(user));
