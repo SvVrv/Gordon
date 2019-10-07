@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
 import classnames from 'classnames';
+import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-//import { register } from '../../actions/authActions'
-//import { connect } from "react-redux";
-import PropTypes from 'prop-types';
+import ImgItem from './ImgItem';
+import ImgList from './ImgList';
 
-import ImgItem from './ImgItem'
 
 class ProductForm extends Component {
     state = {
@@ -57,7 +55,7 @@ class ProductForm extends Component {
                 reader.onload = (e) => {
 
                     const newImage={
-                        id: this.state.images.count,
+                        id: this.state.images.count+1,
                         main: false,
                         image: e.target.result
                     }
@@ -184,7 +182,7 @@ class ProductForm extends Component {
 
                 <div class="form-group">
                     <label for="torgTime">Час проведення аукціону</label>
-                    <select id="torgTime" onChange={this.handleChange} class={classnames('form-control', { 'is-invalid': !!errors.torgTime })}>
+                    <select name="torgTime" id="torgTime" onChange={this.handleChange} class={classnames('form-control', { 'is-invalid': !!errors.torgTime })}>
                         <option selected>Виберіть...</option>
                         <option>3 дні</option>
                         <option>1 тиждень</option>
@@ -219,14 +217,11 @@ class ProductForm extends Component {
 
 
 
-                <div className="row">
-                <ImgItem id="1" main="false" image={image}/>
-                <ImgItem id="2" main="false" image={image} />
+
+                <div className="row" style={{ marginLeft: "15px"}}>
+                    <ImgList images={this.state.images} />
                 </div>
 
-
-
-               
 
                 <div class="form-group">
                     <label htmlFor="userImage">Фото товару</label>
@@ -277,3 +272,7 @@ class ProductForm extends Component {
         
 export default ProductForm;
 //export default connect(null, {register})(RegistrationForm);
+                //<div className="row">
+                //    <ImgItem id="1" main="false" image={this.state.images[0].image} />
+                //    <ImgItem id="2" main="false" image={this.state.images[0].image} />
+                //</div>
