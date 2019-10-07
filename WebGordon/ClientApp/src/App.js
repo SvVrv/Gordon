@@ -8,6 +8,7 @@ import UserProfile from './components/users/UserProfile';
 import LogOut from './components/auth/login/LogOut';
 import CategoryPage from './components/category/CategoryPage';
 import LotFull from './components/lot-full/Lot-full';
+import ProductForm from './components/product-form/Product-form';
 
 export default () => (
   <Layout>
@@ -28,6 +29,7 @@ export default () => (
                 return <LotFull torgId={torgId} />
             }} />
         <Route path='/fulllot' component={LotFull} />
+        <Route path='/addlot' component={ProductForm} />
 
   </Layout>
 );
