@@ -12,7 +12,11 @@ class LotFull extends Component {
 
         this.state = {
             torgId: this.props.torgId,
-            lot: {},
+            lot: {
+
+                id: null, productName: null, productQuantity: null, productDescription: null, torgStatus: null, productImages: [{ imgid: null, name:null,main:null}], lastBet: null, sellerId: null,
+                sellerName: null, sellerImage: null, betsNumber: null, finishDate: null
+            },
             //productName: "Продам дрова",
             //quantity: "10",
             //dimensions: "т",
@@ -80,9 +84,19 @@ class LotFull extends Component {
         const isLoading = null;
         const urlimg = "https://localhost:44365/images/";
         let { id, productName, productQuantity, productDescription, torgStatus, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
-        
-      
 
+
+        this.state.productImages = productImages.map((item) => {
+            return {
+                original: urlimg+item.name,
+                thumbnail: urlimg+item.name
+            }
+
+           
+        });
+
+        console.log(this.state.productImages  )
+       
         return (
            
                 <React.Fragment>
@@ -96,8 +110,9 @@ class LotFull extends Component {
                         </div>
 
                         <div className="col-xs-12 col-sm-6 col-md-6">
-                            <div className="border" >
+                        <div className="border" >
                             <ImageGallery items={this.state.productImages}
+                              
                                />
                 
                                               
@@ -151,7 +166,7 @@ class LotFull extends Component {
                                                     id="yourPrice"
                                                     name="yourPrice"
                                                     onChange={this.handleChange}
-                                                    value={lastBet ? lastBet : 1 + parseInt(lastBet)}
+                                                    value={lastBet ? lastBet+1 : 1 + parseInt(lastBet)}
                                                 />
 
                                                 <div className="form-group">
