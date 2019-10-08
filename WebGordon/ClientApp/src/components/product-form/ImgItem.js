@@ -34,7 +34,7 @@ class ImgItem extends React.Component {
                         onClick={this.props.deleteImg}
                         type="button"
                         variant="outline-danger">
-                        <i className="fa fa-times fa-1x" />
+                        <i className="fa fa-trash" />
                     </Button>
                 </div>
             </div>

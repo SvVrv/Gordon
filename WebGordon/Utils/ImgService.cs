@@ -19,7 +19,7 @@ namespace WebGordon.Utils
             _env = env;
         }
 
-        public string UploadImage(string base64)
+        public string UploadUserImage(string base64)
         {
             string UserImagesPath = "\\UserImages";
             string webRootPath = _env.ContentRootPath;

@@ -8,7 +8,7 @@ import axios from 'axios';
 
 class ProductForm extends Component {
     state = {
-        productName: '',
+        productName: 'this.props.productName',
         quantity: '',
         dimensions: '',
         startPrice: '',
@@ -126,7 +126,6 @@ class ProductForm extends Component {
         const isLoading = false;
         console.log("---render form--", this.state)
 
-
         const form = (
             <form onSubmit={this.onSubmitForm}>
                 <h2 style={{ textAlign: "center" }}>Додати новий лот</h2>
@@ -221,13 +220,6 @@ class ProductForm extends Component {
                 </div>
 
 
-
-
-                <div className="row" style={{ marginLeft: "15px" }}>
-                    <ImgList images={this.state.images} deleteImg={this.deleteImg} />
-                </div>
-
-
                 <div class="form-group">
                     <label htmlFor="userImage">Фото товару</label>
                     <input type="file"
@@ -237,12 +229,9 @@ class ProductForm extends Component {
                         onChange={this.handleImageChange2} />
                 </div>
 
-                {
-                    image != '' &&
-                    <div className="card" style={{ width: 18 + 'rem',  textAlign: "center" }}>
-                        <img className="card-img-top" src={image} alt="Card cap"/>
-                    </div>
-                }
+                <div className="row" style={{ marginLeft: "15px" }}>
+                    <ImgList images={this.state.images} deleteImg={this.deleteImg} />
+                </div>
 
                 <div className="">
 

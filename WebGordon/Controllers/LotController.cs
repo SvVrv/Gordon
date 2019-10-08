@@ -88,6 +88,24 @@ namespace WebGordon.Controllers
             return Ok(modellist);
         }
 
+        // POST: api/Lot/add
+        [HttpPost("add")]
+        public async Task<IActionResult> AddLot([FromBody] AddLotViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
+
+            //_context.Add(model);
+            await _context.SaveChangesAsync();
+
+            return CreatedAtAction("GetLotViewModel", new { id = model.Id }, model);
+        }
+
+
         //// PUT: api/Lot/5
         //[HttpPut("{id}")]
         //public async Task<IActionResult> PutLotViewModel([FromRoute] long id, [FromBody] LotViewModel lotViewModel)
@@ -123,20 +141,6 @@ namespace WebGordon.Controllers
         //    return NoContent();
         //}
 
-        //// POST: api/Lot
-        //[HttpPost]
-        //public async Task<IActionResult> PostLotViewModel([FromBody] LotViewModel lotViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    _context.LotViewModel.Add(lotViewModel);
-        //    await _context.SaveChangesAsync();
-
-        //    return CreatedAtAction("GetLotViewModel", new { id = lotViewModel.Id }, lotViewModel);
-        //}
 
         //// DELETE: api/Lot/5
         //[HttpDelete("{id}")]
