@@ -5,12 +5,13 @@ import { Button } from 'react-bootstrap'
 
 class ImgItem extends React.Component {
 
-
     state = {
         id: this.props.id,
         main: this.props.main,
         image: this.props.image
     }
+
+
 
     componentDidUpdate() {
         if (this.state.image != this.props.image)
@@ -25,8 +26,6 @@ class ImgItem extends React.Component {
         console.log("--render ImgItem", this.state);
         return (
             <div className="card" style={{ width: 18 + 'rem', textAlign: "center", margin: "3px" }}>
-                <div className="form-check card-header">
-                </div>
                 <img className="card-img-top" src={this.props.image} alt="Card cap" />
                 <div class="form-check card-footer" >
                     <input class="form-check-input" onChange={this.handleChange} type="radio" name="main" id={this.state.id} value="option1" check={this.state.main} />

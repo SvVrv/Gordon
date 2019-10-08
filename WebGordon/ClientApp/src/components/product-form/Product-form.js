@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Redirect } from 'react-router';
 import ImgItem from './ImgItem';
 import ImgList from './ImgList';
+import axios from 'axios';
 
 
 class ProductForm extends Component {
@@ -20,11 +21,11 @@ class ProductForm extends Component {
         done: false,
         disabled: false,
 
-        image: ''
     }
 
-    handleChange = (e) => {
+    baseId = 100;
 
+    handleChange = (e) => {
         this.setStateByErrors(e.target.name, e.target.value);
     }
 
@@ -33,29 +34,14 @@ class ProductForm extends Component {
         this.setStateByErrors(e.target.name, e.target.value);
     }
 
-    handleImageChange = (evt) => {
-        const { name, files } = evt.target;
-        if (files && files[0]) {
-            if (files[0].type.match(/^image\//)) {
-                let reader = new FileReader();
-                reader.onload = (e) => {
-                    this.setStateByErrors(name, e.target.result);
-                }
-                reader.readAsDataURL(files[0]);
-            }
-            else alert('Обраний файл не є зображенням. Спробуйте ще раз')
-        }
-    }
-
     handleImageChange2 = (evt) => {
         const { name, files } = evt.target;
         if (files && files[0]) {
             if (files[0].type.match(/^image\//)) {
                 let reader = new FileReader();
                 reader.onload = (e) => {
-
-                    const newImage={
-                        id: this.state.images.count+1,
+                    const newImage = {
+                        id: this.baseId++,
                         main: false,
                         image: e.target.result
                     }
@@ -63,12 +49,20 @@ class ProductForm extends Component {
                         const newImages = [...this.state.images, newImage];
                         return ({ images: newImages })
                     });
-                    //this.setStateByErrors(name, e.target.result);
                 }
                 reader.readAsDataURL(files[0]);
             }
             else alert('Обраний файл не є зображенням. Спробуйте ще раз')
         }
+    }
+
+    deleteImg = (id) => {
+        this.setState(({ images }) => {
+            const idx = images.findIndex((el) => el.id === id);
+            let newImages = { ...images };
+            delete images[idx];
+            return { images: newImages };
+        })
     }
 
     setStateByErrors = (name, value) => {
@@ -87,7 +81,7 @@ class ProductForm extends Component {
         }
     }
 
-    onSubmitForm = (e) => {
+    onSaveForm = (e) => {
         e.preventDefault();
         let errors = {};
         if (this.state.productName === '') errors.productName = "Поле є обов'язковим!";
@@ -96,17 +90,29 @@ class ProductForm extends Component {
         if (this.state.startPrice === '') errors.startPrice = "Поле є обов'язковим!"
         if (this.state.torgTime === '') errors.torgTime = "Поле є обов'язковим!"
 
-
         const isValid = Object.keys(errors).length === 0
         if (isValid) {
-            const { name, email, telnumber, password, description, image } = this.state;
+            const { productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
             this.setState({ isLoading: true });
-            console.log('---SEND DATA state----', { Name: name, Telnumber: telnumber, Password: password, Description: description, Image: image });
-        //    this.props.register({ Name: name, Telnumber: telnumber, Email: email, Password: password, Description: description, Image: image })
-        //        .then(
-        //            () => this.setState({ done: true }),
-        //            (err) => this.setState({ errors: err.response.data, isLoading: false })
-        //        );
+            const data = {
+                ProductName: productName,
+                Quantity: quantity,
+                Dimensions: dimensions,
+                StartPrice: startPrice,
+                TorgTime: torgTime,
+                Description: description,
+                TorgDelivery: torgDelivery,
+                Images: images
+            }
+            return axios.post('api/Lot/add', data)
+                .then(res => {alert("Ваш лот збережено під номером ", res.data)})
+                .then(
+                    () => this.setState({ done: true }),
+                    (err) => {
+                    alert("Сталася помилка. Ваш лот не збережено, спробуйте ще раз");
+                    this.setState({ errors: err.response.data, isLoading: false })
+                }
+                );
         }
         else {
             this.setState({ errors });
@@ -218,8 +224,8 @@ class ProductForm extends Component {
 
 
 
-                <div className="row" style={{ marginLeft: "15px"}}>
-                    <ImgList images={this.state.images} />
+                <div className="row" style={{ marginLeft: "15px" }}>
+                    <ImgList images={this.state.images} deleteImg={this.deleteImg} />
                 </div>
 
 
@@ -241,15 +247,15 @@ class ProductForm extends Component {
 
                 <div className="">
 
-                            <button type="submit"
-                            className="btn btn-warning "
-                            style={{ width: 47+'%', margin: "5px" }}
-                            disabled={isLoading}>Зберегти <i className="fa fa-check-circle" aria-hidden="true"></i></button>
+                    <button onClick={this.onSaveForm}
+                        className="btn btn-warning "
+                        style={{ width: 47 + '%', margin: "5px" }}
+                        disabled={isLoading}>Зберегти <i className="fa fa-check-circle" aria-hidden="true"></i></button>
 
 
                         <button type="submit"
                             className="btn btn-warning "
-                        style={{ width: 47 + '%', margin: "5px" }}
+                            style={{ width: 47 + '%', margin: "5px" }}
                             disabled={isLoading}>Почати торги <i className="fa fa-check-circle" aria-hidden="true"></i></button>
 
                     </div>                               
@@ -262,7 +268,7 @@ class ProductForm extends Component {
 
 
                 return (
-            this.state.done? <Redirect to="/" /> : form
+            this.state.done? <Redirect to="/profile" /> : form
             );
         }
     }
