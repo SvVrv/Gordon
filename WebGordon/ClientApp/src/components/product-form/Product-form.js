@@ -59,8 +59,7 @@ class ProductForm extends Component {
     deleteImg = (id) => {
         this.setState(({ images }) => {
             const idx = images.findIndex((el) => el.id === id);
-            let newImages = { ...images };
-            delete images[idx];
+            let newImages = [...images.slice(0, idx), ...images.slice(idx + 1)];
             return { images: newImages };
         })
     }
