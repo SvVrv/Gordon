@@ -53,19 +53,25 @@ class LotFull extends Component {
     }
 
     onSubmitForm = (e) => {
-        
-        e.preventDefault();
-      
-        const torgId = this.state.torgId;
-        const bet = this.state.yourPrice;
-        const sellerId = this.props.auth.user.id;
-        const startDate = Date.now();
 
-        axios.post("api/TorgBets", { TorgId: torgId, ClientId: sellerId, Bet: bet , StartDate: startDate })
-                .then(
-                    () => this.setState({ done: true }),
-                    (err) => this.setState({ errors: err.response.data, isLoading: false })
+        e.preventDefault();
+
+        const torgId = this.state.torgId;
+        const bet = document.getElementById('yourPrice').value;
+        const sellerId = this.props.auth.user.id;
+        var date = new Date(Date.now()).toLocaleString('uk-UA');
+
+
+
+        axios.post("api/TorgBets", { TorgId: torgId, ClientId: sellerId, Bet: bet })
+            .then(
+                () => this.setState({ done: true }),
+            (err) => {
+                alert("");
+                this.setState({ errors: err.response.data, isLoading: false })
+            }
                 );
+            
     }
 
        
@@ -95,8 +101,8 @@ class LotFull extends Component {
         const errors = {};
         const isLoading = null;
         const urlimg = "https://localhost:44365/images/";
-        let { id, productName, productQuantity, dimensions, productDescription, torgStatus,delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
-
+        let { id, productName, productQuantity, dimensions, productDescription, torgStatus, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
+        finishDate = new Date(finishDate).toLocaleString('uk-UA');
 
         this.state.productImages = productImages.map((item) => {
             return {

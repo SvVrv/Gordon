@@ -85,6 +85,11 @@ namespace WebGordon.Controllers
         [HttpPost]
         public async Task<IActionResult> PostTorgBet([FromBody] TorgBet torgBet)
         {
+            torgBet.StartDate = DateTime.Now;
+            if(torgBet.Bet<=_context.TorgBets.LastOrDefault(b=>b.TorgId==torgBet.TorgId).Bet)
+            {
+                return NotFound();
+            }
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

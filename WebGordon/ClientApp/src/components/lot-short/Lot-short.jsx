@@ -3,7 +3,7 @@ import './Lot-short.css'
 import { Link } from 'react-router-dom'
 const LotShort = (props) => {
     let { productQuantity,dimensions, lastBet, finishDate, torgStatus, productName, productDescription, productImage ,torgId} = props;
-    
+    finishDate = new Date(finishDate).toLocaleString('uk-UA');
     const path = "/lot/" +torgId;
     
     return (
