@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebGordon.DAL;
+using WebGordon.Utils;
 using WebGordon.ViewModels;
 
 namespace WebGordon.Controllers
@@ -15,10 +17,11 @@ namespace WebGordon.Controllers
     public class LotController : ControllerBase
     {
         private readonly EFDbContext _context;
-
-        public LotController(EFDbContext context)
+        private readonly IHostingEnvironment _env;
+        public LotController(EFDbContext context, IHostingEnvironment env)
         {
             _context = context;
+            _env = env;
         }
 
         //// GET: api/Lot
@@ -96,46 +99,221 @@ namespace WebGordon.Controllers
             {
                 return BadRequest(ModelState);
             }
+                int hours = 0;
+                if (model.TorgTime == "3 дні") hours = 72;
+                if (model.TorgTime == "1 тиждень") hours = 168;
+                if (model.TorgTime == "2 тижні") hours = 336;
+                if (model.TorgTime == "3 тижні") hours = 24*21;
 
 
-
-            var product = new Product
-                {
-                CategoryId = _context.Categories.First(c => c.Name == model.Category).Id,
-                Name = model.ProductName,
-                Quantity = model.Quantity,
-                Dimensions = model.Dimensions,
-                StartPrice = model.StartPrice,
-                Description = model.Description,
-                Delivery=model.TorgDelivery,
-                DateCreate=DateTime.Now,
-                //Photos=productPhotos
-                
-            };
-            _context.Add(product);
-            _context.SaveChanges();
-
-
-            var productPhotos = new List<ProductPhoto>();
-            foreach (var item in model.Images)
+            if (model.Id == 0)
             {
-                var productPhoto = new ProductPhoto
+                var product = new Product
                 {
-                    Main = item.Main,
-                    Path = "nazva failu",
-                    ProductId = product.Id
-                    
+                    CategoryId = _context.Categories.First(c => c.Name == model.Category).Id,
+                    Name = model.ProductName,
+                    Quantity = model.Quantity,
+                    Dimensions = model.Dimensions,
+                    StartPrice = model.StartPrice,
+                    Description = model.Description,
+                    Delivery = model.TorgDelivery,
+                    DateCreate = DateTime.Now,
+                    //Photos=productPhotos
                 };
-                _context.Photos.Add(productPhoto);
-            }
+                _context.Add(product);
+                _context.SaveChanges();
 
-
+                var productPhotos = new List<ProductPhoto>();
+                foreach (var item in model.Images)
+                {
+                    var productPhoto = new ProductPhoto
+                    {
+                        Main = item.Main,
+                        Path =  (item.Image == "") ? null : new FileService(_env).UploadProductImage(item.Image),
+                        ProductId = product.Id
+                    };
+                    _context.Photos.Add(productPhoto);
+                }
+                var torg = new Torg
+                {
+                    ProductId = product.Id,
+                    SellerId = model.SellerId,
+                    StartDate = new DateTime(),
+                    FinishDate = new DateTime().AddHours(hours)
+                };
+                _context.Add(torg);
             await _context.SaveChangesAsync();
+            return Ok(new { id = torg.Id });
+            }
+            else
+            {                
+                var torg = _context.Torgs.Single(t => t.Id == model.Id);
+                torg.SellerId = model.SellerId;
+                torg.FinishDate = new DateTime().AddHours(hours);
+                _context.Update(torg);
 
-            //return CreatedAtAction("LotViewModel", new { id = product.Id }, model);
-            return Ok(new { id = product.Id });
+                var product = _context.Products.Include(p => p.Torgs).FirstOrDefault(p => p.Id == torg.ProductId);
+                product.CategoryId = _context.Categories.First(c => c.Name == model.Category).Id;
+                product.Name = model.ProductName;
+                product.Quantity = model.Quantity;
+                product.Dimensions = model.Dimensions;
+                product.StartPrice = model.StartPrice;
+                product.Description = model.Description;
+                product.Delivery = model.TorgDelivery;
+                _context.Update(product);
+
+                _context.SaveChanges();
+
+                var oldProductPhotos = _context.Photos.Where(f => f.ProductId == product.Id).ToList();
+
+
+                //var newProductPhotos = new List<ProductPhoto>();
+                bool coincid = false;
+                foreach (var itemOld in oldProductPhotos)
+                {
+                    foreach (var itemNew in model.Images)
+                    {
+                        if (itemNew.Image.Contains(".jpg"))
+                        {
+                            if (itemOld.Path.EndsWith(itemNew.Image))
+                                coincid = true;
+                        }
+                    }
+                    if (coincid == false)
+                        _context.Remove(itemOld);
+                }
+
+                foreach (var itemNew in model.Images)
+                {
+                    if (!itemNew.Image.Contains(".jpg"))
+                    {
+                        var productPhoto = new ProductPhoto
+                        {
+                            Main = itemNew.Main,
+                            Path = (itemNew.Image == "") ? null : new FileService(_env).UploadProductImage(itemNew.Image),
+                            ProductId = product.Id
+                        };
+                        _context.Photos.Add(productPhoto);
+                    }
+                }
+
+
+                await _context.SaveChangesAsync();
+                return Ok(new { id = torg.Id });
+            }
+            //return CreatedAtAction("GetLotViewModel", new { id = product.Id }, model);
         }
 
+
+        // POST: api/Lot/start
+        [HttpPost("start")]
+        public async Task<IActionResult> StartLot([FromBody] AddLotViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            int hours = 0;
+            if (model.TorgTime == "3 дні") hours = 72;
+            if (model.TorgTime == "1 тиждень") hours = 168;
+            if (model.TorgTime == "2 тижні") hours = 336;
+            if (model.TorgTime == "3 тижні") hours = 24 * 21;
+
+            if (model.Id == 0)
+            {
+                var product = new Product
+                {
+                    CategoryId = _context.Categories.First(c => c.Name == model.Category).Id,
+                    Name = model.ProductName,
+                    Quantity = model.Quantity,
+                    Dimensions = model.Dimensions,
+                    StartPrice = model.StartPrice,
+                    Description = model.Description,
+                    Delivery = model.TorgDelivery,
+                    DateCreate = DateTime.Now,
+                };
+                _context.Add(product);
+                _context.SaveChanges();
+
+                var productPhotos = new List<ProductPhoto>();
+                foreach (var item in model.Images)
+                {
+                    var productPhoto = new ProductPhoto
+                    {
+                        Main = item.Main,
+                        Path = (item.Image == "") ? null : new FileService(_env).UploadProductImage(item.Image),
+                        ProductId = product.Id
+                    };
+                    _context.Photos.Add(productPhoto);
+                }
+                var torg = new Torg
+                {
+                    ProductId = product.Id,
+                    SellerId = model.SellerId,
+                    StartDate = DateTime.Now,
+                    FinishDate = DateTime.Now.AddHours(hours)
+                };
+                _context.Add(torg);
+                await _context.SaveChangesAsync();
+                return Ok(new { id = torg.Id });
+            }
+            else
+            {
+                var torg = _context.Torgs.Single(t => t.Id == model.Id);
+                torg.SellerId = model.SellerId;
+                torg.StartDate = DateTime.Now;
+                torg.FinishDate = DateTime.Now.AddHours(hours);
+                _context.Update(torg);
+
+                var product = _context.Products.Include(p => p.Torgs).FirstOrDefault(p => p.Id == torg.ProductId);
+                product.CategoryId = _context.Categories.First(c => c.Name == model.Category).Id;
+                product.Name = model.ProductName;
+                product.Quantity = model.Quantity;
+                product.Dimensions = model.Dimensions;
+                product.StartPrice = model.StartPrice;
+                product.Description = model.Description;
+                product.Delivery = model.TorgDelivery;
+                _context.Update(product);
+                _context.SaveChanges();
+
+                var oldProductPhotos = _context.Photos.Where(f => f.ProductId == product.Id).ToList();
+
+
+                //var newProductPhotos = new List<ProductPhoto>();
+                bool coincid = false;
+                foreach (var itemOld in oldProductPhotos)
+                {
+                    foreach (var itemNew in model.Images)
+                    {
+                        if (itemNew.Image.Contains(".jpg"))
+                        {
+                            if (itemOld.Path.EndsWith(itemNew.Image))
+                                coincid = true;
+                        }
+                    }
+                    if (coincid == false)
+                        _context.Remove(itemOld);
+                }
+
+                foreach (var itemNew in model.Images)
+                {
+                    if (!itemNew.Image.Contains(".jpg"))
+                    {
+                        var productPhoto = new ProductPhoto
+                        {
+                            Main = itemNew.Main,
+                            Path = (itemNew.Image == "") ? null : new FileService(_env).UploadProductImage(itemNew.Image),
+                            ProductId = product.Id
+                        };
+                        _context.Photos.Add(productPhoto);
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Ok(new { id = torg.Id });
+            }
+            //return CreatedAtAction("GetLotViewModel", new { id = product.Id }, model);
+        }
 
         //// PUT: api/Lot/5
         //[HttpPut("{id}")]

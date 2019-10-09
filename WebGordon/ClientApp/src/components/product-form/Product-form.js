@@ -4,19 +4,21 @@ import { Redirect } from 'react-router';
 import ImgItem from './ImgItem';
 import ImgList from './ImgList';
 import axios from 'axios';
+import { connect } from 'react-redux';
 
 
 class ProductForm extends Component {
     state = {
+        id: this.props.id ? this.props.id : 0,
         category: '',
-        productName: this.props.productName ? this.props.productName:'',
-        quantity: '',
-        dimensions: '',
-        startPrice: '',
-        torgTime: '',
-        description: '',
-        torgDelivery: '',
-        images: [],
+        productName: this.props.productName ? this.props.productName : '',
+        quantity: this.props.quantity ? this.props.quantity: '',
+        dimensions: this.props.dimensions ? this.props.dimensions : '',
+        startPrice: this.props.startPrice ? this.props.startPrice : '',
+        torgTime: this.props.torgTime ? this.props.torgTime : '',
+        description: this.props.description ? this.props.description : '',
+        torgDelivery: this.props.torgDelivery ? this.props.torgDelivery : '',
+        images: this.props.images ? this.props.images : [],
         errors: {},
         isLoading: false,
         done: false,
@@ -105,9 +107,12 @@ class ProductForm extends Component {
 
         const isValid = Object.keys(errors).length === 0
         if (isValid) {
-            const { category, productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
+            const  sellerId = this.props.auth.user.id;
+            const {id, category, productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
             this.setState({ isLoading: true });
             const data = {
+                Id: id,
+                SellerId: sellerId,
                 Category: category,
                 ProductName: productName,
                 Quantity: quantity,
@@ -119,13 +124,60 @@ class ProductForm extends Component {
                 Images: images
             }
             return axios.post('api/Lot/add', data)
-                .then(res => {alert("Ваш лот збережено під номером ", res.data.id)})
+                .then(data => {alert("Ваш лот успішно збережено ", data.id)})
                 .then(
                     () => this.setState({ done: true }),
                     (err) => {
                     alert("Сталася помилка. Ваш лот не збережено, спробуйте ще раз");
                     this.setState({ errors: err.response.data, isLoading: false })
                 }
+                );
+        }
+        else {
+            this.setState({ errors });
+        }
+    }
+
+    onSaveAndStartForm = (e) => {
+        e.preventDefault();
+        let errors = {};
+        if (this.state.category === 'Виберіть...' || this.state.category === '') errors.category = "Поле є обов'язковим!";
+        if (this.state.productName === '') errors.productName = "Поле є обов'язковим!";
+        if (this.state.quantity === '') errors.quantity = "Поле є обов'язковим!"
+        if (this.state.dimensions === 'Виберіть...' || this.state.dimensions === '') errors.dimensions = "Поле є обов'язковим!"
+        if (this.state.startPrice === '') errors.startPrice = "Поле є обов'язковим!"
+        if (this.state.torgTime === '') errors.torgTime = "Поле є обов'язковим!"
+
+        const isValid = Object.keys(errors).length === 0
+        if (isValid) {
+            const sellerId = this.props.auth.user.id;
+            const { id, category, productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
+            this.setState({ isLoading: true });
+            const data = {
+                Id: id,
+                SellerId: sellerId,
+                Category: category,
+                ProductName: productName,
+                Quantity: quantity,
+                Dimensions: dimensions,
+                StartPrice: startPrice,
+                TorgTime: torgTime,
+                Description: description,
+                TorgDelivery: torgDelivery,
+                Images: images
+            }
+            return axios.post('api/Lot/start', data)
+                .then(res => { })
+                .then(
+                    //() => this.setState({ done: true }),
+                    (data) => {
+                        alert("Ваш лот успішно стартував ", data)
+                        this.setState({ done: true })
+                    },
+                    (err) => {
+                        alert("Сталася помилка. Ваш лот не стартував, спробуйте ще раз");
+                        this.setState({ errors: err.response.data, isLoading: false })
+                    }
                 );
         }
         else {
@@ -271,7 +323,7 @@ class ProductForm extends Component {
                         disabled={isLoading}>Зберегти <i className="fa fa-check-circle" aria-hidden="true"></i></button>
 
 
-                        <button type="submit"
+                    <button onClick={this.onSaveAndStartForm}
                             className="btn btn-warning "
                             style={{ width: 47 + '%', margin: "5px" }}
                             disabled={isLoading}>Почати торги <i className="fa fa-check-circle" aria-hidden="true"></i></button>
@@ -293,8 +345,15 @@ class ProductForm extends Component {
     
 
         
-        
-export default ProductForm;
+const mapStateToProps = (state) => {
+    return {
+        auth: state.auth
+    };
+}
+
+
+export default connect(mapStateToProps)(ProductForm);       
+//export default ProductForm;
 //export default connect(null, {register})(RegistrationForm);
                 //<div className="row">
                 //    <ImgItem id="1" main="false" image={this.state.images[0].image} />
