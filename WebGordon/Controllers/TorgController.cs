@@ -52,7 +52,7 @@ namespace WebGordon.Controllers
                     model.ProductQuantity = t.ProductOf.Quantity;
                     model.Dimensions = t.ProductOf.Dimensions;
                     model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
-                    model.TorgStatus = "active";
+                    model.TorgStatus = "активні";
                     model.ProductDescription = t.ProductOf.Description;
                     model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
                     model.FinishDate = t.FinishDate;
@@ -79,12 +79,14 @@ namespace WebGordon.Controllers
                 .Where(t => t.SellerId==id).ToList();
             foreach (var t in torgs)
             {
+                
                 TorgViewModel model = new TorgViewModel();
-                var status = "notactive";
+                var status = "непочаті";
+           
                 if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
-                    status = "active";
+                     status = "активні";
                 if (t.FinishDate < DateTime.Now)
-                    status = "finished";
+                    status = "завершені";
                 var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                 var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
                 string mainfoto = null;
@@ -112,11 +114,11 @@ namespace WebGordon.Controllers
             foreach (var t in torg1)
             {
                 TorgViewModel model = new TorgViewModel();
-                var status = "notactive";
+                var status = "непочаті";
                 if (t.TorgOf.StartDate <= DateTime.Now && t.TorgOf.FinishDate >= DateTime.Now)
-                    status = "active";
+                    status = "активні";
                 if (t.TorgOf.FinishDate < DateTime.Now)
-                    status = "finished";
+                    status = "завершені";
                 
                 var fotos = t.TorgOf.ProductOf.Photos.Where(f => f.ProductId == t.TorgOf.ProductId);
                 string mainfoto = null;

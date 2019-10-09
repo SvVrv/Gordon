@@ -59,7 +59,7 @@ class LotFull extends Component {
         const torgId = this.state.torgId;
         const bet = document.getElementById('yourPrice').value;
         const sellerId = this.props.auth.user.id;
-        var date = new Date(Date.now()).toLocaleString('uk-UA');
+       
 
 
 
