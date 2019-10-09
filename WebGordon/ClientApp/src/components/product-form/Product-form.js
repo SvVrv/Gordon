@@ -21,10 +21,22 @@ class ProductForm extends Component {
         isLoading: false,
         done: false,
         disabled: false,
-
+        listOptions: []
     }
 
     baseId = 100;
+
+    componentDidMount = () => {
+        axios.get('api/Categories').then(res => {
+            const categorys = res.data;
+            const listOptions = categorys.map((item) => {
+                return <option value={item.name} key={item.name} > {item.name}</option>
+            });
+            this.setState({ listOptions });
+
+        });
+    }
+
 
     handleChange = (e) => {
         this.setStateByErrors(e.target.name, e.target.value);
@@ -107,7 +119,7 @@ class ProductForm extends Component {
                 Images: images
             }
             return axios.post('api/Lot/add', data)
-                .then(res => {alert("Ваш лот збережено під номером ", res.data)})
+                .then(res => {alert("Ваш лот збережено під номером ", res.data.id)})
                 .then(
                     () => this.setState({ done: true }),
                     (err) => {
@@ -150,15 +162,7 @@ class ProductForm extends Component {
                         value={this.state.category}
                         onChange={this.handleChange} >
                         <option selected>Виберіть...</option>
-                        <option>Drova</option>
-                        <option>Пелети</option>
-                        <option>Щепа</option>
-                        <option>Вугілля</option>
-                        <option>Торф</option>
-                        <option>Сланці</option>
-                        <option>Тирса</option>
-                        <option>Брикети</option>
-                        <option>Солома</option>
+                        {this.state.listOptions}
                     </select>
                     {!!errors.category ? <span className="text-muted help-block">{errors.category}</span> : ''}
                 </div>

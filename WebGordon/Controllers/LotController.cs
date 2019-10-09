@@ -11,7 +11,7 @@ using WebGordon.ViewModels;
 namespace WebGordon.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController]
+    [Produces("application/json")]
     public class LotController : ControllerBase
     {
         private readonly EFDbContext _context;
@@ -96,6 +96,9 @@ namespace WebGordon.Controllers
             {
                 return BadRequest(ModelState);
             }
+
+
+
             var product = new Product
                 {
                 CategoryId = _context.Categories.First(c => c.Name == model.Category).Id,
@@ -105,17 +108,32 @@ namespace WebGordon.Controllers
                 StartPrice = model.StartPrice,
                 Description = model.Description,
                 Delivery=model.TorgDelivery,
-                DateCreate=DateTime.Now
-
+                DateCreate=DateTime.Now,
+                //Photos=productPhotos
+                
             };
-            product.Category.Name = model.ProductName;
-
-
-
             _context.Add(product);
+            _context.SaveChanges();
+
+
+            var productPhotos = new List<ProductPhoto>();
+            foreach (var item in model.Images)
+            {
+                var productPhoto = new ProductPhoto
+                {
+                    Main = item.Main,
+                    Path = "nazva failu",
+                    ProductId = product.Id
+                    
+                };
+                _context.Photos.Add(productPhoto);
+            }
+
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetLotViewModel", new { id = model.Id }, model);
+            //return CreatedAtAction("LotViewModel", new { id = product.Id }, model);
+            return Ok(new { id = product.Id });
         }
 
 

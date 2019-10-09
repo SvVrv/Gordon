@@ -29,7 +29,16 @@ namespace WebGordon.ViewModels
         
     }
 
-    public class AddLotViewModel
+
+
+    public class ImageProduct
+    {
+        public long Id { get; set; }
+        public string Image { get; set; }
+        public bool Main { get; set; }
+    }
+
+        public class AddLotViewModel
     {
         public long Id { get; set; }
         public string Category { get; set; }
@@ -40,7 +49,7 @@ namespace WebGordon.ViewModels
         public string TorgTime { get; set; }
         public string Description { get; set; }
         public string TorgDelivery { get; set; }
-        public List<ImageLot> Images { get; set; }
+        public List<ImageProduct> Images { get; set; }
 
          
     }
