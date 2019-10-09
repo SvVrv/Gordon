@@ -109,8 +109,9 @@ class LotFull extends Component {
                 original: urlimg + item.name,
                 thumbnail: urlimg + item.name
             }
+
         });
-       
+        const frm = sellerId == this.props.auth.user.id ? false : true;
         const rf = <React.Fragment>
             <div className="row content border rounded-lg" >
                 <div className="col-sm-12">
@@ -149,7 +150,7 @@ class LotFull extends Component {
                                 {betsNumber}
                             </div >
                             <div style={{ width: "100%" }}>
-                                <form onSubmit={this.onSubmitForm}>
+                                {!!frm&&<form onSubmit={this.onSubmitForm}>
                                     <div className="form-group">
 
                                         {
@@ -177,7 +178,7 @@ class LotFull extends Component {
                                         </button>
 
                                     </div>
-                                </form>
+                                </form>}
                             </div >
                             <div >
                                 Закінчення: {finishDate}

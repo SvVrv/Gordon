@@ -79,13 +79,15 @@ namespace WebGordon.Controllers
                 .Where(t => t.SellerId==id).ToList();
             foreach (var t in torgs)
             {
-                
                 TorgViewModel model = new TorgViewModel();
                 var status = "непочаті";
-           
-                if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
+                if (t.StartDate == new DateTime())
+                {
+                  status= "непочаті";
+                }
+                else if (t.StartDate <= DateTime.Now && t.FinishDate >= DateTime.Now)
                      status = "активні";
-                if (t.FinishDate < DateTime.Now)
+                else if (t.FinishDate < DateTime.Now)
                     status = "завершені";
                 var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                 var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
@@ -115,6 +117,11 @@ namespace WebGordon.Controllers
             {
                 TorgViewModel model = new TorgViewModel();
                 var status = "непочаті";
+                if (t.StartDate == new DateTime())
+                {
+
+                    status = "непочаті";
+                }
                 if (t.TorgOf.StartDate <= DateTime.Now && t.TorgOf.FinishDate >= DateTime.Now)
                     status = "активні";
                 if (t.TorgOf.FinishDate < DateTime.Now)
