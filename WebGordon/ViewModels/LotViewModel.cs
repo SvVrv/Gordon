@@ -32,6 +32,7 @@ namespace WebGordon.ViewModels
     public class AddLotViewModel
     {
         public long Id { get; set; }
+        public string Category { get; set; }
         public string ProductName { get; set; }
         public int Quantity { get; set; }
         public string Dimensions { get; set; }

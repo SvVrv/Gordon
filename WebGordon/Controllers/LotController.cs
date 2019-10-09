@@ -96,10 +96,23 @@ namespace WebGordon.Controllers
             {
                 return BadRequest(ModelState);
             }
+            var product = new Product
+                {
+                CategoryId = _context.Categories.First(c => c.Name == model.Category).Id,
+                Name = model.ProductName,
+                Quantity = model.Quantity,
+                Dimensions = model.Dimensions,
+                StartPrice = model.StartPrice,
+                Description = model.Description,
+                Delivery=model.TorgDelivery,
+                DateCreate=DateTime.Now
+
+            };
+            product.Category.Name = model.ProductName;
 
 
 
-            //_context.Add(model);
+            _context.Add(product);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetLotViewModel", new { id = model.Id }, model);

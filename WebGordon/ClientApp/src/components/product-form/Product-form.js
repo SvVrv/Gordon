@@ -8,7 +8,8 @@ import axios from 'axios';
 
 class ProductForm extends Component {
     state = {
-        productName: 'this.props.productName',
+        category: '',
+        productName: this.props.productName ? this.props.productName:'',
         quantity: '',
         dimensions: '',
         startPrice: '',
@@ -83,6 +84,7 @@ class ProductForm extends Component {
     onSaveForm = (e) => {
         e.preventDefault();
         let errors = {};
+        if (this.state.category === 'Виберіть...' || this.state.category === '') errors.category = "Поле є обов'язковим!";
         if (this.state.productName === '') errors.productName = "Поле є обов'язковим!";
         if (this.state.quantity === '') errors.quantity = "Поле є обов'язковим!"
         if (this.state.dimensions === 'Виберіть...' || this.state.dimensions === '') errors.dimensions = "Поле є обов'язковим!"
@@ -91,9 +93,10 @@ class ProductForm extends Component {
 
         const isValid = Object.keys(errors).length === 0
         if (isValid) {
-            const { productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
+            const { category, productName, quantity, dimensions, startPrice, torgTime, description, torgDelivery, images } = this.state;
             this.setState({ isLoading: true });
             const data = {
+                Category: category,
                 ProductName: productName,
                 Quantity: quantity,
                 Dimensions: dimensions,
@@ -136,6 +139,29 @@ class ProductForm extends Component {
                             <strong>Помилка!</strong> {errors.invalid}.
                         </div> : ''
                 }
+
+
+                <div className='form-group'>
+                    <label htmlFor="category">Категорія товару</label>
+                    <select type="text"
+                        className={classnames('form-control', { 'is-invalid': !!errors.category })}
+                        id="category"
+                        name="category"
+                        value={this.state.category}
+                        onChange={this.handleChange} >
+                        <option selected>Виберіть...</option>
+                        <option>Drova</option>
+                        <option>Пелети</option>
+                        <option>Щепа</option>
+                        <option>Вугілля</option>
+                        <option>Торф</option>
+                        <option>Сланці</option>
+                        <option>Тирса</option>
+                        <option>Брикети</option>
+                        <option>Солома</option>
+                    </select>
+                    {!!errors.category ? <span className="text-muted help-block">{errors.category}</span> : ''}
+                </div>
 
                 <div className='form-group'>
                     <label htmlFor="productName">Назва товару</label>
