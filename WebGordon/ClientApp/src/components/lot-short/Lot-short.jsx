@@ -2,15 +2,18 @@
 import './Lot-short.css'
 import { Link } from 'react-router-dom'
 const LotShort = (props) => {
-    let { productQuantity,dimensions, lastBet, finishDate, torgStatus, productName, productDescription, productImage ,torgId, seller} = props;
+    let { productQuantity, dimensions, lastBet, finishDate, torgStatus, productName, productDescription, productImage, torgId, seller } = props;
     finishDate = new Date(finishDate).toLocaleString('uk-UA');
-    const path = torgStatus == "непочаті" ? "/addlot" : "/lot/" + torgId;
+    const path = torgStatus == "непочаті"? "/addLot": "/lot/" + torgId;
+    
+        
+   
     let sel = null;
     if (seller)
         sel = <span class="badge badge-info float-left">MY TORG</span>;
     return (
   
-    <Link to={path} style={{ cursor: 'pointer' }} >
+        <Link to={path}  style={{ cursor: 'pointer' }} >
         <div className="lot-short container-fluid">
 
 

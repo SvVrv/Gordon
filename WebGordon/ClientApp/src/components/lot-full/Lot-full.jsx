@@ -111,7 +111,7 @@ class LotFull extends Component {
             }
 
         });
-        const frm = sellerId == this.props.auth.user.id ? false : true;
+        const frm = !this.props.auth.isAuthenticated || sellerId == this.props.auth.user.id || torgStatus =="завершені" ? false : true;
         const rf = <React.Fragment>
             <div className="row content border rounded-lg" >
                 <div className="col-sm-12">

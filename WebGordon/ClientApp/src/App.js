@@ -28,8 +28,8 @@ export default () => (
                 const { torgId } = match.params;
                 return <LotFull torgId={torgId} />
             }} />
-        <Route path='/fulllot' component={LotFull} />
+        <Route exact path='/fulllot' component={LotFull} />
         <Route path='/addlot' component={ProductForm} />
-
+        
   </Layout>
 );
