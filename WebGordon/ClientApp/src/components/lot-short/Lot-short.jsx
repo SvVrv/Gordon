@@ -4,9 +4,15 @@ import { Link } from 'react-router-dom'
 const LotShort = (props) => {
     let { productQuantity, dimensions, lastBet, finishDate, torgStatus, productName, productDescription, productImage, torgId, seller } = props;
     finishDate = new Date(finishDate).toLocaleString('uk-UA');
-    const path = torgStatus == "непочаті"? "/addLot": "/lot/" + torgId;
-    
-        
+    let path = "/lot/" + torgId;
+    if (torgStatus == "непочаті") 
+        path = "/addlot"
+    if (torgStatus == "завершені")
+        path = "/lotend/" + torgId;
+    let end = null;
+    if (torgStatus == "завершені") {
+        end = <span class="badge badge-danger float-right">TORG END click to more information</span>;
+    }
    
     let sel = null;
     if (seller)
@@ -25,6 +31,7 @@ const LotShort = (props) => {
                 <div className="col-10 lot-text">
                         <div className="lot-header bg-light">
                             {sel}
+                            {end}
                         <b>{productName}</b>
                     </div>
 

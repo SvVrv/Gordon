@@ -108,7 +108,7 @@ namespace WebGordon.Controllers
 
                 modellist.Add(model);
             }
-            List<TorgBet> torg1 = _context.TorgBets.Include(t=>t.TorgOf).Include(t=>t.TorgOf.ProductOf).Include(t=>t.TorgOf.ProductOf.Photos).Where(t => t.ClientId == id).GroupBy(t => t.TorgId)
+            List<TorgBet> torg1 = _context.TorgBets.Include(t=>t.TorgOf).Include(t=>t.TorgOf.ProductOf).Include(t=>t.TorgOf.ProductOf.Photos).Include(t => t.TorgOf.ProductOf.Category).Where(t => t.ClientId == id).GroupBy(t => t.TorgId)
              .Select(t => t.OrderByDescending(b => b.Bet).FirstOrDefault()).ToList();
 
 
@@ -135,7 +135,7 @@ namespace WebGordon.Controllers
                 model.ProductName = t.TorgOf.ProductOf.Name;
                 model.ProductQuantity = t.TorgOf.ProductOf.Quantity;
                 model.Dimensions = t.TorgOf.ProductOf.Dimensions;
-                model.ProductImage = mainfoto ?? t.TorgOf.ProductOf.Category.Image;
+                model.ProductImage = mainfoto ==null? t.TorgOf.ProductOf.Category.Image:mainfoto;
                 model.TorgStatus = status;
                 model.ProductDescription = t.TorgOf.ProductOf.Description;
                 model.LastBet =t.Bet;

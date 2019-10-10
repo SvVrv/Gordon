@@ -9,7 +9,7 @@ import LogOut from './components/auth/login/LogOut';
 import CategoryPage from './components/category/CategoryPage';
 import LotFull from './components/lot-full/Lot-full';
 import ProductForm from './components/product-form/Product-form';
-
+import LotEnd from './components/lot-ended/Lot-end';
 export default () => (
   <Layout>
     <Route exact path='/' component={Home} />
@@ -30,6 +30,10 @@ export default () => (
             }} />
         <Route exact path='/fulllot' component={LotFull} />
         <Route path='/addlot' component={ProductForm} />
-        
+        <Route exact path='/lotend/:torgId'
+            render={({ match }) => {
+                const { torgId } = match.params;
+                return <LotEnd torgId={torgId} />
+            }} />
   </Layout>
 );

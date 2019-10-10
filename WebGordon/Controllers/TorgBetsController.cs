@@ -86,9 +86,9 @@ namespace WebGordon.Controllers
         public async Task<IActionResult> PostTorgBet([FromBody] TorgBet torgBet)
         {
             torgBet.StartDate = DateTime.Now;
-            var last = (_context.TorgBets.LastOrDefault(b => b.TorgId == torgBet.TorgId)).Bet;
-
-            if (torgBet.Bet <= last)
+            var last = _context.TorgBets.LastOrDefault(b => b.TorgId == torgBet.TorgId);
+            var bet = last == null ? 0 : last.Bet;
+            if (torgBet.Bet <= bet)
             {
                 return NotFound();
             }
