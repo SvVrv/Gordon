@@ -1,7 +1,6 @@
 import classnames from 'classnames';
 import React, { Component } from 'react';
 import { Redirect } from 'react-router';
-import ImgItem from './ImgItem';
 import ImgList from './ImgList';
 import axios from 'axios';
 import { connect } from 'react-redux';
@@ -50,7 +49,7 @@ class ProductForm extends Component {
     }
 
     handleImageChange2 = (evt) => {
-        const { name, files } = evt.target;
+        const { files } = evt.target;
         if (files && files[0]) {
             if (files[0].type.match(/^image\//)) {
                 let reader = new FileReader();
@@ -75,6 +74,19 @@ class ProductForm extends Component {
         this.setState(({ images }) => {
             const idx = images.findIndex((el) => el.id === id);
             let newImages = [...images.slice(0, idx), ...images.slice(idx + 1)];
+            return { images: newImages };
+        })
+    }
+
+    checkMainImg = (id) => {
+        this.setState(({ images }) => {
+            const idx = images.findIndex((el) => el.id === id);
+            const oldItem = images[idx];
+            const newItem = { ...oldItem, main: true }
+            let newImages = [...images.slice(0, idx), ...images.slice(idx + 1)];
+            newImages.forEach((item, i, arr) => { item.main = false });
+            newImages.push(newItem);
+            newImages.sort((a, b) => {return (a.id - b.id) });
             return { images: newImages };
         })
     }
@@ -189,7 +201,6 @@ class ProductForm extends Component {
 
     render() {
         const { errors } = this.state;
-        const image = this.state.image;
         const isLoading = false;
         console.log("---render form--", this.state)
 
@@ -230,7 +241,7 @@ class ProductForm extends Component {
                     {!!errors.productName ? <span className="text-muted help-block">{errors.productName}</span> : ''}
                 </div>
 
-                <div class="form-row">
+                <div className="form-row">
                     <div className='form-group col-md-8'>
                         <label htmlFor="quantity">Кількіть товару для продажу</label>
                         <input type="text"
@@ -241,9 +252,9 @@ class ProductForm extends Component {
                             onChange={this.handleDigitChange} />
                         {!!errors.quantity ? <span className="text-muted help-block">{errors.quantity}</span> : ''}
                     </div>
-                    <div class='form-group col-md-4'>
-                        <label for="dimensions">Одиниці виміру</label>
-                        <select name="dimensions" onChange={this.handleChange} id="dimensions" class={classnames('form-control', { 'is-invalid': !!errors.dimensions })}>
+                    <div className='form-group col-md-4'>
+                        <label htmlFor="dimensions">Одиниці виміру</label>
+                        <select name="dimensions" onChange={this.handleChange} id="dimensions" className={classnames('form-control', { 'is-invalid': !!errors.dimensions })}>
                             <option selected>{this.state.dimensions}</option>
                             <option>шт.</option>
                             <option>м.куб.</option>
@@ -262,20 +273,20 @@ class ProductForm extends Component {
                         name="startPrice"
                         value={this.state.startPrice}
                         onChange={this.handleDigitChange} />
-                    <small id="startPriceHelpBlock" class="form-text text-muted">Ціна, з якої будуть починатися торги</small>
+                    <small id="startPriceHelpBlock" className="form-text text-muted">Ціна, з якої будуть починатися торги</small>
                     {!!errors.startPrice ? <span className="text-muted help-block">{errors.startPrice}</span> : ''}
                 </div>
 
-                <div class="form-group">
-                    <label for="torgTime">Час проведення аукціону</label>
-                    <select name="torgTime" id="torgTime" onChange={this.handleChange} class={classnames('form-control', { 'is-invalid': !!errors.torgTime })}>
+                <div className="form-group">
+                    <label htmlFor="torgTime">Час проведення аукціону</label>
+                    <select name="torgTime" id="torgTime" onChange={this.handleChange} className={classnames('form-control', { 'is-invalid': !!errors.torgTime })}>
                         <option selected>Виберіть...</option>
                         <option>3 дні</option>
                         <option>1 тиждень</option>
                         <option>2 тижні</option>
                         <option>3 тижні</option>
                     </select>
-                    <small id="torgTimeHelpBlock" class="form-text text-muted">Бажаний час проведення торгів</small>
+                    <small id="torgTimeHelpBlock" className="form-text text-muted">Бажаний час проведення торгів</small>
                     {!!errors.torgTime ? <span className="text-muted help-block">{errors.torgTime}</span> : ''}
                 </div>
 
@@ -287,7 +298,7 @@ class ProductForm extends Component {
                         name="description"
                         value={this.state.description}
                         onChange={this.handleChange} />
-                    <small id="descriptionHelpBlock" class="form-text text-muted">Введіть детальний опис Вашого товару, на який будуть орієнтуватися покупці</small>
+                    <small id="descriptionHelpBlock" className="form-text text-muted">Введіть детальний опис Вашого товару, на який будуть орієнтуватися покупці</small>
                 </div>
 
                 <div className='form-group'>
@@ -298,11 +309,11 @@ class ProductForm extends Component {
                         name="torgDelivery"
                         value={this.state.torgDelivery}
                         onChange={this.handleChange} />
-                    <small id="torgDeliveryHelpBlock" class="form-text text-muted">Конкретизуйте умови доставки та оплати за товар</small>
+                    <small id="torgDeliveryHelpBlock" className="form-text text-muted">Конкретизуйте умови доставки та оплати за товар</small>
                 </div>
 
 
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="userImage">Фото товару</label>
                     <input type="file"
                         className="form-control-file"
@@ -312,7 +323,7 @@ class ProductForm extends Component {
                 </div>
 
                 <div className="row" style={{ marginLeft: "15px" }}>
-                    <ImgList images={this.state.images} deleteImg={this.deleteImg} />
+                    <ImgList images={this.state.images} deleteImg={this.deleteImg} checkMainImg={this.checkMainImg} />
                 </div>
 
                 <div className="">

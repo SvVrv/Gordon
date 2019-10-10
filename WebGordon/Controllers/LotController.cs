@@ -197,7 +197,6 @@ namespace WebGordon.Controllers
                     }
                 }
 
-
                 await _context.SaveChangesAsync();
                 return Ok(new { id = torg.Id });
             }
@@ -278,8 +277,6 @@ namespace WebGordon.Controllers
 
                 var oldProductPhotos = _context.Photos.Where(f => f.ProductId == product.Id).ToList();
 
-
-                //var newProductPhotos = new List<ProductPhoto>();
                 bool coincid = false;
                 foreach (var itemOld in oldProductPhotos)
                 {

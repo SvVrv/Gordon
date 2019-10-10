@@ -39,6 +39,11 @@ class RegistrationForm extends Component {
         this.setStateByErrors(e.target.name, e.target.value);
     }
 
+    handleDigitChange = (e) => {
+        e.target.value = e.target.value.replace(/[^0-9]/g, "");
+        this.setStateByErrors(e.target.name, e.target.value);
+    }
+
     handleImageChange = (evt) => {
         const { name, files } = evt.target;
         if (files && files[0]) {
@@ -93,11 +98,10 @@ class RegistrationForm extends Component {
                     </div> : ''
                 }
 
-                <div className={classnames('form-group', { 'has-error': !!errors.name })}>
-
+                <div className='form-group'>
                     <label htmlFor="name">Ім'я</label>
                     <input type="text"
-                        className="form-control"
+                        className={classnames('form-control', { 'is-invalid': !!errors.name })}
                         id="name"
                         name="name"
                         value={this.state.name}
@@ -105,31 +109,31 @@ class RegistrationForm extends Component {
                     {!!errors.name ? <span className="text-muted help-block">{errors.name}</span> : ''}
                 </div>
 
-                <div className={classnames('form-group', { 'has-error': !!errors.telnumber })}>
+                <div className='form-group'>
                     <label htmlFor="telnumber">Номер телефону</label>
                     <input type="text"
-                        className="form-control"
+                        className={classnames('form-control', { 'is-invalid': !!errors.telnumber })}
                         id="telnumber"
                         name="telnumber"
                         value={this.state.telnumber}
-                        onChange={this.handleChange} />
+                        onChange={this.handleDigitChange} />
                     {!!errors.telnumber ? <span className="text-muted help-block">{errors.telnumber}</span> : ''}
                 </div>
 
-                <div className={classnames('form-group', { 'has-error': !!errors.email })}>
+                <div className='form-group'>
                     <label htmlFor="email">Електронна пошта</label>
                     <input type="text"
-                        className="form-control"
+                        className={classnames('form-control', { 'is-invalid': !!errors.email })}
                         id="email"
                         name="email"
                         value={this.state.email}
                         onChange={this.handleChange}
                         aria-describedby="emailHelpBlock" />
-                    <small id="emailHelpBlock" class="form-text text-muted">Діюча адреса, на яку будуть приходити важливі повідомлення</small>
+                    <small id="emailHelpBlock" className="form-text text-muted">Діюча адреса, на яку будуть приходити важливі повідомлення</small>
                     {!!errors.email ? <span className="text-muted help-block">{errors.email}</span> : ''}
                 </div>
 
-                <div className={classnames('form-group', { 'has-error': !!errors.password })}>
+                <div className='form-group'>
                     <label htmlFor="password">Пароль</label>
                     <input type="password"
                         className="form-control"
@@ -138,7 +142,7 @@ class RegistrationForm extends Component {
                         value={this.state.password}
                         onChange={this.handleChange}
                         aria-describedby="passwordHelpBlock" />
-                    <small id="passwordHelpBlock" class="form-text text-muted">Ваш пароль повинен містити 8-20 символів, великі та малі букви та цифри</small>
+                    <small id="passwordHelpBlock" className="form-text text-muted">Ваш пароль повинен містити 8-20 символів, великі та малі букви та цифри</small>
                     {!!errors.password ? <span className="text-muted help-block">{errors.password}</span> : ''}
                 </div>
 
@@ -152,7 +156,7 @@ class RegistrationForm extends Component {
                         onChange={this.handleChange} />
                 </div>
 
-                <div class="form-group">
+                <div className="form-group">
                     <label htmlFor="userImage">Фото користувача</label>
                     <input type="file"
                         className="form-control-file"

@@ -1,6 +1,5 @@
 ﻿import React from 'react';
-import { Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom'
+
 import { Button } from 'react-bootstrap'
 
 class ImgItem extends React.Component {
@@ -14,13 +13,14 @@ class ImgItem extends React.Component {
 
 
     componentDidUpdate() {
-        if (this.state.image != this.props.image)
+        if (this.state.image !== this.props.image)
             this.setState({ image: this.props.image })
     }
 
     handleChange = (e) => {
         this.setState({ [e.target.name]: e.target.checked });
-    }
+        this.props.checkMainImg(this.state.id)
+    };
 
     render() {
         console.log("--render ImgItem", this.state);

@@ -1,5 +1,4 @@
 ﻿import React from 'react';
-import axios from 'axios';
 import ImgItem from './ImgItem'
 
 
@@ -13,7 +12,7 @@ class ImgList extends React.Component {
 
 
     componentDidUpdate = () => {
-        if (this.state.images != this.props.images)
+        if (this.state.images !== this.props.images)
             this.setState((prevstate) => {
                 return ({ images: this.props.images })
             })
@@ -24,10 +23,12 @@ class ImgList extends React.Component {
         const list = this.state.images.map((item) => {
             return (
                 <ImgItem
-                id={item.id}
-                image={item.image}
-                main={item.main}
-                deleteImg={() => this.props.deleteImg(item.id)} />);
+                    id={item.id}
+                    image={item.image}
+                    main={item.main}
+                    deleteImg={() => this.props.deleteImg(item.id)}
+                    checkMainImg={() => this.props.checkMainImg(item.id)}
+                />);
         });
 
         return (
