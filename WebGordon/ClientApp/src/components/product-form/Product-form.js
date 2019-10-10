@@ -7,7 +7,9 @@ import { connect } from 'react-redux';
 
 
 class ProductForm extends Component {
+    
     state = {
+
         id: this.props.id ? this.props.id : 0,
         category: '',
         productName: this.props.productName ? this.props.productName : '',
@@ -37,7 +39,6 @@ class ProductForm extends Component {
 
         });
     }
-
 
     handleChange = (e) => {
         this.setStateByErrors(e.target.name, e.target.value);

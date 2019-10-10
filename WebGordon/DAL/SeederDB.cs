@@ -63,55 +63,55 @@ namespace WebGordon.DAL
                 new Category
                 {
                  
-                    Name = "Drova",
+                    Name = "Дрова",
                     Image = "drova.jpg"
                 },
                 new Category
                 {
                  
-                    Name = "Pelety",
+                    Name = "Пелети",
                     Image = "pelet.jpg"
                 },
                 new Category
                 {
                   
-                    Name = "Shchepa",
+                    Name = "Щепа",
                     Image = "shchepa.jpg"
                 },
                 new Category
                 {
                    
-                    Name = "Vugilla",
+                    Name = "Вугілля",
                     Image = "vugilla.jpg"
                 },
                 new Category
                 {
                   
-                    Name = "Torf",
+                    Name = "Торф",
                     Image = "torf.jpg"
                 },
                 new Category
                 {
                    
-                    Name = "Slanci",
+                    Name = "Сланці",
                     Image = "slanci.jpg"
                 },
                 new Category
                 {
                    
-                    Name = "Tyrsa",
+                    Name = "Тирса",
                     Image = "tyrsa.jpg"
                 },
                 new Category
                 {
                     
-                    Name = "Brykety",
+                    Name = "Брикети",
                     Image = "bryket.jpg"
                 },
                 new Category
                 {
                     
-                    Name = "Soloma",
+                    Name = "Солома",
                     Image = "soloma.jpg"
                 }
                 };
