@@ -38,7 +38,7 @@ class LogOut extends React.Component {
                 <Modal isOpen={this.state.modal} toggle={this.logout} className={this.props.className}>
                     <ModalHeader toggle={this.logout}></ModalHeader>
                     <ModalBody>
-                      Are you sure?
+                      Ви впевнені?
           </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={(event) => { this.props.disposeCurrentUser(); this.logout() }}>Logout</Button>{' '}

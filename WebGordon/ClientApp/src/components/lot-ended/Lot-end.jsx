@@ -1,14 +1,14 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import classnames from 'classnames';
-import './Lot-full.css';
+//import './Lot-full.css';
 import ImageGallery from 'react-image-gallery';
 import '../../../node_modules/react-image-gallery/styles/css/image-gallery.css';
 import defUserImage from '../users/no-user-image-square.jpg'
 import { connect } from 'react-redux';
 import { Redirect } from "react-router";
 
-class LotFull extends Component {
+class LotEnd extends Component {
     constructor(props) {
         super(props);
 
@@ -34,73 +34,22 @@ class LotFull extends Component {
         }
     }
     componentDidMount = () => {
-        const url = 'api/Lot/' + this.state.torgId;
-        axios.get(url).then(res => {
-            const lot = res.data;
-            this.setState({ lot });
-            console.log("lot", this.state)
-        });
-        this.interval = setInterval(() => {
-            axios.get(url).then(res => {
-                const lot = res.data;
-                this.setState({ lot });
-                console.log("lot", this.state)
-            });}, 30000)
+        
     }
 
-    componentWillUnmount = () => {
-        clearInterval(this.interval)
-    }
+    
 
-    onSubmitForm = (e) => {
-
-        e.preventDefault();
-
-        const torgId = this.state.torgId;
-        const bet = document.getElementById('yourPrice').value;
-        const sellerId = this.props.auth.user.id;
-       
-
-
-
-        axios.post("api/TorgBets", { TorgId: torgId, ClientId: sellerId, Bet: bet })
-            .then(
-            () => {
-                this.setState({ done: true });
-                alert("");
-            },
-            (err) => {
-                alert("");
-                this.setState({ errors: err.response.data, isLoading: false })
-            }
-                );
-            
-    }
+    
 
        
     
 
-    handleChange = (e) => {
-        //if (isNaN(String.fromCharCode(e.target.keyCode))) return;
-        e.target.value = e.target.value.replace(/[^0-9]/g, "");
-        if (parseInt(e.target.value, 10) <= parseInt(this.state.lot.lastBet, 10)) {
-            let errors = { invalid: "Помилкова ставка!" };
-            this.setState({ errors, disabled: true })
-        }
-        else
-            this.setState({
-                errors: {},
-                disabled: false
-            });
-        this.setState({
-            [e.target.name]: e.target.value
-        })
-    }
+    
 
 
 
     render() {
-        console.log("render", this.state)
+        
         const errors = {};
         const isLoading = null;
         const urlimg = "https://localhost:44365/images/";
@@ -114,7 +63,7 @@ class LotFull extends Component {
             }
 
         });
-        const frm = !this.props.auth.isAuthenticated || sellerId == this.props.auth.user.id || torgStatus =="завершені" ? false : true;
+        
         const rf = <React.Fragment>
             <div className="row content border rounded-lg" >
                 <div className="col-sm-12">
@@ -153,35 +102,7 @@ class LotFull extends Component {
                                 {betsNumber}
                             </div >
                             <div style={{ width: "100%" }}>
-                                {!!frm&&<form onSubmit={this.onSubmitForm}>
-                                    <div className="form-group">
-
-                                        {
-                                            !!this.state.errors.invalid ?
-                                                <div className="alert alert-danger">
-                                                    <strong>Помилка!</strong> {this.state.errors.invalid}
-                                                </div> : ''
-                                        }
-
-                                        <div className='form-group'>
-                                            <label htmlFor="yourPrice">Ваша ставка:</label>
-                                            <input type="text"
-                                                className={classnames('form-control', { 'is-invalid': !!this.state.errors.invalid })}
-                                                id="yourPrice"
-                                                name="yourPrice"
-                                                onChange={this.handleChange}
-                                                value={this.state.yourPrice ? this.state.yourPrice : 1 + lastBet}
-                                            />
-                                        </div>
-
-                                        <button type="submit"
-                                            className="btn btn-warning"
-                                            style={{ width: 100 + '%' }}
-                                            disabled={this.state.disabled}>Зробити ставку <i className="fa fa-check-circle" aria-hidden="true"></i>
-                                        </button>
-
-                                    </div>
-                                </form>}
+                               
                             </div >
                             <div >
                                 Закінчення: {finishDate}
@@ -240,5 +161,5 @@ const mapStateToProps = (state) => {
 }
 
 
-export default connect(mapStateToProps)(LotFull);
+export default connect(mapStateToProps)(LotEnd);
                            // <img className="img-thumbnail border-0" src="https://cdn.auth0.com/blog/react-js/react.png" alt="lot" />

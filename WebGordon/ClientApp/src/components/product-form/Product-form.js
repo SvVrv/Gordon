@@ -8,23 +8,24 @@ import PropTypes from 'prop-types';
 import ImgItem from './ImgItem'
 
 class ProductForm extends Component {
+    
     state = {
         productName: '',
-        quantity: '',
-        dimensions: '',
+            quantity: '',
+            dimensions: '',
         startPrice: '',
-        torgTime: '',
+            torgTime: '',
         description: '',
-        torgDelivery: '',
-        images: [],
-        errors: {},
-        isLoading: false,
-        done: false,
-        disabled: false,
+            torgDelivery: '',
+            images: [],
+            errors: {},
+            isLoading: false,
+            done: false,
+            disabled: false,
 
-        image: ''
-    }
-
+            image: ''
+        }
+    
     handleChange = (e) => {
 
         this.setStateByErrors(e.target.name, e.target.value);

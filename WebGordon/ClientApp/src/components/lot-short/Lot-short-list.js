@@ -32,9 +32,10 @@ class LotShortList extends React.Component {
     
         render() {
             const urlimg = "https://localhost:44365/images/"
+
             const list = this.state.lots.map((item) => {
-                return <LotShort torgId={item.id} productName={item.productName} productImage={urlimg + item.productImage} productQuantity={item.productQuantity} finishDate={item.finishDate}
-                    lastBet={item.lastBet} torgStatus={item.torgStatus} key={item.id} />
+                return <LotShort torgId={item.id} productName={item.productName} productImage={urlimg + item.productImage} productQuantity={item.productQuantity} dimensions={item.dimensions} finishDate={item.finishDate}
+                    lastBet={item.lastBet} torgStatus={item.torgStatus} key={item.id} seller={item.seller} />
             });
             
             return (
