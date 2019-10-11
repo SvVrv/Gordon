@@ -44,7 +44,7 @@ namespace WebGordon.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
-            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
+            string tempImage = (model.Image == "") ? null : new FileService(_env).UploadUserImage(model.Image);
             var client = new User
             {
                 Nick = model.Name,
@@ -120,7 +120,7 @@ namespace WebGordon.Controllers
             if (model != null)
             {
                 user = await _userManager.FindByIdAsync(model.Id.ToString());
-                string tempImage = (model.Image == "") ? null : new FileService(_env).UploadImage(model.Image);
+                string tempImage = (model.Image == "") ? null : new FileService(_env).UploadUserImage(model.Image);
                 var userC = _context.SiteUsers.SingleOrDefault(u => u.Id == model.Id);
                 if (userC == null)
                     return BadRequest(new { invalid = "Помилка зміни зображення" });

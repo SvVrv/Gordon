@@ -1,31 +1,43 @@
 ﻿import React from 'react';
-import axios from 'axios';
-import CategoryItem from './CategoryItem'
-class CategoryList extends React.Component {
+import ImgItem from './ImgItem'
 
-        state = {
-            images: []
-        }
 
-    componentDidMount = () => { }
+class ImgList extends React.Component {
 
+    state = {
+        images: this.props.images
+    }
+
+    deleteImg = this.props.deleteImg;
+
+
+    componentDidUpdate = () => {
+        if (this.state.images !== this.props.images)
+            this.setState((prevstate) => {
+                return ({ images: this.props.images })
+            })
+            }
 
     render() {
-        const urlimg = "https://localhost:44365/images/"
+        console.log("-render List", this.state);
         const list = this.state.images.map((item) => {
-            return <CategoryItem name={item.name} image={urlimg + item.image} key={item.name}/>
-           });
-        
+            return (
+                <ImgItem
+                    id={item.id}
+                    image={item.image}
+                    main={item.main}
+                    deleteImg={() => this.props.deleteImg(item.id)}
+                    checkMainImg={() => this.props.checkMainImg(item.id)}
+                />);
+        });
+
         return (
             <div className="row">
                 {list}
             </div>
-            )
-
-        }
-
+        )
+    }
 }
 
 
-
-export default CategoryList;
+export default ImgList;

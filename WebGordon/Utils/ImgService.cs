@@ -19,7 +19,7 @@ namespace WebGordon.Utils
             _env = env;
         }
 
-        public string UploadImage(string base64)
+        public string UploadUserImage(string base64)
         {
             string UserImagesPath = "\\UserImages";
             string webRootPath = _env.ContentRootPath;
@@ -30,6 +30,23 @@ namespace WebGordon.Utils
             if (base64.Contains(","))
                 base64 = base64.Split(',')[1];
             Bitmap image = ImageWorker.ImgProcessing(base64, 150, 150);
+            name = Path.ChangeExtension(name, "jpg");
+            string path = Path.Combine(fileDestDir, name);
+            image.Save(path, ImageFormat.Jpeg);
+            return name;
+        }
+
+        public string UploadProductImage(string base64)
+        {
+            string UserImagesPath = "\\UserImages";
+            string webRootPath = _env.ContentRootPath;
+            string fileDestDir = webRootPath + UserImagesPath;
+            string name = Guid.NewGuid().ToString();
+            if (!Directory.Exists(fileDestDir))
+                Directory.CreateDirectory(fileDestDir);
+            if (base64.Contains(","))
+                base64 = base64.Split(',')[1];
+            Bitmap image = ImageWorker.ImgProcessing(base64, 800, 800);
             name = Path.ChangeExtension(name, "jpg");
             string path = Path.Combine(fileDestDir, name);
             image.Save(path, ImageFormat.Jpeg);

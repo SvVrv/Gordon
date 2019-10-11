@@ -30,4 +30,30 @@ namespace WebGordon.ViewModels
             public DateTime FinishDate { get; set; }
         
     }
+
+
+
+    public class ImageProduct
+    {
+        public long Id { get; set; }
+        public string Image { get; set; }
+        public bool Main { get; set; }
+    }
+
+        public class AddLotViewModel
+    {
+        public long Id { get; set; }
+        public long SellerId { get; set; }
+        public string Category { get; set; }
+        public string ProductName { get; set; }
+        public int Quantity { get; set; }
+        public string Dimensions { get; set; }
+        public decimal StartPrice { get; set; }
+        public string TorgTime { get; set; }
+        public string Description { get; set; }
+        public string TorgDelivery { get; set; }
+        public List<ImageProduct> Images { get; set; }
+
+         
+    }
 }

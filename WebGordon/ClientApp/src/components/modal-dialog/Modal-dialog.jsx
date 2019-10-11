@@ -92,7 +92,7 @@ class ModalDialog extends React.Component {
                                 onChange={this.handleChange}
                                 aria-describedby="passwordHelpBlock" />}
 
-                            <small id="passwordHelpBlock" class="form-text text-muted">{descr}</small>
+                            <small id="passwordHelpBlock" className="form-text text-muted">{descr}</small>
                             {!!errors.password ? <span className="text-muted help-block">{errors.password}</span> : ''}
                         </div>
 
