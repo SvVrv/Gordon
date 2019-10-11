@@ -16,8 +16,10 @@ class LotEnd extends Component {
             torgId: this.props.torgId,
             lot: {
 
-                id: null, productName: null, productQuantity: null, dimensions: null, productDescription: null, torgStatus: null, delivery: null, productImages: [{ imgid: null, name: null, main: null }], lastBet: null, sellerId: null,
-                sellerName: null, sellerImage: null, betsNumber: null, finishDate: null
+                id: null, productName: null, productQuantity: null, dimensions: null, productDescription: null, delivery: null,
+                productImages: [{ imgid: null, name: null, main: null }], lastBet: null, sellerId: null,
+                sellerName: null, sellerImage: null, sellerPhone: null, sellerMail: null, buyerId: null, buyerName: null,
+                buyerPhone: null,buyerMail:null,betsNumber: null, finishDate: null
             },
        
             productImages: [
@@ -34,10 +36,14 @@ class LotEnd extends Component {
         }
     }
     componentDidMount = () => {
-        
-    }
+        const url = 'api/Lot/end/' + this.state.torgId;
+        axios.get(url).then(res => {
+            const lot = res.data;
+            this.setState({ lot });
+            console.log("lot", this.state)
+        });
 
-    
+    }
 
     
 
@@ -53,7 +59,7 @@ class LotEnd extends Component {
         const errors = {};
         const isLoading = null;
         const urlimg = "https://localhost:44365/images/";
-        let { id, productName, productQuantity, dimensions, productDescription, torgStatus, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
+        let { id, productName, productQuantity, dimensions, productDescription, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
         finishDate = new Date(finishDate).toLocaleString('uk-UA');
 
         this.state.productImages = productImages.map((item) => {

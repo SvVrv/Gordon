@@ -82,8 +82,36 @@ namespace WebGordon.Controllers
 
             return Ok(model);
         }
-                
 
+        [HttpGet("form/{id}")]
+        public IActionResult GetLotAddModel([FromRoute] long id)
+        {
+            GetLotViewModel model = new GetLotViewModel();
+            Torg torg = _context.Torgs.Include(t => t.ProductOf).Include(t => t.ProductOf.Category).Include(t => t.ProductOf.Photos)
+               .Single(t => t.Id == id);
+            var fotos = torg.ProductOf.Photos.Where(f => f.ProductId == torg.ProductId);
+            List<ImageProduct> imgs = new List<ImageProduct>();
+            if (fotos.Count() > 0)
+            {
+                foreach (var f in fotos)
+                {
+                    ImageProduct img = new ImageProduct();
+                    img.Id= f.Id;
+                    img.Image = f.Path;
+                    img.Main = f.Main;
+                    imgs.Add(img);
+                }
+            }
+            model.Category = torg.ProductOf.Category.Name;
+            model.Description = torg.ProductOf.Description;
+            model.Dimensions = torg.ProductOf.Dimensions;
+            model.ProductName = torg.ProductOf.Name;
+            model.Quantity = torg.ProductOf.Quantity;
+            model.StartPrice = torg.ProductOf.StartPrice;
+            model.TorgDelivery = torg.ProductOf.Delivery;
+            model.Images = imgs;
+            return Ok(model);
+        }
         // POST: api/Lot/add
         [HttpPost("add")]
         public async Task<IActionResult> AddLot([FromBody] AddLotViewModel model)
@@ -196,6 +224,7 @@ namespace WebGordon.Controllers
             //return CreatedAtAction("GetLotViewModel", new { id = product.Id }, model);
         }
 
+       
 
         // POST: api/Lot/start
         [HttpPost("start")]
@@ -304,66 +333,120 @@ namespace WebGordon.Controllers
             }
             //return CreatedAtAction("GetLotViewModel", new { id = product.Id }, model);
         }
+        [HttpGet("end/{id}")]
+        public IActionResult GetLotEndModel([FromRoute] long id)
+        {
+            LotEndViewModel model = new LotEndViewModel();
+            Torg torg = _context.Torgs.Include(t => t.ProductOf).Include(t => t.ProductOf.Category).Include(t => t.TorgBets)
+                .Include(t => t.ProductOf.Photos).Include(t => t.Seller)
+               .Include(t => t.Seller.SiteUser).Include(t=>t.TorgBets).Include(t=>t.TorgBets).Single(t => t.Id == id);
+            TorgBet bet = _context.TorgBets.LastOrDefault(b => b.TorgId == id);
+            DbUser buyer =bet!=null? _context.Users.Include(u=>u.SiteUser).Single(u => u.Id == bet.ClientId):null;
+            DbUser seller = _context.Users.Include(u => u.SiteUser).Single(u => u.Id == torg.SellerId);
 
-        //// PUT: api/Lot/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutLotViewModel([FromRoute] long id, [FromBody] LotViewModel lotViewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+            var fotos = torg.ProductOf.Photos.Where(f => f.ProductId == torg.ProductId);
+            List<ImageLot> imgs = new List<ImageLot>();
+            if (fotos.Count() > 0)
+            {
+                foreach (var f in fotos)
+                {
+                    ImageLot img = new ImageLot();
+                    img.ImgId = f.Id;
+                    img.Name = f.Path;
+                    img.Main = f.Main;
+                    imgs.Add(img);
+                }
+            }
+            else
+            {
+                ImageLot img = new ImageLot();
+                img.ImgId = 0;
+                img.Name = torg.ProductOf.Category.Image;
+                img.Main = true;
+                imgs.Add(img);
 
-        //    if (id != lotViewModel.Id)
-        //    {
-        //        return BadRequest();
-        //    }
+            }
 
-        //    _context.Entry(lotViewModel).State = EntityState.Modified;
+            model.Id = id;
+            model.BetsNumber = bet != null ? torg.TorgBets.Count:0;
+            model.BuyerId = bet != null ? buyer.Id :-1;
+            model.buyerMail= bet != null ? buyer.Email : null;
+            model.BuyerName= bet != null ? buyer.SiteUser.Nick : null;
+            model.buyerPhone= bet != null ? buyer.PhoneNumber : null;
+            model.Delivery = torg.ProductOf.Delivery;
+            model.Dimensions = torg.ProductOf.Dimensions;
+            model.FinishDate = torg.FinishDate;
+            model.LastBet= bet != null ? bet.Bet :torg.ProductOf.StartPrice;
+            model.ProductDescription = torg.ProductOf.Description;
+            model.ProductName = torg.ProductOf.Name;
+            model.ProductQuantity = torg.ProductOf.Quantity;
+            model.SellerId = torg.SellerId;
+            model.SellerImage = torg.Seller.SiteUser.Image;
+            model.SellerMail = seller.Email;
+            model.SellerName = seller.SiteUser.Nick;
+            model.SellerPhone = seller.PhoneNumber;
+            model.ProductImages = imgs;
+            return Ok(model);
+        }
+            //// PUT: api/Lot/5
+            //[HttpPut("{id}")]
+            //public async Task<IActionResult> PutLotViewModel([FromRoute] long id, [FromBody] LotViewModel lotViewModel)
+            //{
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return BadRequest(ModelState);
+            //    }
 
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!LotViewModelExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            //    if (id != lotViewModel.Id)
+            //    {
+            //        return BadRequest();
+            //    }
 
-        //    return NoContent();
-        //}
+            //    _context.Entry(lotViewModel).State = EntityState.Modified;
 
+            //    try
+            //    {
+            //        await _context.SaveChangesAsync();
+            //    }
+            //    catch (DbUpdateConcurrencyException)
+            //    {
+            //        if (!LotViewModelExists(id))
+            //        {
+            //            return NotFound();
+            //        }
+            //        else
+            //        {
+            //            throw;
+            //        }
+            //    }
 
-        //// DELETE: api/Lot/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteLotViewModel([FromRoute] long id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var lotViewModel = await _context.LotViewModel.FindAsync(id);
-        //    if (lotViewModel == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.LotViewModel.Remove(lotViewModel);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(lotViewModel);
-        //}
+            //    return NoContent();
+            //}
 
 
-        // PUT: api/Lot/5
-       
-    }
+            //// DELETE: api/Lot/5
+            //[HttpDelete("{id}")]
+            //public async Task<IActionResult> DeleteLotViewModel([FromRoute] long id)
+            //{
+            //    if (!ModelState.IsValid)
+            //    {
+            //        return BadRequest(ModelState);
+            //    }
+
+            //    var lotViewModel = await _context.LotViewModel.FindAsync(id);
+            //    if (lotViewModel == null)
+            //    {
+            //        return NotFound();
+            //    }
+
+            //    _context.LotViewModel.Remove(lotViewModel);
+            //    await _context.SaveChangesAsync();
+
+            //    return Ok(lotViewModel);
+            //}
+
+
+            // PUT: api/Lot/5
+
+        }
 }

@@ -35,5 +35,10 @@ export default () => (
                 const { torgId } = match.params;
                 return <LotEnd torgId={torgId} />
             }} />
+        <Route exact path='/addlot/:torgId'
+            render={({ match }) => {
+                const { torgId } = match.params;
+                return <ProductForm torgId={torgId} />
+            }} />
   </Layout>
 );

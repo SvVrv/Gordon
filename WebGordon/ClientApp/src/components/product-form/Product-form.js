@@ -6,6 +6,7 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 
+
 class ProductForm extends Component {
     
     state = {
@@ -27,8 +28,9 @@ class ProductForm extends Component {
         listOptions: []
     }
 
-    baseId = 100;
-
+    
+    
+   
     componentDidMount = () => {
         axios.get('api/Categories').then(res => {
             const categorys = res.data;
@@ -38,6 +40,25 @@ class ProductForm extends Component {
             this.setState({ listOptions });
 
         });
+        if (this.props.torgId) {
+            const url = 'api/Lot/form/' + this.props.torgId;
+
+            axios.get(url).then(res => {
+                const lots = res.data;
+                this.setState({
+                    category: lots.category,
+                    productName : lots.productName,
+                    quantity: lots.quantity,
+                    dimensions: lots.dimensions,
+                    startPrice: lots.startPrice,
+                    description: lots.description,
+                    torgDelivery: lots.torgDelivery,
+                    images:lots.images
+                });
+               
+                
+            });
+        }
     }
 
     handleChange = (e) => {
