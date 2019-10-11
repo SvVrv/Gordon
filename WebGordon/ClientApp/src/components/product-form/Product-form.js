@@ -206,6 +206,11 @@ class ProductForm extends Component {
         console.log("---render form--", this.state)
 
         const form = (
+
+
+
+
+
             <form onSubmit={this.onSubmitForm}>
                 <h2 style={{ textAlign: "center" }}>Додати новий лот</h2>
 
