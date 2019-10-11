@@ -11,7 +11,7 @@ class ProductForm extends Component {
     
     state = {
 
-        id: this.props.id ? this.props.id : 0,
+        id: this.props.torgId ? this.props.torgId : 0,
         category: '',
         productName: this.props.productName ? this.props.productName : '',
         quantity: this.props.quantity ? this.props.quantity: '',
@@ -28,7 +28,7 @@ class ProductForm extends Component {
         listOptions: []
     }
 
-    
+    baseId = 100;
     
    
     componentDidMount = () => {

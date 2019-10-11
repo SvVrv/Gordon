@@ -6,7 +6,7 @@ const LotShort = (props) => {
     finishDate = new Date(finishDate).toLocaleString('uk-UA');
     let path = "/lot/" + torgId;
     if (torgStatus == "непочаті")
-        path = "/addlot/" + torgId;
+        path = "/addlot/lot/" + torgId;
     if (torgStatus == "завершені")
         path = "/lotend/" + torgId;
     let end = null;

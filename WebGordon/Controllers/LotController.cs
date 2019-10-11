@@ -189,9 +189,10 @@ namespace WebGordon.Controllers
 
 
                 //var newProductPhotos = new List<ProductPhoto>();
-                bool coincid = false;
+                
                 foreach (var itemOld in oldProductPhotos)
                 {
+                    bool coincid = false;
                     foreach (var itemNew in model.Images)
                     {
                         if (itemNew.Image.Contains(".jpg"))
@@ -366,12 +367,13 @@ namespace WebGordon.Controllers
                 imgs.Add(img);
 
             }
+            User buser = _context.SiteUsers.Single(u => u.Id == buyer.Id);
 
             model.Id = id;
             model.BetsNumber = bet != null ? torg.TorgBets.Count:0;
             model.BuyerId = bet != null ? buyer.Id :-1;
             model.buyerMail= bet != null ? buyer.Email : null;
-            model.BuyerName= bet != null ? buyer.SiteUser.Nick : null;
+            model.BuyerName= bet != null ? buser.Nick : null;
             model.buyerPhone= bet != null ? buyer.PhoneNumber : null;
             model.Delivery = torg.ProductOf.Delivery;
             model.Dimensions = torg.ProductOf.Dimensions;
@@ -383,7 +385,7 @@ namespace WebGordon.Controllers
             model.SellerId = torg.SellerId;
             model.SellerImage = torg.Seller.SiteUser.Image;
             model.SellerMail = seller.Email;
-            model.SellerName = seller.SiteUser.Nick;
+            model.SellerName = torg.Seller.SiteUser.Nick;
             model.SellerPhone = seller.PhoneNumber;
             model.ProductImages = imgs;
             return Ok(model);

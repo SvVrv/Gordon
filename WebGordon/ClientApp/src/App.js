@@ -29,13 +29,13 @@ export default () => (
                 return <LotFull torgId={torgId} />
             }} />
         <Route exact path='/fulllot' component={LotFull} />
-        <Route path='/addlot' component={ProductForm} />
+        <Route exact path='/addlot' component={ProductForm} />
         <Route exact path='/lotend/:torgId'
             render={({ match }) => {
                 const { torgId } = match.params;
                 return <LotEnd torgId={torgId} />
             }} />
-        <Route exact path='/addlot/:torgId'
+        <Route exact path='/addlot/lot/:torgId'
             render={({ match }) => {
                 const { torgId } = match.params;
                 return <ProductForm torgId={torgId} />
