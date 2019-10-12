@@ -67,10 +67,10 @@ class LotFull extends Component {
             .then(
             () => {
                 this.setState({ done: true });
-                alert("");
+                alert("Ставка зроблена успішно");
             },
             (err) => {
-                alert("");
+                alert("Сталась помилка,ставку не зроблено,натисніть f5 та спробуйте ще");
                 this.setState({ errors: err.response.data, isLoading: false })
             }
                 );

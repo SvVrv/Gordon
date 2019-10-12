@@ -91,14 +91,15 @@ namespace WebGordon.Controllers
                     status = "завершені";
                 var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                 var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
-                string mainfoto = null;
+               ProductPhoto  mainfoto = new ProductPhoto();
                 if (fotos.Count() > 0)
-                     mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                    mainfoto = fotos.FirstOrDefault(f => f.Main == true);
+                else mainfoto = null;
                 model.Id = t.Id;
                 model.ProductName = t.ProductOf.Name;
                 model.ProductQuantity = t.ProductOf.Quantity;
                 model.Dimensions = t.ProductOf.Dimensions;
-                model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
+                model.ProductImage = mainfoto!=null?mainfoto.Path: t.ProductOf.Category.Image;
                 model.TorgStatus = status;
                 model.ProductDescription = t.ProductOf.Description;
                 model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
@@ -128,14 +129,15 @@ namespace WebGordon.Controllers
                     status = "завершені";
                 
                 var fotos = t.TorgOf.ProductOf.Photos.Where(f => f.ProductId == t.TorgOf.ProductId);
-                string mainfoto = null;
+                ProductPhoto mainfoto = new ProductPhoto();
                 if (fotos.Count() > 0)
-                     mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
+                     mainfoto = fotos.FirstOrDefault(f => f.Main == true);
+                else mainfoto = null;
                 model.Id = t.TorgOf.Id;
                 model.ProductName = t.TorgOf.ProductOf.Name;
                 model.ProductQuantity = t.TorgOf.ProductOf.Quantity;
                 model.Dimensions = t.TorgOf.ProductOf.Dimensions;
-                model.ProductImage = mainfoto ==null? t.TorgOf.ProductOf.Category.Image:mainfoto;
+                model.ProductImage = mainfoto != null ? mainfoto.Path : t.TorgOf.ProductOf.Category.Image;
                 model.TorgStatus = status;
                 model.ProductDescription = t.TorgOf.ProductOf.Description;
                 model.LastBet =t.Bet;

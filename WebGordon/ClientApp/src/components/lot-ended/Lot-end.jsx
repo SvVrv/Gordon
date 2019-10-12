@@ -16,8 +16,10 @@ class LotEnd extends Component {
             torgId: this.props.torgId,
             lot: {
 
-                id: null, productName: null, productQuantity: null, dimensions: null, productDescription: null, torgStatus: null, delivery: null, productImages: [{ imgid: null, name: null, main: null }], lastBet: null, sellerId: null,
-                sellerName: null, sellerImage: null, betsNumber: null, finishDate: null
+                id: null, productName: null, productQuantity: null, dimensions: null, productDescription: null, delivery: null,
+                productImages: [{ imgid: null, name: null, main: null }], lastBet: null, sellerId: null,
+                sellerName: null, sellerImage: null, sellerPhone: null, sellerMail: null, buyerId: null, buyerName: null,
+                buyerPhone: null,buyerMail:null,betsNumber: null, finishDate: null
             },
        
             productImages: [
@@ -34,10 +36,14 @@ class LotEnd extends Component {
         }
     }
     componentDidMount = () => {
-        
-    }
+        const url = 'api/Lot/end/' + this.state.torgId;
+        axios.get(url).then(res => {
+            const lot = res.data;
+            this.setState({ lot });
+            console.log("lot", this.state)
+        });
 
-    
+    }
 
     
 
@@ -53,7 +59,40 @@ class LotEnd extends Component {
         const errors = {};
         const isLoading = null;
         const urlimg = "https://localhost:44365/images/";
-        let { id, productName, productQuantity, dimensions, productDescription, torgStatus, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
+        let { id, productName, productQuantity, dimensions, productDescription, delivery, productImages, lastBet, sellerId, sellerName,
+            sellerImage, betsNumber, finishDate ,
+            sellerPhone, sellerMail, buyerId, buyerName,
+            buyerPhone, buyerMail } = this.state.lot;
+        let resulttorg = <div></div>;
+        if (sellerId == this.props.auth.user.id && betsNumber==0)
+        {
+            resulttorg = <div>Ваш лот нікого не зацікавив</div>
+
+        }
+        if (sellerId == this.props.auth.user.id && betsNumber > 0) {
+            resulttorg = <div>Ваш лот продано
+               покупець: {buyerName}
+                контактні дані
+                пошта:{buyerMail}
+                телефон: {buyerPhone}
+            </div>
+
+        }
+        if (buyerId == this.props.auth.user.id ) {
+            resulttorg = <div>Ви перемогли в торгах
+               продавець: {sellerName}
+                контактні дані
+                пошта:{sellerMail}
+                телефон: {sellerPhone}
+            </div>
+
+        }
+        if (this.props.auth.user.id != sellerId && this.props.auth.user.id != buyerId) {
+            resulttorg = <div>Ви програли торги
+               
+            </div>
+        }
+
         finishDate = new Date(finishDate).toLocaleString('uk-UA');
 
         this.state.productImages = productImages.map((item) => {
@@ -87,7 +126,7 @@ class LotEnd extends Component {
                     <div className="">
                         <div className="row border-bottom" style={{ marginRight: "4px" }}>
                             <div className="col-xs-6 col-sm-6 col-md-6">
-                                Актуальна ціна:
+                                 Кінцева ціна:
                             </div>
                             <div className="col-xs-6 col-sm-6 col-md-6">
                                 {lastBet} грн
@@ -108,11 +147,14 @@ class LotEnd extends Component {
                                 Закінчення: {finishDate}
                             </div >
                             <div >
-                                Продавець:
+                               
+            
+                               Продавець:
                                 <img className="img-thumbnail" style={{ width: "40px" }} src={sellerImage ? urlimg + sellerImage : defUserImage} alt="Userimage" />
                                 {sellerName}
                             </div >
                         </div >
+                        {resulttorg}
                     </div>
                 </div >
             </div >
