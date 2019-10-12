@@ -61,12 +61,12 @@ class LotEnd extends Component {
             sellerPhone, sellerMail, buyerId, buyerName,
             buyerPhone, buyerMail } = this.state.lot;
         let resulttorg = <div></div>;
-        if (sellerId === this.props.auth.user.id && betsNumber===0)
+        if (sellerId == this.props.auth.user.id && betsNumber==0)
         {
             resulttorg = <div className="alert alert-primary" role = "alert">Ваш лот нікого не зацікавив</div>
 
         }
-        if (sellerId === this.props.auth.user.id && betsNumber > 0) {
+        if (sellerId == this.props.auth.user.id && betsNumber > 0) {
             resulttorg = <div className="alert alert-success" role="alert">Ваш лот продано<br></br>
                 покупець: {buyerName}<br></br>
                 контактні дані<br></br>
@@ -75,7 +75,7 @@ class LotEnd extends Component {
             </div>
 
         }
-        if (buyerId === this.props.auth.user.id ) {
+        if (buyerId == this.props.auth.user.id ) {
             resulttorg = <div className="alert alert-success" role = "alert">Ви перемогли в торгах <br></br>
                 продавець: {sellerName}<br></br>
                 контактні дані<br></br>
@@ -84,7 +84,7 @@ class LotEnd extends Component {
             </div>
 
         }
-        if (this.props.auth.user.id !== sellerId && this.props.auth.user.id !== buyerId) {
+        if (this.props.auth.user.id != sellerId && this.props.auth.user.id != buyerId) {
             resulttorg = <div className="alert alert-danger" role="alert">Ви програли торги
                
             </div>
