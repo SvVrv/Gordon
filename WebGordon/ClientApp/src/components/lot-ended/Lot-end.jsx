@@ -66,11 +66,11 @@ class LotEnd extends Component {
         let resulttorg = <div></div>;
         if (sellerId == this.props.auth.user.id && betsNumber==0)
         {
-            resulttorg = <div>Ваш лот нікого не зацікавив</div>
+            resulttorg = <div class="alert alert-primary" role = "alert">Ваш лот нікого не зацікавив</div>
 
         }
         if (sellerId == this.props.auth.user.id && betsNumber > 0) {
-            resulttorg = <div>Ваш лот продано
+            resulttorg = <div class="alert alert-success" role = "alert">Ваш лот продано
                покупець: {buyerName}
                 контактні дані
                 пошта:{buyerMail}
@@ -79,7 +79,7 @@ class LotEnd extends Component {
 
         }
         if (buyerId == this.props.auth.user.id ) {
-            resulttorg = <div>Ви перемогли в торгах
+            resulttorg = <div class="alert alert-success" role = "alert">Ви перемогли в торгах
                продавець: {sellerName}
                 контактні дані
                 пошта:{sellerMail}
@@ -88,7 +88,7 @@ class LotEnd extends Component {
 
         }
         if (this.props.auth.user.id != sellerId && this.props.auth.user.id != buyerId) {
-            resulttorg = <div>Ви програли торги
+            resulttorg = <div class="alert alert-danger" role="alert">Ви програли торги
                
             </div>
         }
