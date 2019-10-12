@@ -250,7 +250,8 @@ class ProductForm extends Component {
                         id="category"
                         name="category"
                         value={this.state.category}
-                        onChange={this.handleChange} >
+                        onChange={this.handleChange} 
+                    >
                         <option selected>Виберіть...</option>
                         {this.state.listOptions}
                     </select>
@@ -391,9 +392,3 @@ const mapStateToProps = (state) => {
 
 
 export default connect(mapStateToProps)(ProductForm);       
-//export default ProductForm;
-//export default connect(null, {register})(RegistrationForm);
-                //<div className="row">
-                //    <ImgItem id="1" main="false" image={this.state.images[0].image} />
-                //    <ImgItem id="2" main="false" image={this.state.images[0].image} />
-                //</div>
