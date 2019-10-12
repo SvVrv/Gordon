@@ -38,13 +38,13 @@ class LotFull extends Component {
         axios.get(url).then(res => {
             const lot = res.data;
             this.setState({ lot });
-            console.log("lot", this.state)
+           
         });
         this.interval = setInterval(() => {
             axios.get(url).then(res => {
                 const lot = res.data;
                 this.setState({ lot });
-                console.log("lot", this.state)
+              
             });}, 30000)
     }
 
@@ -100,11 +100,10 @@ class LotFull extends Component {
 
 
     render() {
-        console.log("render", this.state)
-        const errors = {};
-        const isLoading = null;
+       
+        
         const urlimg = "https://localhost:44365/images/";
-        let { id, productName, productQuantity, dimensions, productDescription, torgStatus, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
+        let { productName, productQuantity, dimensions, productDescription, torgStatus, delivery, productImages, lastBet, sellerId, sellerName, sellerImage, betsNumber, finishDate } = this.state.lot;
         finishDate = new Date(finishDate).toLocaleString('uk-UA');
 
         this.state.productImages = productImages.map((item) => {
@@ -114,7 +113,7 @@ class LotFull extends Component {
             }
 
         });
-        const frm = !this.props.auth.isAuthenticated || sellerId == this.props.auth.user.id || torgStatus =="завершені" ? false : true;
+        const frm = !this.props.auth.isAuthenticated || sellerId === this.props.auth.user.id || torgStatus ==="завершені" ? false : true;
         const rf = <React.Fragment>
             <div className="row content border rounded-lg" >
                 <div className="col-sm-12">

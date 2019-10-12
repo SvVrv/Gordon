@@ -1,7 +1,5 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import classnames from 'classnames';
-//import './Lot-full.css';
 import ImageGallery from 'react-image-gallery';
 import '../../../node_modules/react-image-gallery/styles/css/image-gallery.css';
 import defUserImage from '../users/no-user-image-square.jpg'
@@ -40,7 +38,7 @@ class LotEnd extends Component {
         axios.get(url).then(res => {
             const lot = res.data;
             this.setState({ lot });
-            console.log("lot", this.state)
+            
         });
 
     }
@@ -56,39 +54,38 @@ class LotEnd extends Component {
 
     render() {
         
-        const errors = {};
-        const isLoading = null;
+        
         const urlimg = "https://localhost:44365/images/";
-        let { id, productName, productQuantity, dimensions, productDescription, delivery, productImages, lastBet, sellerId, sellerName,
+        let {  productName, productQuantity, dimensions, productDescription, delivery, productImages, lastBet, sellerId, sellerName,
             sellerImage, betsNumber, finishDate ,
             sellerPhone, sellerMail, buyerId, buyerName,
             buyerPhone, buyerMail } = this.state.lot;
         let resulttorg = <div></div>;
-        if (sellerId == this.props.auth.user.id && betsNumber==0)
+        if (sellerId === this.props.auth.user.id && betsNumber===0)
         {
-            resulttorg = <div>Ваш лот нікого не зацікавив</div>
+            resulttorg = <div className="alert alert-primary" role = "alert">Ваш лот нікого не зацікавив</div>
 
         }
-        if (sellerId == this.props.auth.user.id && betsNumber > 0) {
-            resulttorg = <div>Ваш лот продано
-               покупець: {buyerName}
-                контактні дані
-                пошта:{buyerMail}
+        if (sellerId === this.props.auth.user.id && betsNumber > 0) {
+            resulttorg = <div className="alert alert-success" role="alert">Ваш лот продано<br></br>
+                покупець: {buyerName}<br></br>
+                контактні дані<br></br>
+                пошта:{buyerMail}<br></br>
                 телефон: {buyerPhone}
             </div>
 
         }
-        if (buyerId == this.props.auth.user.id ) {
-            resulttorg = <div>Ви перемогли в торгах
-               продавець: {sellerName}
-                контактні дані
-                пошта:{sellerMail}
+        if (buyerId === this.props.auth.user.id ) {
+            resulttorg = <div className="alert alert-success" role = "alert">Ви перемогли в торгах <br></br>
+                продавець: {sellerName}<br></br>
+                контактні дані<br></br>
+                пошта:{sellerMail}<br></br>
                 телефон: {sellerPhone}
             </div>
 
         }
-        if (this.props.auth.user.id != sellerId && this.props.auth.user.id != buyerId) {
-            resulttorg = <div>Ви програли торги
+        if (this.props.auth.user.id !== sellerId && this.props.auth.user.id !== buyerId) {
+            resulttorg = <div className="alert alert-danger" role="alert">Ви програли торги
                
             </div>
         }

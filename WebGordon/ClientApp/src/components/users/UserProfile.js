@@ -19,7 +19,7 @@ class UserProfile extends Component {
         errors: {}
     }
     componentDidMount = () => {
-        console.log("-----component did mount---", this.state);
+        
         axios.get('api/user/profile')
             .then(res => {
                 const profile = res.data;
@@ -51,7 +51,7 @@ class UserProfile extends Component {
                 .then(res => {
                     const profile = res.data;
                     this.setState({ profile });
-                    console.log("-----axios profile updated---", this.state);
+                    
                 })
         }
         )
@@ -150,7 +150,7 @@ class UserProfile extends Component {
             descr: 'Додаткові відомості про Вас'
         };
 
-        console.log("-------------render begin---", this.state);
+        
         const { isAuthenticated } = this.props.auth;
         const clientProfile = (
             <div className="list-group">

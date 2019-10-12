@@ -19,11 +19,12 @@ class ImgList extends React.Component {
             }
 
     render() {
-        console.log("-render List", this.state);
+ 
         const list = this.state.images.map((item) => {
             return (
                 <ImgItem
                     id={item.id}
+                    key={item.id}
                     image={item.image}
                     main={item.main}
                     deleteImg={() => this.props.deleteImg(item.id)}

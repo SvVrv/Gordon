@@ -224,7 +224,7 @@ class ProductForm extends Component {
     render() {
         const { errors } = this.state;
         const isLoading = false;
-        console.log("---render form--", this.state)
+      
 
         const form = (
 

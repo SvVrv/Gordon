@@ -23,7 +23,7 @@ class LotShortList extends React.Component {
             const lots = res.data;
             this.setState({
                  lots } );
-            console.log("list", this.state)
+           
         });
     }
     

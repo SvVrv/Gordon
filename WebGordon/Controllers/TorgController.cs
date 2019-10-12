@@ -52,7 +52,9 @@ namespace WebGordon.Controllers
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
                     model.Dimensions = t.ProductOf.Dimensions;
+
                 model.ProductImage = mainfoto != null ? mainfoto.Path : t.ProductOf.Category.Image;
+
                 model.TorgStatus = "активні";
                     model.ProductDescription = t.ProductOf.Description;
                     model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;

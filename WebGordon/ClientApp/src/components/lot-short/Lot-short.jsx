@@ -5,19 +5,19 @@ const LotShort = (props) => {
     let { productQuantity, dimensions, lastBet, finishDate, torgStatus, productName, productDescription, productImage, torgId, seller } = props;
     finishDate = new Date(finishDate).toLocaleString('uk-UA');
     let path = "/lot/" + torgId;
-    if (torgStatus == "непочаті")
+    if (torgStatus === "непочаті")
         path = "/addlot/lot/" + torgId;
-    if (torgStatus == "завершені")
+    if (torgStatus === "завершені")
         path = "/lotend/" + torgId;
     let end = null;
-    if (torgStatus == "завершені") {
-        end = <span class="badge badge-danger float-right">Торг завершений!!!!
+    if (torgStatus === "завершені") {
+        end = <span className="badge badge-danger float-right">Торг завершений!!!!
             Результат по кліку</span>;
     }
    
     let sel = null;
     if (seller)
-        sel = <span class="badge badge-info float-left">Мій торг</span>;
+        sel = <span className="badge badge-info float-left">Мій торг</span>;
     return (
   
         <Link to={path}  style={{ cursor: 'pointer' }} >
