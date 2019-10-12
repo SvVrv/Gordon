@@ -44,15 +44,16 @@ namespace WebGordon.Controllers
 
                     var bet = t.TorgBets.LastOrDefault(b => b.TorgId == t.Id);
                     var fotos = t.ProductOf.Photos.Where(f => f.ProductId == t.ProductId);
-                string mainfoto=null;
+                ProductPhoto mainfoto = new ProductPhoto();
                 if (fotos.Count() > 0)
-                    mainfoto = fotos.FirstOrDefault(f => f.Main == true).Path;
-                    model.Id = t.Id;
+                    mainfoto = fotos.FirstOrDefault(f => f.Main == true);
+                else mainfoto = null;
+                model.Id = t.Id;
                     model.ProductName = t.ProductOf.Name;
                     model.ProductQuantity = t.ProductOf.Quantity;
                     model.Dimensions = t.ProductOf.Dimensions;
-                    model.ProductImage = mainfoto ?? t.ProductOf.Category.Image;
-                    model.TorgStatus = "активні";
+                model.ProductImage = mainfoto != null ? mainfoto.Path : t.ProductOf.Category.Image;
+                model.TorgStatus = "активні";
                     model.ProductDescription = t.ProductOf.Description;
                     model.LastBet = bet != null ? bet.Bet : t.ProductOf.StartPrice;
                     model.FinishDate = t.FinishDate;
