@@ -250,7 +250,8 @@ class ProductForm extends Component {
                         id="category"
                         name="category"
                         value={this.state.category}
-                        onChange={this.handleChange} >
+                        onChange={this.handleChange} 
+                    >
                         <option selected>Виберіть...</option>
                         {this.state.listOptions}
                     </select>
