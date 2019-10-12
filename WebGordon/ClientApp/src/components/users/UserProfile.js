@@ -223,22 +223,15 @@ class UserProfile extends Component {
                     </div>
                     <div style={{ textAlign: "center" }}>
                         <h4 >Ваші торги</h4>
-
-                        {this.state.profile.id &&
-                            <LotShortList userid={this.state.profile.id} category={null} /> }
-
+                    <div >
+                        <Button color="primary">
+                            <Link className="text-white nav-link float-center" to="/addlot">Створити новий лот</Link>
+                        </Button>
+                    </div >
+                        {this.state.profile.id  &&  <LotShortList userid={this.state.profile.id} category={null} /> }
                     </div>
 
 
-                    <div >
-                    <Button color="primary">
-                        <Link className="text-white nav-link" to="/fullLot">Зразок повного лота</Link>
-                        </Button>
-
-                        <Button color="primary">
-                            <Link className="text-white nav-link" to="/addlot">Створити новий лот</Link>
-                        </Button>
-                </div >
                 </React.Fragment>
             );
         }

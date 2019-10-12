@@ -26,7 +26,9 @@ class ImgItem extends React.Component {
         console.log("--render ImgItem", this.state);
         return (
             <div className="card" style={{ width: 18 + 'rem', textAlign: "center", margin: "3px" }}>
+
                 <img className="card-img-top" src={this.props.image.includes(".jpg") ? "https://localhost:44365/images/" + this.props.image : this.props.image} alt="Card cap" />
+
                 <div class="form-check card-footer" >
                     <input class="form-check-input" onChange={this.handleChange} type="radio" name="main" id={this.state.id} value="option1" check={this.state.main} />
                     <label class="form-check-label" for={this.state.id}>Головне фото</label>
