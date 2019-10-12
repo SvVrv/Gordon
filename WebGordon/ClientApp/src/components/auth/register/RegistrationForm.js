@@ -70,7 +70,6 @@ class RegistrationForm extends Component {
         if (isValid) {
             const { name, email, telnumber, password, description, image } = this.state;
             this.setState({ isLoading: true });
-            console.log('---SEND DATA state----', { Name: name, Telnumber: telnumber, Password: password, Description: description, Image: image });
             this.props.register({ Name: name, Telnumber: telnumber, Email: email, Password: password, Description: description, Image: image })
                 .then(
                     () => this.setState({ done: true }),
@@ -86,7 +85,6 @@ class RegistrationForm extends Component {
 
     render() {
         const { errors, isLoading, image } = this.state;
-        console.log('---FormRegister state----', this.state);
         const form = (
             <form onSubmit={this.onSubmitForm}>
                 <h2 style={{ textAlign: "center" }}>Реєстрація користувача</h2>
