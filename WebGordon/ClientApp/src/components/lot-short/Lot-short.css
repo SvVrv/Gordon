@@ -2,7 +2,8 @@
     min-height: 100px
 }
 .img-thumb {
-    padding: 5px
+    padding: 5px;
+    max-height: 100px
 }
 
 .lot-header {
