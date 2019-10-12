@@ -367,7 +367,9 @@ namespace WebGordon.Controllers
                 imgs.Add(img);
 
             }
-            User buser = _context.SiteUsers.Single(u => u.Id == buyer.Id);
+            User buser = new User();
+            if (bet!=null)
+                buser = _context.SiteUsers.Single(u => u.Id == buyer.Id);
 
             model.Id = id;
             model.BetsNumber = bet != null ? torg.TorgBets.Count:0;
